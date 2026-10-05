@@ -1,0 +1,189 @@
+<!doctype html>
+<!-- Supplied by the producer 15.09.26 as followers-widget.html and used AS GIVEN.
+     The only edit: its 2.27MB inline PNG was written out to
+     ../img/followers-thumb.jpg (same picture) so the page is 14KB and the
+     image is cached instead of re-downloaded with every load.
+     The unit drives it through its own API: ?followers= / ?stage= / ?step= /
+     ?change=, and it posts `followers-widget:state` back to the parent. -->
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="غيّروا النسبة المئوية واكتشفوا كيف يتغيّر عدد المتابعين في قناة لحظة مشارَكة.">
+  <title>لحظة مشارَكة · المتابعون</title>
+  <style>
+    :root{font-family:"Segoe UI",Arial,sans-serif;color:#f4f7fb;background:transparent;font-synthesis:none;color-scheme:light}
+    *{box-sizing:border-box}
+    body{margin:0;padding:8px}
+    button{font:inherit;-webkit-tap-highlight-color:transparent}
+    button:focus-visible{outline:3px solid #bedfff;outline-offset:4px}
+    /* גרסה ערבית: Calibri לתווים ערביים ולספרות בלבד, כמו בשאר הלומדה */
+    @font-face{font-family:'Calibri Arabic';src:local('Calibri');font-weight:100 599;unicode-range:U+0030-0039,U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF}
+    @font-face{font-family:'Calibri Arabic';src:local('Calibri Bold'),local('Calibri-Bold');font-weight:600 1000;unicode-range:U+0030-0039,U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF}
+    body,body *{font-family:'Calibri Arabic',"Segoe UI",Arial,sans-serif !important}
+    .channel-card{
+      width:100%;max-width:420px;margin:0 auto;padding:7px 7px 0;
+      background:radial-gradient(ellipse at 100% 58%,#263e55 0,transparent 65%),#152639;
+      border:1px solid #354b61;border-radius:23px;overflow:hidden;
+      box-shadow:0 12px 30px -15px #102b4c90,inset 0 1px 0 #ffffff16;
+    }
+    .thumbnail{position:relative;margin:0;aspect-ratio:16/9;background:#354b61;overflow:hidden;border-radius:16px 16px 10px 10px;isolation:isolate}
+    .thumbnail img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 43%}
+    .thumbnail:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#15263910 28%,#10203320 47%,#0b1b2cce 100%);box-shadow:inset 0 0 0 1px #ffffff12;border-radius:inherit;pointer-events:none}
+    .video-caption{position:absolute;inset:14px 17px 16px;z-index:1;color:#fff;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between}
+    .video-category{font-size:12px;font-weight:500;color:#fff;background:#13283c80;border:1px solid #ffffff50;border-radius:30px;padding:5px 10px;line-height:1.4;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);text-shadow:0 1px 3px #0003}
+    h1{font-size:27px;line-height:1.25;margin:0;font-weight:700;letter-spacing:-.65px;text-shadow:0 2px 12px #0003}
+    .channel-bar{display:flex;align-items:center;gap:11px;padding:17px 14px 16px;background:transparent}
+    .avatar{width:40px;height:40px;flex:none;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#ebf5ff,#c4dbee);color:#325f82;border:1px solid #e4f1fb;box-shadow:0 0 0 4px #d7eaff09,0 3px 10px #0002}
+    .avatar svg{width:24px;height:24px}
+    .channel-info{min-width:0;flex:1}
+    .stage{display:block;color:#a6bbce;font-size:12px;line-height:1.4;margin-bottom:3px}
+    .channel-name{font-size:14px;font-weight:600;margin:0;line-height:1.5;color:#f5f8fc}
+    .audience{text-align:left;flex:none;padding-inline-start:16px;border-inline-start:1px solid #ffffff17}
+    .audience-number{display:block;font-size:30px;font-weight:700;line-height:1.05;letter-spacing:-.8px;font-variant-numeric:tabular-nums;direction:ltr;color:#eef7ff;text-shadow:0 2px 18px #83b8ef28}
+    .audience-label{display:block;font-size:12px;color:#a6bbce;margin-top:5px}
+    .controls{border-top:1px solid #c6ddf21c;background:transparent;padding:12px 14px 17px}
+    .control-heading{display:flex;align-items:center;justify-content:center;gap:10px;font-size:12px;font-weight:500;color:#bbccdc;margin:0 0 12px}
+    .control-heading:before,.control-heading:after{content:"";width:20px;height:1px;background:#c6ddf22e}
+    .stepper{display:flex;direction:ltr;align-items:center;justify-content:center;gap:20px}
+    .step-button{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;border:1px solid #abc5dc65;color:#dbe9f6;background:transparent;padding:0;cursor:pointer;transition:background .18s,border-color .18s,transform .18s,box-shadow .18s}
+    .step-button svg{width:17px;height:17px}
+    .step-button:hover:not(:disabled){background:#b5d8fa18;border-color:#b8d6f0;box-shadow:0 0 0 4px #b8d6f009;transform:translateY(-1px)}
+    .step-button:active:not(:disabled){transform:scale(.93)}
+    .percentage{min-width:144px;height:50px;display:flex;align-items:center;justify-content:center;gap:9px;border-radius:30px;border:1px solid #e3effc;background:linear-gradient(145deg,#f0f6fc,#d7e6f3);color:#335572;font-size:28px;font-weight:700;font-variant-numeric:tabular-nums;box-shadow:0 3px 9px #05172922,inset 0 1px 0 #fff9;transition:background .2s,color .2s,border-color .2s}
+    .percentage svg{width:20px;height:20px;flex:none}
+    .percentage[data-tone="positive"]{background:linear-gradient(145deg,#edf8f1,#d7ecdf);color:#286445;border-color:#e1f5e8}
+    .percentage[data-tone="negative"]{background:linear-gradient(145deg,#fff2ee,#f1dedb);color:#98453e;border-color:#f8e5e1}
+    .context{min-height:18px;text-align:center;color:#a6bbce;font-size:12px;line-height:1.5;margin:10px 0 15px}
+    .context b{font-weight:600;font-variant-numeric:tabular-nums;color:#d4e4f2}
+    .actions{display:flex;gap:10px}
+    .action{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #94b0c64d;border-radius:10px;background:transparent;color:#d8e6f2;font-size:14px;font-weight:500;cursor:pointer;padding:8px 10px;transition:background .18s,border-color .18s,transform .18s}
+    .action svg{width:16px;height:16px;flex:none;color:#a9c6de}
+    .action:hover{background:#b5d8fa10;border-color:#a2c0d7a6;transform:translateY(-1px)}
+    .action:active{transform:translateY(0)}
+    .action[aria-pressed="true"]{background:#c7e2fb1a;border-color:#bad8ef;color:#f2f8fd}
+    button:disabled{opacity:.32;cursor:not-allowed}
+    .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:350px){.channel-bar{padding:15px 7px;gap:8px}.audience{padding-inline-start:8px}.audience-number{font-size:28px}.controls{padding-inline:9px}.video-caption{inset-inline:13px}h1{font-size:24px}.stepper{gap:16px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="channel-card" aria-label="مختبر المتابعين لقناة لحظة مشارَكة">
+    <figure class="thumbnail">
+      <img src="../img/followers-thumb.jpg" alt="متطوعون شباب ومُسنّة من دار المسنين يعتنون معًا بأصص النباتات حول طاولة" width="1280" height="720">
+      <figcaption class="video-caption"><span class="video-category">متطوعون في دار المسنين</span><h1>يوم صغير. فرق كبير.</h1></figcaption>
+    </figure>
+    <section class="channel-bar" aria-label="تفاصيل القناة">
+      <div class="avatar" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 25S5 19 5 11.7C5 6.9 11.5 5.7 16 11c4.5-5.3 11-4.1 11 .7C27 19 16 25 16 25Z"/><path d="m11 16 3 3 7-6"/></svg></div>
+      <div class="channel-info"><span id="stage" class="stage">المرحلة 1</span><h2 class="channel-name">لحظة مشارَكة</h2></div>
+      <div class="audience"><output id="followers" class="audience-number" aria-label="عدد المتابعين">1,000</output><span class="audience-label">متابعًا في القناة</span></div>
+    </section>
+    <section class="controls" aria-label="التغيّر في عدد المتابعين">
+      <p id="change-label" class="control-heading">نسبة التغيّر في المتابعين</p>
+      <div class="stepper" role="group" aria-labelledby="change-label">
+        <button id="decrease" class="step-button" type="button" aria-label="تقليل التغيّر بـ 5 نقاط مئوية"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+        <output id="percentage" class="percentage" data-tone="neutral" aria-label="تغيّر بنسبة 0 بالمئة"><svg id="trend" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path id="trend-path" d="M5 12h14"/></svg><span id="percent-value">0%</span></output>
+        <button id="increase" class="step-button" type="button" aria-label="زيادة التغيّر بـ 5 نقاط مئوية"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h14M12 5v14"/></svg></button>
+      </div>
+      <p id="context" class="context">من أصل <b dir="ltr">1,000</b> متابع في بداية المرحلة</p>
+      <div class="actions">
+        <button id="lock" type="button" class="action" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="11" rx="2"/><path id="lock-shackle" d="M8 10V6a4 4 0 0 1 8 0v4"/><path d="M12 14v3"/></svg><span id="lock-label">قفل</span></button>
+        <button id="reset" type="button" class="action"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10a9 9 0 1 1 1 7M3 4v6h6"/></svg>إعادة ضبط</button>
+      </div>
+    </section>
+    <p id="announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+  </main>
+  <script>
+  (() => {
+    'use strict';
+    const params = new URLSearchParams(location.search);
+    function option(name, fallback, min, max) {
+      const raw = params.get(name);
+      if (raw === null || raw.trim() === '') return fallback;
+      const n = Number(raw);
+      return Number.isFinite(n) && Number.isInteger(n) && n >= min && n <= max ? n : fallback;
+    }
+    const config = { base: option('followers',1000,0,1000000), stage: option('stage',1,1,99), step: option('step',5,1,100), initial: option('change',0,-100,100) };
+    /* 17.09.26 — the LOOK is the client's widget as supplied; the BEHAVIOUR is
+       the unit's original applet, which is what deck slide 5 asks for:
+         "העלו את כמות העוקבים ב-20% ונעלו את העלייה. כעת הורידו ב-20%."
+       i.e. נעילה COMMITS the current count as the new baseline and moves to the
+       next stage, so a following -20% lands on 9,600 and not back on 10,000 —
+       that gap is the whole point of the screen. The client build only froze
+       the stepper, which never produced the second baseline. */
+    const ORIGIN = { base: config.base, stage: config.stage };
+    let percent = config.initial, locked = false;
+    const $ = id => document.getElementById(id);
+    const format = n => new Intl.NumberFormat('en-US').format(n);
+    const state = () => ({ stage:config.stage, baseFollowers:config.base, followers:Math.round(config.base * (100 + percent) / 100), percent, locked });
+    function notifyParent() {
+      if (window.parent === window) return;
+      let origin;
+      try { origin = new URL(document.referrer).origin; } catch { return; }
+      if (origin === 'null') return;
+      window.parent.postMessage({ type:'followers-widget:state', ...state(), height:Math.ceil(document.documentElement.getBoundingClientRect().height) },origin);
+    }
+    function render(announce = true) {
+      const current = state(), sign = percent > 0 ? '+' : '';
+      $('stage').textContent = `المرحلة ${config.stage}`;
+      $('followers').textContent = format(current.followers);
+      $('percent-value').textContent = `${sign}${percent}%`;
+      $('percentage').dataset.tone = percent > 0 ? 'positive' : percent < 0 ? 'negative' : 'neutral';
+      $('percentage').setAttribute('aria-label',`تغيّر بنسبة ${percent} بالمئة`);
+      $('trend-path').setAttribute('d',percent > 0 ? 'M5 17 19 5M7 5h12v12' : percent < 0 ? 'M5 7 19 19M7 19h12V7' : 'M5 12h14');
+      $('decrease').disabled = percent <= -100;
+      $('increase').disabled = percent >= 100;
+      $('decrease').setAttribute('aria-label',`تقليل التغيّر بـ ${config.step} نقاط مئوية`);
+      $('increase').setAttribute('aria-label',`زيادة التغيّر بـ ${config.step} نقاط مئوية`);
+      $('lock').setAttribute('aria-pressed',String(locked));
+      $('lock-label').textContent = 'قفل';   // no unlock in the deck's flow
+      $('context').replaceChildren();
+      if (locked) $('context').append('الاختيار مقفل · ');
+      else $('context').append('من أصل ');
+      const base = document.createElement('b');base.dir='ltr';base.textContent=format(config.base);
+      $('context').append(base,' متابع في بداية المرحلة');
+      if (announce) $('announcement').textContent = `${format(current.followers)} متابع، تغيّر بنسبة ${percent} بالمئة. ${locked ? 'الاختيار مقفل.' : ''}`;
+      notifyParent();
+      return current;
+    }
+    function setPercent(value) {
+      if (locked) throw new Error('الاختيار مقفل. يجب فتح القفل أولًا.');
+      if (!Number.isInteger(value) || value < -100 || value > 100) throw new Error('يجب أن تكون النسبة المئوية عددًا صحيحًا بين ‎-100 و‎100.');
+      percent=value;return render();
+    }
+    $('decrease').addEventListener('click',()=>setPercent(Math.max(-100,percent-config.step)));
+    $('increase').addEventListener('click',()=>setPercent(Math.min(100,percent+config.step)));
+    $('lock').addEventListener('click',()=>{
+      if (percent === 0) return;                 // nothing to lock in yet
+      config.base = Math.round(config.base * (100 + percent) / 100);
+      config.stage = Math.min(config.stage + 1, 99);
+      percent = 0;                               // the stepper stays live —
+      render();                                  // the learner now steps DOWN
+      $('announcement').textContent = `تم تثبيت الكمية على ${format(config.base)} متابع. المرحلة ${config.stage}.`;
+    });
+    $('reset').addEventListener('click',()=>{
+      config.base = ORIGIN.base; config.stage = ORIGIN.stage;
+      percent = config.initial; locked = false;
+      render();
+      $('announcement').textContent = 'تمت إعادة التطبيق إلى وضعه الأولي.';
+    });
+    render(false);
+    if (typeof ResizeObserver !== 'undefined') new ResizeObserver(notifyParent).observe(document.body);
+    const context = document.modelContext;
+    if (context?.registerTool) {
+      const lifecycle = new AbortController();
+      window.addEventListener('pagehide',() => lifecycle.abort(),{once:true});
+      const definitions = [
+        { name:'read_followers_state', description:'Read the current follower count, baseline, percentage and lock state.', inputSchema:{type:'object',properties:{},additionalProperties:false}, annotations:{readOnlyHint:true,untrustedContentHint:false}, execute:() => state() },
+        { name:'set_followers_percentage', description:'Set the percentage change relative to the stage baseline. Fails while locked.', inputSchema:{type:'object',properties:{percent:{type:'integer',minimum:-100,maximum:100}},required:['percent'],additionalProperties:false}, annotations:{readOnlyHint:false,untrustedContentHint:false}, execute:input => setPercent(input?.percent) }
+      ];
+      for (const tool of definitions) {
+        try { Promise.resolve(context.registerTool(tool,{signal:lifecycle.signal})).catch(() => {}); } catch {}
+      }
+    }
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>النسب المئوية — الوحدة ‎4.8</title>
+<link rel="stylesheet" href="assets/fonts/fonts.css?v=18">
+<link rel="stylesheet" href="styles.css?v=18">
+</head>
+<body data-subject-theme="math">
+  <!-- Boot cover (Documentation/reporting-and-resume §8.11). A SIBLING of #stage, not inside the
+       scaled #app, inline-styled so a stale stylesheet cannot leave it useless. It hides the first
+       screen until the resume decision is known; 40-resume.js dropBootCover() removes it from every
+       exit path of 50-loader.js. The inline net below needs no other file: it lifts the cover
+       after 800ms — or, while bootXAPI has flagged a restore in flight (window.__resumeInFlight),
+       waits for it up to a hard 11s ceiling (50-loader.js polls the metadata for up to 10s). -->
+  <div id="boot-cover" style="position:fixed;inset:0;z-index:9999;background:#ffffff"></div>
+  <script>
+  (function () {
+    var t0 = Date.now();
+    function tick() {
+      var c = document.getElementById('boot-cover');
+      if (!c || !c.parentNode) return;
+      if (window.__resumeInFlight && Date.now() - t0 < 11000) { setTimeout(tick, 100); return; }
+      c.parentNode.removeChild(c);
+    }
+    setTimeout(tick, 800);
+  })();
+  </script>
+<div id="stage">
+<div id="app">
+
+  <!-- Report/issue flag — shared, outside all screens -->
+  <button class="flag-btn" type="button" aria-label="هل وجدتم مشكلة؟">
+        <span class="flag-btn-icon">
+          <span class="flag-btn-glyph" aria-hidden="true">
+            <svg class="flag-btn-glyph-pole" viewBox="0 0 0.794329 17.0005" preserveAspectRatio="none" fill="none">
+              <path
+                d="M0.397164 17C0.177722 17 0 16.8239 0 16.6065V0.393501C0 0.176082 0.177722 0 0.397164 0C0.616607 0 0.794329 0.176082 0.794329 0.393501V16.607C0.794329 16.8245 0.616607 17.0005 0.397164 17.0005V17Z"
+                fill="currentColor" />
+            </svg>
+            <svg class="flag-btn-glyph-banner" viewBox="0 0 12 9.31542" preserveAspectRatio="none" fill="none">
+              <path
+                d="M2.76227 9.31542C1.91972 9.31542 1.06958 9.15545 0.213483 8.71363C0.0823588 8.64599 0 8.51124 0 8.36469V0.950975C0 0.814619 0.0715221 0.687925 0.188558 0.615989C0.305594 0.54459 0.45189 0.537611 0.574886 0.598811C0.577053 0.599884 0.578679 0.600958 0.580846 0.602032C2.31309 1.49586 4.05563 1.046 5.90003 0.569821C7.80946 0.0770055 9.78336 -0.431915 11.7865 0.601495C11.9176 0.669136 12 0.803882 12 0.950438V8.36415C12 8.4946 11.9344 8.617 11.8255 8.69001C11.7166 8.76302 11.5774 8.77805 11.4555 8.72974C11.443 8.7249 11.4311 8.71954 11.4197 8.71363C9.68745 7.8198 7.94491 8.26967 6.10051 8.7453C5.00709 9.02714 3.89199 9.31489 2.76281 9.31489L2.76227 9.31542ZM0.793787 8.11935C2.45559 8.87307 4.13094 8.44038 5.90003 7.98407C7.62469 7.53903 9.40191 7.08057 11.2062 7.75806V1.19631C9.54441 0.442591 7.86906 0.875281 6.09997 1.33159C4.37531 1.77663 2.59755 2.23509 0.793787 1.5576V8.11935Z"
+                fill="currentColor" />
+            </svg>
+          </span>
+        </span>
+        <span class="flag-btn-label">هل وجدتم مشكلة؟</span>
+      </button>
+
+  <!-- ══ S0 — slide 4: TransitionScreen (character: chef+pancake clip — PLACEHOLDER
+       still until the client asset arrives from the unit folder) ══ -->
+  <!-- ══ S40 — slide 52: TransitionScreen into the peak question.
+       FLAG-PRODUCER: `יש בה 5 סעיפים. עליכם להצליח ב - 4 לפחות.` is announced
+       here in copy only — the deck defines no scoring mechanism anywhere, and
+       no screen branches on it. Not invented here. ══ -->
+  <section class="screen active" data-screen="40" id="s40">
+    <div class="transition-content ts-content">
+      <p class="ts-lead" data-reveal="1">كل الاحترام!</p>
+      <p class="ts-lead" data-reveal="1">إذا لم تنجحوا في الإجابة عن بعض الأسئلة،<br> فمن المهم أن تفهموا ما الذي لا يزال غير واضح، وأن تتوجهوا إلى الدردشة أو إلى المعلّم للحصول على شرح إضافي.</p>
+      <h1 class="ts-title" data-reveal="2">والآن يأتي السؤال الأكبر</h1>
+      <p class="ts-tail ts-tail--bold" data-reveal="3">يحتوي السؤال على 5 بنود. عليكم الإجابة عن 4 منها على الأقل بشكل صحيح.</p>
+      <div class="t-hero" data-reveal="4" data-reveal-fade>
+        <video class="ts-peak t-clip" src="assets/video/character-challenge.mp4" autoplay loop muted
+               playsinline preload="auto" aria-label="الشخصية المرافقة تستعد للسؤال الأكبر"></video>
+      </div>
+    </div>
+    <button class="btn-continue" onclick="goTo(41)">متابعة</button>
+    <button class="btn-back" onclick="goTo(39)">عودة</button>
+  </section>
+
+<!-- ══ S41 — slide 53: FullImageWithTextOverlay (final_1).
+       Panel: deck x=407.1 y=43.7 w=872.9 h=202.0, white, 3px #C46BFF, text
+       vertically centred, 18pt #747474, right-aligned. Its right edge is at
+       exactly x=1280 in the deck; pulled in to the 25px page margin here.
+       Photo: srcRect t=11.36%, reproduced exactly (see .bg-crop-* below). ══ -->
+  <section class="screen" data-screen="41" id="s41">
+    <div class="story-stage" data-reveal="1">
+      <img class="story-bg bg-crop-t1136" src="assets/img/final-hatchery.jpg"
+           alt="صورة أفقية لمزرعة تفريخ للسلاحف البحرية في شاطئ بلماحيم في يوم صافٍ: مزرعة محاطة بسياج خشبي وشبكة معدنية، وفي داخلها نحو اثني عشر قفصًا شبكيًا أخضر لحماية أعشاش السلاحف البحرية. إلى اليسار شريط رملي واسع يمتد حتى خط المياه، وإلى اليمين كثبان رملية طبيعية تغطيها نباتات ساحلية منخفضة‎.">
+      <div class="story-panel sp-53" data-reveal="2">
+        <p>السلاحف البحرية التي تفرّخ في إسرائيل معرضة لخطر الانقراض‎.</p>
+        <p>كل مجهود يساعد السلاحف الصغيرة على الفقس والوصول إلى البحر، سيساهم في زيادة أعدادها في الطبيعة‎.</p>
+        <p>لذلك، بعد جمع البيض بنجاح، تقرَّر نقله إلى مزارع تفريخ مسيّجة‎.</p>
+        <p>بهذا الشكل يكون البيض محميًا من ظروف الطقس ومن الحيوانات المفترسة‎.</p>
+      </div>
+    </div>
+    <button class="btn-continue" onclick="goTo(42)">متابعة</button>
+    <button class="btn-back" onclick="goTo(40)">عودة</button>
+  </section>
+
+<!-- ══ S43 — slide 55: FullImageWithTextOverlay (final_2).
+       Bubble: deck x=672.4 y=131.8 w=336.3 h=170.0, wedgeRoundRectCallout with
+       adj1=-66258 / adj2=+16200 — the tail exits the LEFT-LOWER edge, aimed
+       back at נעמה (the copy is feminine: "אני חושבת"). Two white name chips
+       sit at the rangers' feet: עידו at deck x=335.4, נעמה at x=640.0,
+       both y=587.0, 16pt centred. ══ -->
+  <section class="screen" data-screen="43" id="s43">
+    <div class="story-stage" data-reveal="1">
+      <img class="story-bg bg-crop-t1136" src="assets/img/final-rangers_AR.jpg"
+           alt="مراقبان للطبيعة يرتديان زيًا ميدانيًا بلون كاكي وعليه شعار سلطة الطبيعة والحدائق، يقفان على شاطئ رملي ويتحدثان. في الخلفية سياج خشبي وشبكة تحيط بمنطقة رملية توجد فيها أقفاص حماية لبيض السلاحف، وخلف السياج بحر أزرق وتلال رملية مغطاة بنباتات منخفضة‎.">
+      <div class="story-bubble sb-tail-left-low sb-55" data-reveal="2">
+        <p>أعتقد أنه من المفضل هذه السنة نقل البيض إلى المزرعة الأكثر نجاحًا‎.</p>
+        <p>إلى أين يُفضّل نقل كمية إضافية من البيض؟</p>
+      </div>
+    </div>
+    <button class="btn-continue" onclick="goTo(44)">متابعة</button>
+    <button class="btn-back" onclick="goTo(42)">عودة</button>
+  </section>
+
+<!-- ══ S46 — slide 58: FullImageWithTextOverlay (final_03).
+       Panel: deck x=766.8 y=43.7 w=513.2 h=97.2; right edge pulled to the 25px
+       margin. Photo: four-sided srcRect (l 9.03 / t 14.86 / r 1.73 / b 18.39).
+       FLAG-PRODUCER: the slide carries a yellow on-canvas note — the image is
+       NOT APPROVED (needs retouching, the green mesh reads as being on the
+       fence) and must be signed off. The note itself is not built. ══ -->
+  <section class="screen" data-screen="46" id="s46">
+    <div class="story-stage" data-reveal="1">
+      <img class="story-bg bg-crop-58" src="assets/img/final-hatchlings.jpg"
+           alt="صورة من زاوية منخفضة من داخل مزرعة لتفريخ السلاحف البحرية: فتحة في السياج الخشبي والشبكة، تزحف من خلالها صغار السلاحف البحرية خارج المنطقة المحمية في طريقها إلى البحر، وتظهر آثار زحفها على الرمال. على الجانبين أقفاص شبكية خضراء، وفي الخلفية شاطئ رملي واسع وأمواج البحر‎.">
+      <div class="story-panel sp-58" data-reveal="2">
+        <p>استخدام المعطيات مهم ليس فقط لإنقاذ السلاحف هذه المرة، بل أيضًا لوضع خطط عمل للسنوات المقبلة‎.</p>
+        <p>تعالوا نساعد طاقم الإدارة على تحديد الطريقة الصحيحة للعمل‎.</p>
+      </div>
+    </div>
+    <button class="btn-continue" onclick="goTo(47)">متابعة</button>
+    <button class="btn-back" onclick="goTo(45)">عودة</button>
+  </section>
+
+<!-- ══ S48 — slide 60: THE ENDING (final_04).
+       Panel: deck x=713.1 y=43.7 w=566.9 h=128.5; right edge pulled to the
+       margin. Photo: srcRect b=25.21%. `לקישור` carries the deck's only
+       hyperlink, to https://www.parks.org.il/צבי-ים/ .
+       FLAG-PRODUCER: the deck does not say where המשך goes from the final
+       screen — no next slide, no end-of-module note. ══ -->
+  <section class="screen" data-screen="48" id="s48">
+    <div class="story-stage" data-reveal="1">
+      <img class="story-bg bg-crop-b2521" src="assets/img/final-sunset.jpg"
+           alt="صورة لشاطئ عند الغروب: عشرات من صغار السلاحف البحرية تزحف فوق الرمال الرطبة وتترك وراءها آثارًا في طريقها إلى المياه. بعض السلاحف قد وصلوا إلى خط الأمواج، وتنعكس أشعة الشمس المنخفضة على المياه والرمال الرطبة‎.">
+        <div class="story-panel sp-60" data-reveal="2">
+        <p>نهاية سعيدة حقًا!</p>
+        <p>بفضل مساعدتكم - وصلت السلاحف إلى البحر</p>
+        <p>ترغبون بمعرفة المزيد؟</p>
+        <p>ادخلوا <a class="story-link" href="https://www.parks.org.il/%D7%A6%D7%91%D7%99-%D7%99%D7%9D/" target="_blank" rel="noopener">إلى الرابط</a>.</p>
+      </div>
+    </div>
+    <button class="btn-continue" onclick="goTo(49)">متابعة</button>
+    <button class="btn-back" onclick="goTo(47)">عودة</button>
+  </section>
+
+
+  <!-- Quiz hint overlay — shared, outside all .screen divs -->
+  <div id="quiz-hint-overlay" class="hidden m-popup" role="dialog" aria-modal="true" aria-label="تلميح">
+    <div class="hint-popup">
+      <!-- 07.09: the bulb the hint card was missing. Plain-bulb variant
+           (viewBox 0 0 20.997 27.9988), the one the approved build uses in
+           the card title — deliberately NOT the button's rayed bulb. The
+           text lives in its own span so quizOpenHint() can rewrite it
+           without deleting the icon. -->
+      <h3 class="hint-title"><svg class="hint-title-icon" viewBox="0 0 20.997 27.9988" fill="none" aria-hidden="true"><path d="M17.4818 2.65764C15.2512 0.668476 12.2563 -0.275357 9.25683 0.0699765C4.59833 0.60431 0.748334 4.35748 0.103168 8.99148C-0.387999 12.5078 0.894168 16.0031 3.532 18.34C4.99267 19.6338 5.83033 21.5191 5.83033 23.5095V23.9155C5.83033 26.1671 7.662 27.9988 9.91367 27.9988H11.0803C13.332 27.9988 15.1637 26.1671 15.1637 23.9155V23.5036C15.1637 21.5366 16.041 19.6431 17.6347 18.1708C19.7708 16.1945 20.997 13.398 20.997 10.4988C20.997 7.50864 19.716 4.65031 17.4818 2.65764ZM13.997 23.9143C13.997 25.522 12.6892 26.831 11.0803 26.831H9.91367C8.30483 26.831 6.997 25.522 6.997 23.9143V23.5083C6.997 23.0545 6.9585 22.6041 6.88617 22.1643H14.1137C14.0367 22.6041 13.997 23.051 13.997 23.5025V23.9143ZM16.8425 17.3133C15.691 18.3773 14.865 19.6385 14.4077 20.9976H11.0792V12.1986C12.7323 11.9198 13.9958 10.479 13.9958 8.74764C13.9958 8.42564 13.7345 8.16431 13.4125 8.16431C13.0905 8.16431 12.8292 8.42564 12.8292 8.74764C12.8292 10.0345 11.7827 11.081 10.4958 11.081C9.209 11.081 8.1625 10.0345 8.1625 8.74764C8.1625 8.42564 7.90117 8.16431 7.57917 8.16431C7.25717 8.16431 6.99583 8.42564 6.99583 8.74764C6.99583 10.479 8.25933 11.9198 9.9125 12.1986V20.9976H6.60267C6.16633 19.6431 5.38 18.4193 4.3055 17.4661C1.9605 15.3895 0.821834 12.2815 1.25817 9.15248C1.831 5.03648 5.2505 1.70448 9.38867 1.22848C9.7655 1.18531 10.14 1.16431 10.511 1.16431C12.807 1.16431 14.9735 1.98448 16.7072 3.52914C18.6917 5.30014 19.8315 7.83998 19.8315 10.4976C19.8315 13.111 18.771 15.5318 16.8437 17.3133H16.8425Z" fill="white"/></svg><span class="hint-title-text">هل تتذكرون كيف تحسبون؟</span></h3>
+      <p class="hint-body"></p>
+      <button class="hint-close-btn" onclick="quizCloseHint()">عودة إلى السؤال</button>
+    </div>
+  </div>
+
+  <!-- Problem-report modal (approved-units pattern; posts to the shared Google Form) -->
+  <div id="report-modal" class="report-modal-overlay m-popup" hidden role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
+    <div class="report-modal-box">
+      <button class="report-close-btn" onclick="tryCloseReportModal()" aria-label="إغلاق">&#10005;</button>
+      <h2 class="report-modal-title" id="report-modal-title">التبليغ عن مشكلة</h2>
+      <p class="report-modal-body">هل هناك شيء غير واضح أو لا يعمل كما يجب؟ أخبرونا بما حدث لنتمكن من معالجة المشكلة.</p>
+      <div class="report-field">
+        <label class="report-label" for="report-type">ما هو نوع المشكلة <span class="required-star">*</span></label>
+        <select class="report-select" id="report-type">
+          <option value="" disabled selected>اختاروا نوع المشكلة</option>
+          <option value="technical">عطل تقني أو شيء ما لا يعمل</option>
+          <option value="unclear">شيء غير واضح لي</option>
+          <option value="other">آخر</option>
+        </select>
+      </div>
+      <div class="report-field">
+        <label class="report-label" for="report-text">ماذا حدث؟ <span class="required-star">*</span></label>
+        <textarea class="report-textarea" id="report-text" maxlength="250" rows="4" placeholder="صفوا المشكلة‎..."></textarea>
+        <span class="report-char-count" id="report-char-count">0 / 250</span>
+      </div>
+      <p class="report-error" id="report-error" hidden>يرجى اختيار نوع المشكلة ووصف ما حدث.</p>
+      <div class="report-actions">
+        <button class="report-submit-btn" onclick="submitReport()">إرسال</button>
+        <button class="report-cancel-btn" onclick="tryCloseReportModal()">إلغاء</button>
+      </div>
+      <div class="report-thanks" id="report-thanks" hidden>
+        <p>شكرًا! تم إرسال التبليغ. سنعالج المشكلة في أقرب وقت.</p>
+        <button class="report-submit-btn" onclick="forceCloseReportModal()">إغلاق</button>
+      </div>
+    </div>
+  </div>
+  <div id="report-confirm-modal" class="report-modal-overlay m-popup" hidden role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+    <div class="report-modal-box report-confirm-box">
+      <h2 class="report-modal-title" id="confirm-modal-title">هل تريدون إغلاق النافذة فعلًا؟</h2>
+      <p class="report-modal-body">إذا ضغطتم على إغلاق لن يتم إرسال التبليغ</p>
+      <div class="report-actions">
+        <button class="report-cancel-btn" onclick="forceCloseReportModal()">إغلاق النافذة</button>
+        <button class="report-submit-btn" onclick="backToReportForm()">أريد التبليغ</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+  <!-- The platform layer (xAPI reporting, resume) wraps the vendored 720-core. Order is load-bearing
+       (unit-js/README.md): the shared layer first (definition-only), then this component's
+       configuration, then the engine, then 70-platform.js, and 90-boot.js LAST in its own tag.
+       Every ?v= is identical across the four components — bump them together. -->
+  <script src="../unit-js/10-identity.js?v=18"></script>
+  <script src="../unit-js/20-xapi.js?v=20"></script>
+  <script src="../unit-js/40-resume.js?v=18"></script>
+  <script src="../unit-js/50-loader.js?v=18"></script>
+  <script src="script.js?v=18"></script>
+  <script src="../unit-js/motion.js?v=18"></script>
+  <script src="../unit-js/quiz-engine.js?v=18"></script>
+  <script src="../unit-js/questions.js?v=18"></script>
+  <script src="../unit-js/report-modal.js?v=18"></script>
+  <script src="../unit-js/unit.js?v=18"></script>
+  <script src="../unit-js/engine.js?v=19"></script>
+  <script src="../unit-js/70-platform.js?v=19"></script>
+  <script src="../unit-js/90-boot.js?v=18"></script>
+</body>
+</html>
