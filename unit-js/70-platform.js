@@ -215,6 +215,37 @@ function partResult() {
   return { success: success, score: { scaled: scaled } };
 }
 
+/* ── A mid-component stop (XAPI_STOP in script.js; only 03 declares one) ──
+   Ported from ratio-04 (892a535), sized to this unit's PART_PASS sets: {at, need, sets}. A HARD stop:
+   no message, no retry — the answers are already revealed when the questions resolve. The component
+   reports 'completed' (success false, from partResult) and ENDS on the stop screen; the platform
+   routes on that statement (recommendedAfterFail -> 02).
+   ⚠️ FAILS OPEN: it closes only on evidence. Every question of every set must have a recorded result
+   before the verdict counts — a resume whose results came back empty must not trap a learner. */
+function _stop() { return (typeof XAPI_STOP !== 'undefined' && XAPI_STOP) ? XAPI_STOP : null; }
+function _stopFailed() {
+  var s = _stop();
+  if (!s || !s.sets) return false;
+  var complete = s.sets.every(function (set) {
+    return set.every(function (k) { return typeof XAPI_Q_RESULTS[k] === 'boolean'; });
+  });
+  if (!complete) return false;
+  var passed = s.sets.filter(function (set) { return set.every(function (k) { return XAPI_Q_RESULTS[k] === true; }); }).length;
+  return passed < s.need;
+}
+function stopBlocks(n) { var s = _stop(); return !!s && n === s.at && inPart(n) && _stopFailed(); }
+function stopButton() { var s = _stop(); return s ? document.getElementById('q' + s.at + '-check') : null; }
+
+/* End the component HERE, on the stop screen. Not partExit(): that acts only on PART_LAST and, under
+   DEV_NAV, hops to the next component — the one place a stopped learner must not go. Idempotent
+   (sendCompletedOnce is ledger-guarded). Navigates NOWHERE, DEV_NAV included. */
+function endComponentAtStop() {
+  var res = partResult();
+  try { xapiEndComponent(res, stopButton()); } catch (e) { console.error('[xAPI] end at stop', e); }
+  try { setUnitResult(partResultKey(), 'fail'); } catch (e) { console.error('[resume] result', e); }
+  flushResumeSave();
+}
+
 function partResultKey() { return 'percent08_c' + currentPartSlug().slice(-2) + '_result'; }
 
 /* engine.js goTo() calls this instead of hopping when n leaves [PART_FIRST, PART_LAST].
@@ -662,12 +693,27 @@ function ytHeal(f) {
   return true;
 }
 
+/* origin= on every reported embed (ratio-04, 07.10.26). Inside Kata the page is itself framed; naming
+   our origin lets the embed address its player events to this page explicitly instead of inferring
+   it. http(s) only: file:// has origin "null", which YouTube rejects. Runs before the first goTo, so
+   the parked/restored src (dataset.src) carries it too. */
+function ytApplyOrigin() {
+  if (!/^https?:$/.test(window.location.protocol)) return;
+  var o = 'origin=' + encodeURIComponent(window.location.origin);
+  document.querySelectorAll('iframe[data-yt-item]').forEach(function (f) {
+    var s = f.getAttribute('src');
+    if (!s || /[?&]origin=/.test(s) || !/youtube-nocookie\.com\/embed\//.test(s)) return;
+    f.setAttribute('src', s + (s.indexOf('?') < 0 ? '?' : '&') + o);
+  });
+}
+
 /* The part's own boot, called once from 90-boot.js (was engine.js's DOMContentLoaded block):
    build the question screens, scale, land. The guided and map screens are built by unit.js's own
    DOMContentLoaded listeners, which run before this one (90-boot.js registers last). */
 function partBoot() {
   if (typeof quizBuildScreens === 'function') quizBuildScreens();
   scaleApp();
+  try { ytApplyOrigin(); } catch (e) { console.error('[boot] ytApplyOrigin', e); }
   /* NOT a hard goTo(0): goTo() treats n < PART_FIRST as leaving the component. */
   goTo(firstScreen());
   try { ytWirePlayers(); } catch (e) { console.error('[boot] ytWirePlayers', e); }

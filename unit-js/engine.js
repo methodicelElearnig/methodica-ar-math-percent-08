@@ -64,6 +64,11 @@ function goTo(n) {
     if (n > window.PART_CONFIG.end) { if (_exit) _exit(1); else goToNextPart(); return; }
     if (n < window.PART_CONFIG.start) { if (_exit) _exit(-1); else goToPrevPart(); return; }
   }
+  /* A mid-component stop (XAPI_STOP, 70-platform.js): forward off the stop screen with the promised
+     questions not passed ends the component there. One hook covers the check button, the arrow key
+     and advanceScreen alike. Never while a resume replays the saved screen. */
+  if (n === currentScreen + 1 && typeof stopBlocks === 'function' && !(typeof _restoring !== 'undefined' && _restoring) &&
+      stopBlocks(currentScreen)) { endComponentAtStop(); return; }
   if (n < 0 || n >= TOTAL_SCREENS) return;
   /* 07.09 — a retired screen number (43, folded into 42) must not blank the
      canvas. The teardown below used to run BEFORE the lookup, so navigating to

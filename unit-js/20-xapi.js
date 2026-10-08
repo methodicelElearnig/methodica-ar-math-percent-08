@@ -343,6 +343,15 @@ function xapiEndComponent(result, btn){
    is on the last screen. repaintScreen / applyExecutionState (70-platform.js) call it after every
    repaint. */
 function restoreEndedButton() {
+  /* The stop screen (XAPI_STOP, 70-platform.js) is a second, earlier end: re-disable its button only
+     when the stop holds AND the 'completed' is in the ledger — answered-but-not-clicked comes back
+     LIVE, so the click still stops and reports. */
+  if (typeof stopBlocks === 'function' && typeof XAPI_STOP !== 'undefined' && XAPI_STOP && currentScreen === XAPI_STOP.at) {
+    if (!stopBlocks(currentScreen) || !alreadySent('done', currentPartSlug())) return;
+    var sb = stopButton();
+    if (sb) { sb.disabled = true; sb.setAttribute('aria-disabled', 'true'); }
+    return;
+  }
   if (currentScreen !== PART_LAST) return;
   if (!alreadySent('done', currentPartSlug())) return;
   var btn = typeof lastScreenButton === 'function' ? lastScreenButton() : null;

@@ -119,3 +119,14 @@ NODE_PATH=/tmp/lomda-test-p08/node_modules node _test/mutations.js
 - **The real YouTube player.** The fake proves our state machine and the D-1 property of our
   markup. It does not prove the IFrame API's event timing.
 - **The page number in `SCREEN_TO_SUBCONTENT`.** Nothing reads it except the issue-report form.
+
+## `monday-2026-10-08.js` — MOE monday 05-06.10 + KNOWN-ISSUES §1 (real Chrome)
+
+08-03's stop after the basic questions (under 4 of 5 stations -> ends on s34; 4-5 -> s35), 08-01's
+two videos (origin= on the embed; played/paused on items 002/003), the inline dropdown drawn with
+appearance:none, and the canvas inside the window at eight sizes. 40 of its 107 checks fail on the
+code before the fix. Optional base URL for a live run.
+
+```bash
+NODE_PATH=/tmp/lomda-test/node_modules node _test/monday-2026-10-08.js
+```

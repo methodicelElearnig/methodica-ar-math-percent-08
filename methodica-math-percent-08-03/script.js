@@ -62,3 +62,10 @@ var PART_PASS = { need: 4, sets: [
   ['004/q1'],
   ['005/q1', '005/q2']
 ] };
+
+/* The stop (MOE 05.10 + 06.10: "בהתחלה רשום לענות על 4 שאלות מתוך 5 כדי להתקדם אבל זה מאפשר להתקדם
+   גם אם עניתי שגוי על כל 5 השאלות"; נמרוד: "צריך לתקן שיהיה צריך 4 תשובות נכונות כדי להתקדם. כמובן
+   לא משנה באיזה סדר"). The pass mark above is no longer report-only: forward off s34 (the last basic
+   screen) with fewer than 4 of the 5 stations correct ends the component there — success:false, the
+   button disabled — instead of moving on to "יופי של עבודה" (s35). Same pattern as ratio-04 03. */
+var XAPI_STOP = { at: 34, need: PART_PASS.need, sets: PART_PASS.sets };
