@@ -1,16 +1,16 @@
 'use strict';
 /* ═══════════════════ xAPI (720) — identity ═══════════════════
-   Shared by all four components of methodica-math-percent-08. Loaded first; see unit-js/README.md.
+   Shared by all four components of methodica-ar-math-percent-08. Loaded first; see unit-js/README.md.
    Ported from methodica-math-ratio-01 (35648a6).
 
    Canonical id prefix for this unit. Every id the lomda reports is built from it and must match
    metadata/*.json byte-for-byte, INCLUDING the trailing slashes that convention carries. */
-var XAPI_ID_PREFIX = 'https://lomdot.education.gov.il/metodica/720active/math/percent/08/';
+var XAPI_ID_PREFIX = 'https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/';
 
 /* The unit id is the BARE SLUG — MOE v2.5 §2.7 dropped the IRI requirement for the content unit
-   only (components and items stay IRIs). It must equal metadata/methodica-math-percent-08_unit.json
+   only (components and items stay IRIs). It must equal metadata/methodica-ar-math-percent-08_unit.json
    `id` exactly. Kata's State API never sees it; it keys the library's localStorage fallback. */
-window.XAPI_UNIT_ID = 'methodica-math-percent-08';
+window.XAPI_UNIT_ID = 'methodica-ar-math-percent-08';
 
 /* Last path segment of a canonical id — the short slug the bug-report form records. */
 function shortId(u){ return String(u || '').replace(/\/+$/, '').split('/').pop(); }

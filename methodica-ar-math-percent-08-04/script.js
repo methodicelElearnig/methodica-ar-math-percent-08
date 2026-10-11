@@ -1,6 +1,6 @@
 'use strict';
 /* ═══════════════════════════════════════════════════════════════════
-   methodica-math-percent-08-04 — component 04 of 4 · screens 40-48 · deck slides 52-60
+   methodica-ar-math-percent-08-04 — component 04 of 4 · screens 40-48 · deck slides 52-60
    שאלת שיא (מועד א')
 
    CONFIGURATION ONLY — data, read at CALL time by the shared layer in ../unit-js/.
@@ -9,13 +9,13 @@
    name here may also be declared in ../unit-js/ (the collision is silent and last-wins).
    ═══════════════════════════════════════════════════════════════════ */
 /* next / prev name index.html explicitly: the MOE CDN serves nothing for a folder URL. */
-window.PART_CONFIG = { start: 40, end: 48, next: null, prev: "../methodica-math-percent-08-03/index.html" };
+window.PART_CONFIG = { start: 40, end: 48, next: null, prev: "../methodica-ar-math-percent-08-03/index.html" };
 
 /* ═══════════════════ xAPI (720) — this component's configuration ═══════════════════ */
 
-var XAPI_COMP_SLUG     = 'methodica-math-percent-08-04';
+var XAPI_COMP_SLUG     = 'methodica-ar-math-percent-08-04';
 var XAPI_COMP_ID       = XAPI_ID_PREFIX + XAPI_COMP_SLUG + '/';     // must equal metadata `id`
-var XAPI_METADATA_FILE = '../metadata/methodica-math-percent-08-04.json';
+var XAPI_METADATA_FILE = '../metadata/methodica-ar-math-percent-08-04.json';
 
 /* screen -> [item suffix, page within the item]; null = no catalogue item.
    ⚠️ Exactly this component's screens, as numeric keys (global numbering); a missing key is a

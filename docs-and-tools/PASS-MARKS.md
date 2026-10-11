@@ -1,4 +1,4 @@
-# Pass marks in methodica-math-percent-08 — report-only (decision 28.09.26)
+# Pass marks in methodica-ar-math-percent-08 — report-only (decision 28.09.26)
 
 **For:** the content, QA and development teams.
 **Status:** interim decision. The pass marks are **computed and reported, never enforced**.
@@ -125,7 +125,7 @@ Changing this is a one-line edit in `onGuidedAnswered` (`unit-js/70-platform.js`
 
 ## Where to look
 
-- `methodica-math-percent-08-0N/script.js`: `PART_PASS`, `XAPI_EVAL_ITEMS`, `XAPI_QMAP`
+- `methodica-ar-math-percent-08-0N/script.js`: `PART_PASS`, `XAPI_EVAL_ITEMS`, `XAPI_QMAP`
 - `unit-js/70-platform.js`: `partResult()`, `partExit()`, `onGuidedAnswered()`
 - `_test/statement-flow.js` "passMarks", and `_test/verify-report.js` group `pass`: the
   assertions that pin this behaviour

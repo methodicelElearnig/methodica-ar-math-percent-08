@@ -1,4 +1,4 @@
-# methodica-math-percent-08 — שינוי באחוזים מול שינוי בכמות (יעד 4.8)
+# methodica-ar-math-percent-08 — שינוי באחוזים מול שינוי בכמות (יעד 4.8)
 
 The 49-screen unit in the client's multi-component structure. Same shape as
 `units/methodica-math-percent-07-main` and `…ratio-01-02-main`, which the client
@@ -7,7 +7,7 @@ approved: global screen numbering preserved, each component bounded by
 
 ## Where the split comes from
 
-**The deck itself.** `pptx/methodica-math-percent-08.pptx` carries a hidden
+**The deck itself.** `pptx/methodica-ar-math-percent-08.pptx` carries a hidden
 "רכיב" separator slide before each component, each printing the folder name to
 use. Those four slides — **3, 19, 38 and 51** — are the boundaries, and every
 one of them falls exactly between two built screens.
@@ -28,7 +28,7 @@ dividers, three video storyboard stills and two video script sheets.
 - `index.html` — local-browsing convenience only: redirects to component 01's
   `index.html`, carrying the query string. **Not deployed** — platforms launch each
   component by its own `…/<component>/index.html` link (rule, 28.09.26).
-- `methodica-math-percent-08-01 … -04/` — four component apps (`index.html` +
+- `methodica-ar-math-percent-08-01 … -04/` — four component apps (`index.html` +
   `script.js` + `styles.css` + `assets/` + their own `index_dev.html`, dev only).
 - `unit-js/` — the shared layer, ONE copy (see `unit-js/README.md`):
   - the vendored 720-core: `motion.js`, `quiz-engine.js`, `questions.js`,
@@ -138,7 +138,7 @@ Serve the repo root over HTTP on localhost, then open a component with the stub
 library:
 
 ```
-http://localhost:<port>/methodica-math-percent-08-01/?slxapi=1&registration=TEST-01&xapiLib=../_test/xapi-720-k.js
+http://localhost:<port>/methodica-ar-math-percent-08-01/?slxapi=1&registration=TEST-01&xapiLib=../_test/xapi-720-k.js
 ```
 
 In the console: `__stmts()`, `__state()`, `__dupes()`, `__reset()`. Add
@@ -172,7 +172,7 @@ The producer's `followers-widget.html` (received 15.09.26) is in and working, so
 the screen is complete as it stands. When the client's final version arrives,
 swapping it is a one-file drop — nothing else has to change:
 
-1. Replace `methodica-math-percent-08-01/assets/applets/followers-widget.html`.
+1. Replace `methodica-ar-math-percent-08-01/assets/applets/followers-widget.html`.
 2. If it still ships its thumbnail as an inline base64 image, write the image
    out to `assets/img/` and point the page at it (the version we received was
    3MB inline; extracted it is 14KB of HTML + a 103KB cached jpg).

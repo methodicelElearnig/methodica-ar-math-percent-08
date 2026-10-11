@@ -1,6 +1,6 @@
-> **methodica-math-percent-08 copy** (from methodica-math-ratio-01 35648a6). The procedure is
+> **methodica-ar-math-percent-08 copy** (from methodica-math-ratio-01 35648a6). The procedure is
 > generic; worked examples below still name the units they were written on. This unit: 1 unit +
-> 4 components + 19 items; unit `id` is the bare slug `methodica-math-percent-08` (MOE v2.5 §2.7).
+> 4 components + 19 items; unit `id` is the bare slug `methodica-ar-math-percent-08` (MOE v2.5 §2.7).
 > `$ContentBaseUrl` in send-metadata.ps1 (`…/metodica/720/math/percent/08`) was confirmed on
 > 28.09.26. Guide: `2026/Documentation/reporting-and-resume/ADDING-REPORTING-AND-RESUME.md` §4.6.
 

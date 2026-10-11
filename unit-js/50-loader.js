@@ -1,6 +1,6 @@
 'use strict';
 /* ═══════════════════ xAPI — loader / init ═══════════════════
-   Shared by all four components of methodica-math-percent-08 (ported from methodica-math-ratio-01
+   Shared by all four components of methodica-ar-math-percent-08 (ported from methodica-math-ratio-01
    35648a6). Definition-only; 90-boot.js calls bootXAPI() LAST, after every per-part hook exists.
    The platform owns routing (README.md): this step never navigates.
 

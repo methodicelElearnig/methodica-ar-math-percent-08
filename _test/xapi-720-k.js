@@ -1,4 +1,4 @@
-/* methodica-math-percent-08 — ported from methodica-math-ratio-01 (35648a6); only the unit's keys changed.
+/* methodica-ar-math-percent-08 — ported from methodica-math-ratio-01 (35648a6); only the unit's keys changed.
    תחליף מקומי ל-xapi-720-k.js שב-CDN, לאימות resume וניווט בין סינים בלי LRS.
    **לא נפרס.** נטען רק דרך ?xapiLib=../_test/xapi-720-k.js, ש-50-loader.js מכבד
    על localhost בלבד.
@@ -226,7 +226,7 @@
         .forEach(function (k) { sessionStorage.removeItem(k); });
       sessionStorage.removeItem(LOG_KEY);
       sessionStorage.removeItem(FAIL_KEY);
-      sessionStorage.removeItem('lomda_nav_edges::methodica-math-percent-08');
+      sessionStorage.removeItem('lomda_nav_edges::methodica-ar-math-percent-08');
     } catch (e) {}
     /* v4: הדמות ותוצאות המועד עברו למסמך ה-state, ו-localStorage הוא קאש
        בלבד. מנקים גם אותו — אחרת __reset() משאיר את הדמות ואת שערי המועד

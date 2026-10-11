@@ -1,4 +1,4 @@
-# `_test/` — headless regression oracle (methodica-math-percent-08)
+# `_test/` — headless regression oracle (methodica-ar-math-percent-08)
 
 **Not deployed.** Development tooling only. Exclude the whole folder from any release package,
 **including the stub library**: `xapi-720-k.js` shares a basename with the real CDN library by

@@ -1,13 +1,13 @@
 'use strict';
 /* ═══════════════════ xAPI (720) — item scope + question ids ═══════════════════
-   Shared by all four components of methodica-math-percent-08. Definition-only; 90-boot.js drives
+   Shared by all four components of methodica-ar-math-percent-08. Definition-only; 90-boot.js drives
    startup via bootXAPI(). Ported from methodica-math-ratio-01 (35648a6); the video functions from
    methodica-science-mass-weight-01. Design: Documentation/reporting-and-resume/ADDING-REPORTING-AND-RESUME.md
    (§6 reporting, §8.2 the 'completed' ledger).
 
    Per-part seams read at CALL time (each component's own script.js declares them):
      SCREEN_TO_SUBCONTENT   screen -> [item suffix, page-in-item]; null = no catalog item
-     XAPI_COMP_SLUG         e.g. 'methodica-math-percent-08-02'
+     XAPI_COMP_SLUG         e.g. 'methodica-ar-math-percent-08-02'
      XAPI_COMP_ID           XAPI_ID_PREFIX + XAPI_COMP_SLUG + '/'
      XAPI_EVAL_ITEMS        items that carry a graded question IN CODE
      XAPI_ITEM_RESULT       optional; item suffix -> function returning an explicit result

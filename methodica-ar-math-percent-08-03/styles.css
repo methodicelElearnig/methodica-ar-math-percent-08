@@ -1949,7 +1949,7 @@ p, li, h1, h2, h3, .scq-opt-text, .teach-q-text, .explain-body, .teach-intro {
 
 /* ==== css/unit.css ==== */
 /* =====================================================================
-   methodica-math-percent-08 — unit styles (screens 0-3 = slides 4-7).
+   methodica-ar-math-percent-08 — unit styles (screens 0-3 = slides 4-7).
    Shared visual layer comes from core.css + style.css (vendored, approved);
    only this unit's own screens live here. Type floor: 18px everywhere.
    ===================================================================== */
@@ -3109,19 +3109,6 @@ p, li, h1, h2, h3, .scq-opt-text, .teach-q-text, .explain-body, .teach-intro {
   padding-left: 34px; padding-right: 38px;
 }
 
-/* Arabic version: one answer on screen 22 ("lan al-khasm bil-nisba...") and one on screen 25
-   ("kilahuma mukhti'an...") wrapped onto a second line; in Hebrew each fits on one line.
-   The answers column takes the extra width from the gap and the media column (no font
-   shrink), applied to the whole question sequence (coupons 20-22, bands table 24-26) so the
-   image and the pinned table keep one size across the sequence. */
-#q20 .quiz-cols, #q21 .quiz-cols, #q22 .quiz-cols { gap: 24px; }
-/* with the Calibri Arabic font the answer is wider still: the image column gives up ~30px */
-#q20 .quiz-content, #q21 .quiz-content, #q22 .quiz-content { flex: 0 0 496px; }
-#q24 .quiz-cols, #q25 .quiz-cols, #q26 .quiz-cols { gap: 24px; }
-#q24 .quiz-content:has(.q-table--bands),
-#q25 .quiz-content:has(.q-table--bands),
-#q26 .quiz-content:has(.q-table--bands) { flex-basis: 40%; }
-
 /* ── גרסה ערבית: פונט Calibri לטקסט הערבי בלבד (פונט מערכת — לא ארוז, לא ניתן להפצה).
    unicode-range מגביל את Calibri לתווים ערביים ולספרות 0-9; אותיות לטיניות נשארות ב-Assistant.
    גדלים ומשקלים לא משתנים — רגיל → Calibri, מודגש (600+) → Calibri Bold.
@@ -3143,6 +3130,12 @@ body * {
   font-family: 'Calibri Arabic', 'Assistant', 'Segoe UI', Arial, sans-serif !important;
 }
 
+/* Arabic version: with the Calibri Arabic font one answer on screen 39 wraps onto a second
+   line (one line in Hebrew). The answers column takes a few px from the gap, applied to the
+   whole camp-coupons sequence (36-39) so the tables keep one size. */
+#q36 .quiz-cols, #q37 .quiz-cols, #q38 .quiz-cols, #q39 .quiz-cols { gap: 28px; }
+#q36 .quiz-main, #q37 .quiz-main, #q38 .quiz-main, #q39 .quiz-main { flex-basis: 60%; }
+
 /* Arabic version: "hal yumkinuni al-husul ala talmih?" sat at a fixed left:212px, which in
    Hebrew left 32px after the check button (40-180px). The Arabic check label is wider, so
    the hint button covered it. The check and hint buttons now sit in a row in the bar: the
@@ -3151,8 +3144,3 @@ body * {
 .scq-bar { display: flex; align-items: flex-end; gap: 32px; padding-left: 40px; }
 .scq-bar > .quiz-check,
 .scq-bar > .quiz-hint { position: relative; left: auto; bottom: auto; flex: 0 0 auto; }
-
-/* Arabic version: with Calibri Arabic the followers table on screen 13 (519px, nowrap cells)
-   was 31px wider than its column and its left column was cut off. The table column takes
-   the width from the answers column, whose answers here are short. */
-#q13 .quiz-content { flex: 0 0 524px; }

@@ -84,13 +84,14 @@ $LogFile = Join-Path $PSScriptRoot 'send-metadata.log'
 # one, for every component of this unit.
 #
 # Take this from the unit's own DEPLOY.md deploy target. No trailing slash.
-# Confirmed for methodica-math-percent-08 by the unit owner on 28.09.26. Change it only together
+# Arabic hosting path, as methodica-ar-math-ratio-01 (set 11.10.26 with the slug rename; the Hebrew
+# unit's value was confirmed on 28.09.26). Confirm against this unit's DEPLOY.md before the first send. Change it only together
 # with the deploy target — a wrong value replaces every launch URL with a dead one, and the CDN
 # answers 200 with 0 bytes.
-$ContentBaseUrl = 'https://lomdot.education.gov.il/metodica/720/math/percent/08'
+$ContentBaseUrl = 'https://lomdot.education.gov.il/metodica/720/ar/math/percent/08'
 # Title language key: wraps a string title into the API object, e.g.
 #   "מדידת מסה" -> { "Hebrew": "מדידת מסה" }. Change only for non-Hebrew content.
-$TitleLangKey = 'Hebrew'
+$TitleLangKey = 'Arabic'
 # NOTE: there is no $UnitManufacture any more. 720 v2.5 renamed the field to
 # `manufacturer` and moved it to the unit, and KATA does not accept it on any endpoint —
 # the owning provider is derived from the API key. See New-UnitBody.
@@ -99,7 +100,7 @@ $TitleLangKey = 'Hebrew'
 $DefaultDepthLevel = 'core-curriculum-basic'
 # Optional per-component overrides, keyed by uniqueKey (URL slug). An override
 # WINS over the metadata value; unlisted components use their metadata value.
-#   e.g. 'methodica-math-percent-08-04' = @{ relativeDifficulty = 4; depthLevel = 'core-curriculum-advanced' }
+#   e.g. 'methodica-ar-math-percent-08-04' = @{ relativeDifficulty = 4; depthLevel = 'core-curriculum-advanced' }
 $ComponentOverrides = @{
 }
 

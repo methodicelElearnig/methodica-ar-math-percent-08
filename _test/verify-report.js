@@ -1,4 +1,4 @@
-/* ═══════════════════ structural oracle — methodica-math-percent-08 ═══════════════════
+/* ═══════════════════ structural oracle — methodica-ar-math-percent-08 ═══════════════════
    NOT DEPLOYED. Dev tooling only.
 
    Asserts the CONTRACTS the reporting / resume layer depends on — the silent failures from
@@ -118,10 +118,10 @@ function staticChecks() {
   /* Lowercase slugs everywhere (guide §4.5). */
   const files = ['index.html', ...COMPONENTS.flatMap(c => [PART_DIR(c) + '/index.html', PART_DIR(c) + '/script.js']),
                  ...SHARED.map(f => 'unit-js/' + f + '.js')];
-  files.forEach(f => ok('case', 'no capitalised unit slug in ' + f, !/methodica-math-percent-08/i.test(read(f).replace(/methodica-math-percent-08/g, ''))));
+  files.forEach(f => ok('case', 'no capitalised unit slug in ' + f, !/methodica-ar-math-percent-08/i.test(read(f).replace(/methodica-ar-math-percent-08/g, ''))));
   const root = read('index.html');
   ok('root', 'root index.html redirects to component 01 index.html carrying location.search',
-     /location\.replace\('\.\/methodica-math-percent-08-01\/index\.html' \+ (window\.)?location\.search\)/.test(root), root.match(/location\.replace\([^)]*\)/));
+     /location\.replace\('\.\/methodica-ar-math-percent-08-01\/index\.html' \+ (window\.)?location\.search\)/.test(root), root.match(/location\.replace\([^)]*\)/));
   ok('root', 'the package ships no root files — platforms launch components by their own links (rule 28.09.26)',
      /^\$RootFiles = @\(\)/m.test(read('docs-and-tools/package-allowlist.ps1')));
   /* The MOE CDN answers a folder URL with 200 and 0 bytes (live, 28.09.26): every navigation
@@ -183,7 +183,7 @@ function staticChecks() {
   /* Keys (D-6, the stub). */
   const resume = read('unit-js/40-resume.js');
   ok('keys', 'UI_CHARACTER_KEY namespaced per unit', /var UI_CHARACTER_KEY = 'methodica_math_percent_08_selectedCharacter';/.test(resume));
-  ok('keys', 'NAV_EDGE_KEY names this unit', /var NAV_EDGE_KEY = 'lomda_nav_edges::methodica-math-percent-08';/.test(resume));
+  ok('keys', 'NAV_EDGE_KEY names this unit', /var NAV_EDGE_KEY = 'lomda_nav_edges::methodica-ar-math-percent-08';/.test(resume));
   const rk = (/var RESULT_KEYS\s*=\s*(\[[^\]]*\])/.exec(resume) || [])[1];
   const RK = rk ? Function('return ' + rk)() : [];
   eq('keys', 'RESULT_KEYS = one per component, the partResultKey pattern', RK, COMPONENTS.map(c => 'percent08_c' + c + '_result'));

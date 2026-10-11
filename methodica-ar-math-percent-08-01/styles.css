@@ -1949,7 +1949,7 @@ p, li, h1, h2, h3, .scq-opt-text, .teach-q-text, .explain-body, .teach-intro {
 
 /* ==== css/unit.css ==== */
 /* =====================================================================
-   methodica-math-percent-08 — unit styles (screens 0-3 = slides 4-7).
+   methodica-ar-math-percent-08 — unit styles (screens 0-3 = slides 4-7).
    Shared visual layer comes from core.css + style.css (vendored, approved);
    only this unit's own screens live here. Type floor: 18px everywhere.
    ===================================================================== */
@@ -1962,14 +1962,23 @@ p, li, h1, h2, h3, .scq-opt-text, .teach-q-text, .explain-body, .teach-intro {
 .t-widget img { height: 250px; width: auto; }
 .t-widget .speech-bubble { font-size: 20px; padding: 18px 22px; }
 
-/* ── S1 — followers applet (slide 5 יישומון, per the design prompt:
-   generic video-platform card, neutral blue/gray accent, no real brand) ── */
-.fa-steps { font-size: 20px; line-height: 1.55; color: #303030; margin-bottom: 14px; }
-/* control bar — same width and ground as the channel row, thin divider */
-.fa-controls {
-  display: flex; align-items: center; justify-content: center; gap: 16px;
-  padding: 10px 14px; border-top: 1px solid #e5e9f0;
-}
+/* ── S1 — followers applet (slide 5 יישומון). Rebuilt 10.09.26 on the
+   producer-supplied channel-card design: illustrated 16:9 scene with a
+   gradient caption, channel bar, then a bordered control block. Their sizes
+   (11-14px) are all raised to the 18px project floor, and the card is 380px
+   to sit in the question column. ── */
+.fa-steps { font-size: 20px; line-height: 1.55; color: #303030; margin-top: 14px; margin-bottom: 14px; }
+
+/* the answer group fits its longest option instead of a fixed 584px column */
+/* UNIT-WIDE (client requirement, 14.09.26): an answer group is sized by its
+   LONGEST option, never a fixed column. The flex column's default
+   `align-items: stretch` then makes every pill match the widest one. */
+.scq-answers { width: fit-content; max-width: 584px; }
+/* the cap only exists to stop a runaway line; a long option should still get
+   ONE line where the column has room (producer 14.09.26, deck slide 43). The
+   flex row shrinks it back whenever something shares the row. */
+.quiz-screen .scq-answers { width: fit-content; max-width: min(100%, 1000px); }
+.teach-question .scq-answers { width: fit-content; max-width: 640px; }
 
 /* ── S2 — HookClosingText (slide 6) ── */
 .hookclose-content {
@@ -1984,7 +1993,7 @@ p, li, h1, h2, h3, .scq-opt-text, .teach-q-text, .explain-body, .teach-intro {
 .hookclose-line { font-size: 22px; color: #303030; margin: 0; line-height: 1.5; }
 .hookclose-row { display: flex; align-items: center; gap: 40px; }
 .hookclose-examples { display: flex; gap: 26px; }
-.hookclose-card { margin: 0; width: 340px; }
+.hookclose-card { margin: 0; width: 460px; }
 .hookclose-card img { width: 100%; border-radius: 12px; display: block; }
 .hookclose-card figcaption { margin-top: 10px; font-size: 20px; font-weight: 600; color: #303030; text-align: center; }
 /* the monster position: hard against the left edge of the SCREEN with its feet
@@ -2000,6 +2009,8 @@ p, li, h1, h2, h3, .scq-opt-text, .teach-q-text, .explain-body, .teach-intro {
 
 /* ── S3 — video transition (slide 7) ── */
 .video-intro-title { font-size: 44px; font-weight: 700; color: var(--subject-500); text-align: center; margin: 0; }
+/* S8 (deck slide 16) is still on the placeholder — part B's clip and its
+   stills have not been supplied, so these rules stay. */
 .video-placeholder {
   width: 620px; aspect-ratio: 16 / 9;
   border: 2px dashed #b9c2d0; border-radius: 14px; background: #f4f6f9;
@@ -2037,6 +2048,7 @@ p, li, h1, h2, h3, .scq-opt-text, .teach-q-text, .explain-body, .teach-intro {
 .video-placeholder--poster .video-ph-label {
   position: relative; color: #fff; font-weight: 600; padding: 0 16px 14px; text-align: center;
 }
+
 
 /* wrapper hooks (also keeps check_structure's unknown-class probe honest) */
 .hookclose-text { display: flex; flex-direction: column; gap: 10px; }
@@ -2309,7 +2321,8 @@ p, li, h1, h2, h3, .scq-opt-text, .teach-q-text, .explain-body, .teach-intro {
 }
 .think-table { width: auto; margin: 0 auto; border-collapse: collapse; }
 .think-table th, .think-table td {
-  font-size: 18px;
+  /* same size as the .think-conclusion copy under the table (producer 10.09.26) */
+  font-size: 20px;
   padding: 9px 18px;
   text-align: center;
   border: 1px solid var(--subject-200);
@@ -2426,8 +2439,11 @@ p, li, h1, h2, h3, .scq-opt-text, .teach-q-text, .explain-body, .teach-intro {
 .think-content { inset: 44px 44px 92px; gap: 40px; justify-content: flex-start; }
 .think-lead { font-size: 26px; }
 .think-table { margin-top: 4px; }
-.think-conclusion { margin-top: 12px; }
-.think-conclusion p { margin: 0 0 26px; font-size: 22px; line-height: 1.6; }
+/* 24.09, client QA: the conclusion gained a fourth paragraph and the last line
+   ran under the nav bar. The gap between paragraphs carried most of the height
+   (26px x3 = 78px), so it is the gap that gives way, not the type. */
+.think-conclusion { margin-top: 8px; }
+.think-conclusion p { margin: 0 0 14px; font-size: 22px; line-height: 1.5; }
 .think-conclusion p:last-child { margin-bottom: 0; }
 /* dev slide 9 — reserve names stay on one line, and the rows breathe */
 .think-table th, .think-table td { padding: 13px 20px; white-space: nowrap; }
@@ -3019,16 +3035,6 @@ p, li, h1, h2, h3, .scq-opt-text, .teach-q-text, .explain-body, .teach-intro {
     animation: none !important;
   }
 }
-
-/* UNIT-WIDE (client requirement, 14.09.26): an answer group is sized by its
-   LONGEST option, never a fixed column. The flex column's default
-   `align-items: stretch` then makes every pill match the widest one. */
-.scq-answers { width: fit-content; max-width: 584px; }
-/* the cap only exists to stop a runaway line; a long option should still get
-   ONE line where the column has room (producer 14.09.26, deck slide 43). The
-   flex row shrinks it back whenever something shares the row. */
-.quiz-screen .scq-answers { width: fit-content; max-width: min(100%, 1000px); }
-.teach-question .scq-answers { width: fit-content; max-width: 640px; }
 
 /* ── on-screen tables read at the SAME size as the copy around them
    (producer 15.09.26). The stem is 20px and the tables were 18px, so a table
