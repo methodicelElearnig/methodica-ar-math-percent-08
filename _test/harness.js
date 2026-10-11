@@ -1,4 +1,4 @@
-/* ═══════════════════ shared jsdom harness for methodica-math-percent-08 ═══════════════════
+/* ═══════════════════ shared jsdom harness for methodica-ar-math-percent-08 ═══════════════════
    NOT DEPLOYED. Dev tooling only. Used by verify-report.js, statement-flow.js and retry-gate.js.
 
    Unlike the ratio-01 harness (which executed the page scripts by hand and then REPLAYED the
@@ -23,7 +23,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 const BASE = process.argv[2] || path.join(__dirname, '..');
-const UNIT = 'methodica-math-percent-08';
+const UNIT = 'methodica-ar-math-percent-08';
 const COMPONENTS = ['01', '02', '03', '04'];
 const PART_DIR = c => UNIT + '-' + c;
 const RANGE = { '01': [0, 9], '02': [10, 27], '03': [28, 39], '04': [40, 48] };

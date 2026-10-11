@@ -1,5 +1,5 @@
 /* =====================================================================
-   methodica-math-percent-08 — unit logic (screens 0-48 = deck slides 4-60).
+   methodica-ar-math-percent-08 — unit logic (screens 0-48 = deck slides 4-60).
    Runs on the shared 720-core (engine.js / quiz-engine.js).
    ===================================================================== */
 

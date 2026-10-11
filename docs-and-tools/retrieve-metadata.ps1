@@ -60,7 +60,7 @@
 .EXAMPLE
     pwsh -File retrieve-metadata.ps1
 .EXAMPLE
-    pwsh -File retrieve-metadata.ps1 -UnitKey methodica-math-percent-08 -KeepRaw
+    pwsh -File retrieve-metadata.ps1 -UnitKey methodica-ar-math-percent-08 -KeepRaw
 #>
 [CmdletBinding()]
 param(

@@ -1,7 +1,7 @@
 {
-  "id": "https://lomdot.education.gov.il/metodica/720active/math/percent/08/methodica-math-percent-08-01/",
-  "title": "בואו נלמד משהו חדש",
-  "learningUnitId": "methodica-math-percent-08",
+  "id": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/",
+  "title": "هيا نتعلم شيئاً جديداً",
+  "learningUnitId": "methodica-ar-math-percent-08",
   "componentPurpose": "both",
   "isAssessment": false,
   "recommendedAfterFail": [],
@@ -10,62 +10,88 @@
   "masteryLevel": null,
   "order": 1,
   "depthLevel": "core-curriculum-basic",
-  "cognitiveLevels": ["process-thinking"],
-  "languages": ["Hebrew"],
+  "cognitiveLevels": [
+    "process-thinking"
+  ],
+  "languages": [
+    "Arabic"
+  ],
   "skills": [],
   "estimatedTimeInMinutes": 9,
-  "createdAt": "2026-09-24T00:00:00.000Z",
-  "updatedAt": "2026-09-24T00:00:00.000Z",
+  "createdAt": "2026-10-05T00:00:00.000Z",
+  "updatedAt": "2026-10-05T00:00:00.000Z",
   "subContent": [
     {
-      "id": "https://lomdot.education.gov.il/metodica/720active/math/percent/08/methodica-math-percent-08-01/methodica-math-percent-08-01-001/",
-      "title": "עוקבים בערוץ - עלייה וירידה של 20%",
+      "id": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/methodica-ar-math-percent-08-01-001/",
+      "title": "المتابعون في القناة - ارتفاع وانخفاض بنسبة 20%",
       "informationToBot": "מטרת הפריט: הוק פותח שמערער את האינטואיציה שעלייה וירידה באותו אחוז מבטלות זו את זו. באמצעות יישומון אינטראקטיבי (מספר עוקבים לערוץ, 10,000 בהתחלה), הלומד מעלה את הכמות ב-20%, 'נועל' את התוצאה, ואז מוריד ב-20% ובודק אם חזר לכמות המקורית. מה התלמיד אמור להבין: עלייה של 20% ואז ירידה של 20% אינן מבטלות זו את זו - כי ה-20% הירידה מחושבים מתוך הכמות המוגדלת (12,000), לא מתוך ה-10,000 המקוריים, ולכן התוצאה הסופית (8,000) נמוכה מהכמות המקורית. טעויות נפוצות: הנחה שאחוזים זהים בכיוונים מנוגדים 'מתאפסים' תמיד; אי-הבחנה בין הבסיס שממנו מחושב כל אחוז. מידע נוסף: הפריט כולל תוכן פתיחה (מסך המכריז שהיחידה כמעט מסתיימת) לפני השאלה, ותוכן סיכום/הכללה (דוגמאות נוספות מהחיים - הנחה אחרי עליית מחירים, שינוי במספר צעדים) אחרי מתן התשובה, שמסכם את התובנה ומכליל אותה לתחומים נוספים.",
       "contentType": "motivational",
       "mediaFormat": "interactive-content",
       "questions": [
         {
-          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/percent/08/methodica-math-percent-08-01/methodica-math-percent-08-01-001/q1",
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/methodica-ar-math-percent-08-01-001/q1",
           "questionType": "choice",
-          "questionText": "לערוץ של אלעד יש 10,000 עוקבים. בחודש ינואר הוא שחרר סרטון על התנדבות בבית האזרח הוותיק וכמות העוקבים צמחה ב-20%! בחודש שלאחר מכן כמות העוקבים קטנה ב-20%. מה ניתן לומר על מספר העוקבים בסוף החודש השני, בהשוואה ל-10,000 המקוריים? (השתמשו ביישומון: העלו את כמות העוקבים ב-20%, לחצו על נעילה, ואז הורידו ב-20%.)",
-          "answers": ["חזר בדיוק ל-10,000", "יש פחות מ-10,000", "יש יותר מ-10,000"],
-          "correctAnswers": ["יש פחות מ-10,000"]
+          "questionText": "لقناة عماد 10,000 متابع. في شهر يناير نشر فيديو عن التطوع في دار للمسنين، فارتفع عدد المتابعين بنسبة %20! في الشهر التالي انخفض عدد المتابعين بنسبة %20. ماذا يمكن القول عن عدد المتابعين في نهاية الشهر الثاني، مقارنةً مع الـ 10,000 الأصليين؟ افحصوا فرضيتكم: زيدوا عدد المتابعين بنسبة %20 واضغطوا على القفل لتثبيت عدد المتابعين الجديد. الآن قلِّلوا عدد المتابعين بنسبة %20. ما الإجابة؟",
+          "answers": [
+            "عاد العدد إلى 10,000 بالضبط",
+            "يوجد أقل من 10,000",
+            "يوجد أكثر من 10,000"
+          ],
+          "correctAnswers": [
+            "يوجد أقل من 10,000"
+          ]
         }
       ]
     },
     {
-      "id": "https://lomdot.education.gov.il/metodica/720active/math/percent/08/methodica-math-percent-08-01/methodica-math-percent-08-01-002/",
-      "title": "ביצי צבים - חישוב אחוז לעומת כמות (תרגול מונחה)",
+      "id": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/methodica-ar-math-percent-08-01-002/",
+      "title": "بيض السلاحف - حساب النسبة المئوية مقابل الكمية (تدريب موجَّه)",
       "informationToBot": "מטרת הפריט: תרגול מונחה (הלומד פותר יחד עם ליווי צמוד בכרטיס הנחיה) של תרחיש שלם - סופה שהתפזרו בה ביצי צבים בשתי סופות רצופות (12% ואז עוד 10% מ-15,000 ביצים), ובחינת טענת דן שהתפזרו 22%. מה התלמיד אמור להבין/לתרגל: (1) חישוב הכמות שנותרה אחרי שתי הפחתות רצופות (15,000·0.88·0.9=11,880) ובחינה שזה לא מספיק כדי לתמוך בטענת דן. (2) בניית טבלת פרופורציה כדי למצוא איזה אחוז מהוות 11,880 מתוך 15,000 (79.2%). (3) מסקנה שדן טועה - התפזרו 20.8% ולא 22%, כי אי אפשר לחבר אחוזים של הפחתות עוקבות. טעויות נפוצות: חיבור ישיר של האחוזים (12%+10%=22%) במקום הכפלת המקדמים העשרוניים; טעות בכיוון ההשוואה (100-79.2 במקום 79.2 עצמו). מידע נוסף: פריט זה בנוי כרצף של 4 מסכים רצופים (כרטיס הנחיה משותף), עם 3 שאלות ביניים (כן/לא, בחירת האחוז הנכון מתוך 3 אפשרויות, כן/לא) שמובילות את הלומד שלב אחר שלב לפתרון המלא.",
       "contentType": "solved-exercise",
       "mediaFormat": "text",
       "questions": [
         {
-          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/percent/08/methodica-math-percent-08-01/methodica-math-percent-08-01-002/q1",
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/methodica-ar-math-percent-08-01-002/q1",
           "questionType": "true-false",
-          "questionText": "נחשב את כמות הביצים שנותרו לאחר שתי הסופות (15,000 · 0.88 · 0.9 = 11,880). האם זה מספיק כדי לתמוך בטענה של דן שהתפזרו 22% מהביצים?",
-          "answers": ["כן", "לא"],
-          "correctAnswers": ["לא"]
+          "questionText": "نحسب كمية البيض التي بقيت بعد العاصفتين (15,000 · 0.88 · 0.9 = 11,880). هل يكفي ذلك لتأييد ادعاء وائل بأن %22 من البيض قد تفرّق؟",
+          "answers": [
+            "نعم",
+            "لا"
+          ],
+          "correctAnswers": [
+            "لا"
+          ]
         },
         {
-          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/percent/08/methodica-math-percent-08-01/methodica-math-percent-08-01-002/q2",
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/methodica-ar-math-percent-08-01-002/q2",
           "questionType": "choice",
-          "questionText": "נחשב את אחוז השינוי בכמות הביצים לאחר שתי הסופות באמצעות טבלת הפרופורציה (11,880 מתוך 15,000). איזה אחוז נותר מהביצים?",
-          "answers": ["79.5%", "79.2%", "78.5%"],
-          "correctAnswers": ["79.2%"]
+          "questionText": "نحسب نسبة التغيّر في كمية البيض بعد العاصفتين بواسطة جدول التناسب (11,880 من 15,000). أي نسبة مئوية بقيت من البيض؟",
+          "answers": [
+            "79.5%",
+            "79.2%",
+            "78.5%"
+          ],
+          "correctAnswers": [
+            "79.2%"
+          ]
         },
         {
-          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/percent/08/methodica-math-percent-08-01/methodica-math-percent-08-01-002/q3",
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/methodica-ar-math-percent-08-01-002/q3",
           "questionType": "true-false",
-          "questionText": "אם נותרו 79.2% מהביצים, זה אומר שהתפזרו 20.8%. האם דן צדק בטענתו שהתפזרו 22% מהביצים?",
-          "answers": ["כן", "לא"],
-          "correctAnswers": ["לא"]
+          "questionText": "إذا بقي %79.2 من البيض، فهذا يعني أن %20.8 منه قد تفرّق. هل كان وائل على صواب في ادعائه أن %22 من البيض قد تفرّق؟",
+          "answers": [
+            "نعم",
+            "لا"
+          ],
+          "correctAnswers": [
+            "لا"
+          ]
         }
       ]
     },
     {
-      "id": "https://lomdot.education.gov.il/metodica/720active/math/percent/08/methodica-math-percent-08-01/methodica-math-percent-08-01-003/",
-      "title": "השוואת מסוכנות בין שני חופי הטלה",
+      "id": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/methodica-ar-math-percent-08-01-003/",
+      "title": "مقارنة الخطورة بين شاطئَين لوضع البيض",
       "informationToBot": "מטרת הפריט: תוכן סיכום/הכללה - סרטון קצר (שאלה רטורית: 'באיזה חוף מסוכן יותר לצבים להטיל ביצים?') ולאחריו הצגת נתונים משוואתית בין שני חופים (חוף פלמחים: 15,000 ביצים, 3,120 נפגעו, 20.8%; חוף דור: 6,000 ביצים, 1,200 נפגעו, 20%). מה התלמיד אמור להבין: כדי להשוות סיכון יחסי בין שני מקומות שונים בגודלם, יש להסתכל על האחוז ולא על הכמות המוחלטת - למרות שבחוף פלמחים גם הכמות וגם האחוז של הביצים שנפגעו גבוהים יותר, ההשוואה הנכונה למסוכנות היחסית היא לפי האחוז (20.8% לעומת 20%). אין שאלה מוערכת בפריט זה - תוכן הסבר/סיכום בלבד, המקשר את מושג היחידה (הבחנה בין אחוז לכמות) לעלילת המסגרת (הצלת ביצי הצבים) שתלווה את שאר היחידה.",
       "contentType": "instruction",
       "mediaFormat": "video",

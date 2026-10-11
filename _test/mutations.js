@@ -1,4 +1,4 @@
-/* ═══════════════════ negative tests — methodica-math-percent-08 ═══════════════════
+/* ═══════════════════ negative tests — methodica-ar-math-percent-08 ═══════════════════
    NOT DEPLOYED. Dev tooling only. Guide §10.4: an assertion that cannot fail is worse than none.
 
    Each mutation breaks ONE thing in the real source, runs both suites, and requires that they
@@ -42,20 +42,20 @@ const M = [
     from: '  if (st.done) {\n    quizMarkOutcome(n, q, !!st.wasCorrect);\n    _paintDone(n, q, st);\n    return;\n  }\n  check.textContent = \'هل إجابتي صحيحة؟\';\n  quizHideFeedback(n);\n  if (st.attempts > 0) {\n    var hb = _hintBtn(n);\n    if (hb) hb.style.visibility = \'visible\';\n    /* Still',
     to: '  if (st.done) {\n    _paintDone(n, q, st);\n    return;\n  }\n  check.textContent = \'هل إجابتي صحيحة؟\';\n  quizHideFeedback(n);\n  if (st.attempts > 0) {\n    var hb = _hintBtn(n);\n    if (hb) hb.style.visibility = \'visible\';\n    /* Still', expect: /\[paint\]/ },
   { name: 'report posts the folder-regex slug again', file: 'unit-js/report-modal.js',
-    from: "  if (m && m.id) return _reportShort(m.id);", to: "  return 'methodica-math-percent-08-xx';", expect: /\[report\]/ },
+    from: "  if (m && m.id) return _reportShort(m.id);", to: "  return 'methodica-ar-math-percent-08-xx';", expect: /\[report\]/ },
   { name: 'resume emits no landing item (loader skips xapiOnScreen after a restore)', file: 'unit-js/50-loader.js',
     from: '            try { xapiOnScreen(currentScreen); } catch (e) {}', to: '            if (!_resumed) { try { xapiOnScreen(currentScreen); } catch (e) {} }', expect: /\[resume\]/ },
   { name: 'split screen reported as one verdict', file: 'unit-js/70-platform.js',
     from: '  if (keys.length === 1 || !split) {', to: '  if (true) {', expect: /\[split\]/ },
-  { name: 'guided item leaks into the component score', file: 'methodica-math-percent-08-01/script.js',
+  { name: 'guided item leaks into the component score', file: 'methodica-ar-math-percent-08-01/script.js',
     from: "var XAPI_EVAL_ITEMS   = { '001': 1 };", to: "var XAPI_EVAL_ITEMS   = { '001': 1, '002': 1 };", expect: /\[(guided|eval)\]/ },
-  { name: 'a declared question left silent (D-9)', file: 'methodica-math-percent-08-04/script.js',
+  { name: 'a declared question left silent (D-9)', file: 'methodica-ar-math-percent-08-04/script.js',
     from: "  47: ['001', ['q5', 'q6', 'q7', 'q8'], 'rows']", to: "  47: ['001', ['q5', 'q6', 'q7'], 'rows']", expect: /\[qmap\]/ },
-  { name: 'a screen missing from the map', file: 'methodica-math-percent-08-03/script.js',
+  { name: 'a screen missing from the map', file: 'methodica-ar-math-percent-08-03/script.js',
     from: "  35: null,             // transition into the coupons block\n", to: '', expect: /\[map\]/ },
-  { name: '?v= mismatch between components', file: 'methodica-math-percent-08-02/index.html',
+  { name: '?v= mismatch between components', file: 'methodica-ar-math-percent-08-02/index.html',
     from: '<script src="../unit-js/20-xapi.js?v=21"></script>', to: '<script src="../unit-js/20-xapi.js?v=99"></script>', expect: /\[v\]/ },
-  { name: 'pass mark counted over the wrong set', file: 'methodica-math-percent-08-03/script.js',
+  { name: 'pass mark counted over the wrong set', file: 'methodica-ar-math-percent-08-03/script.js',
     from: "  ['005/q1', '005/q2']\n] };", to: "  ['005/q1', '005/q2'],\n  ['006/q1']\n] };", expect: /\[pass\]/ },
 ];
 

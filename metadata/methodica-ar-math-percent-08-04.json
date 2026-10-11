@@ -1,0 +1,123 @@
+{
+  "id": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-04/",
+  "title": "سؤال القمة",
+  "learningUnitId": "methodica-ar-math-percent-08",
+  "componentPurpose": "practice",
+  "isAssessment": true,
+  "recommendedAfterFail": [],
+  "isRequired": true,
+  "relativeDifficulty": 5,
+  "masteryLevel": null,
+  "order": 4,
+  "depthLevel": "core-curriculum-basic",
+  "cognitiveLevels": [
+    "interpretation-and-reasoning"
+  ],
+  "languages": [
+    "Arabic"
+  ],
+  "skills": [],
+  "estimatedTimeInMinutes": 16,
+  "createdAt": "2026-10-05T00:00:00.000Z",
+  "updatedAt": "2026-10-05T00:00:00.000Z",
+  "subContent": [
+    {
+      "id": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-04/methodica-ar-math-percent-08-04-001/",
+      "title": "سؤال القمة: مزارع تفريخ بيض السلاحف (5 بنود)",
+      "informationToBot": "מטרת הפריט: שאלת השיא של היחידה - תרחיש שלם על שתי חוות הדגרה לביצי צבים (חווה א': 300 ביצים, 82% בקיעות מוצלחות; חווה ב': 250 ביצים, 86% בקיעות מוצלחות), הבודק את כל היכולות שנלמדו ביחידה: חישוב אחוז מכמות, השוואת אחוז מול כמות מוחלטת, וחישוב הגדלה כפולה עוקבת. תתי-סעיפים: א) חישוב כמות הבקיעות המוצלחות בכל חווה (0.82·300=246, 0.86·250=215). ב) קביעה איזו חווה בטוחה יותר להדגרה - חווה ב' (אחוז הצלחה גבוה יותר, 86%>82%), למרות שבפועל היו בה פחות בקיעות מוצלחות השנה (215<246) בגלל כמות ביצים קטנה יותר שהועברה אליה. ג-ד) חישוב מלאי ביצים חדש בחווה ב' אחרי שלושה משלוחים עוקבים (1,200 ביצים, ואז הגדלה של 10% ואז 20% נוספים = 1,584 ביצים) וחישוב אחוז הגידול הכולל מהמקור (32%, לא 30%). ה) הערכת ארבע טענות נכון/לא נכון על סמך הנתונים שחושבו בסעיפים הקודמים - היפוך סדר משלוחי ההגדלה, טענה על אחוז בקיעה כולל, השוואת בקיעות בין החוות, והשפעת ירידה עתידית של 32% על המלאי. מה התלמיד אמור להבין: שילוב מלא של אחוז מכמות, אחוז יחסי מול כמות מוחלטת, והכפלת אחוזים עוקבים על בסיס משתנה. טעויות נפוצות: בחירת החווה בעלת מספר הבקיעות הגדול יותר בפועל (חווה א') במקום זו עם אחוז ההצלחה הגבוה יותר (חווה ב'), מבלי להבין שהאחוז הוא המדד הרלוונטי להחלטה לעתיד; חיבור ישיר של אחוזי הגידול (10%+20%=30%) במקום הכפלת המקדמים (1.1·1.2=1.32, כלומר 32%); טעות בסעיף ה בהערכת טענה שמניחה שהיפוך סדר בין שתי הגדלות אחוזיות משנה את התוצאה.",
+      "contentType": "practice",
+      "mediaFormat": "interactive-content",
+      "questions": [
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-04/methodica-ar-math-percent-08-04-001/q1",
+          "questionType": "fill-in",
+          "questionText": "في السنة الماضية أيضًا، نُقل بيض إلى مزارع تفريخ، وجُمعت المعطيات التالية حول نسب الفقس الناجح لبيض السلاحف البحرية: نُقلت إلى مزرعة التفريخ أ 300 بيضة بالمجمل، وسُجّلت منها نسبة فقس ناجح %82 . في مزرعة التفريخ ب، نُقلت بالمجمل 250 بيضة، وسُجّلت منها نسبة فقس ناجح %86. أ. أكملوا الجدول: عدد حالات الفقس الناجح في كل مزرعة: المزرعة أ ___، المزرعة ب ___.",
+          "answers": [],
+          "correctAnswers": [
+            "المزرعة أ: 246، المزرعة ب: 215"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-04/methodica-ar-math-percent-08-04-001/q2",
+          "questionType": "choice",
+          "questionText": "انظروا إلى الجدول وحدّدوا: ب. في أي مزرعة يكون تفريخ البيض أكثر أمانًا؟",
+          "answers": [
+            "في المزرعة ب - نسبة النجاح أعلى، وكلما زادت كمية البيض الذي يتم تفريخه، سيفقس عدد أكبر من السلاحف.",
+            "في المزرعة أ - كان فيها عدد حالات فقس ناجح أكبر في السنة الماضية. فقست 31 سلحفاة أكثر!",
+            "لا يمكن تحديد ذلك بسبب نقص المعطيات مثل حالة الطقس ومدى خطر الحيوانات المفترسة في المحمية التي أُقيمت فيها المزرعتان.",
+            "عدد السلاحف البحرية التي فقست في كل واحدة من المزرعتين متساوٍ، لأن نسبة الفقس في كلتيهما كانت أعلى من %80."
+          ],
+          "correctAnswers": [
+            "في المزرعة ب - نسبة النجاح أعلى، وكلما زادت كمية البيض الذي يتم تفريخه، سيفقس عدد أكبر من السلاحف."
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-04/methodica-ar-math-percent-08-04-001/q3",
+          "questionType": "numeric",
+          "questionText": "نظرًا إلى كمية البيض التي تفرّقت، تقرَّرَ نقل جزء كبير منها إلى المزرعة ب. احتوت الشحنة الأولى على 1,200 بيضة. واحتوت الشحنة الثانية على %10 أكثر من الشحنة الأولى، فيما احتوت الشحنة الثالثة على %20 من الشحنة الثانية. ت. كم بيضة ستكون في المزرعة ب في نهاية العملية؟",
+          "answers": [],
+          "correctAnswers": [
+            1584
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-04/methodica-ar-math-percent-08-04-001/q4",
+          "questionType": "numeric",
+          "questionText": "ث. ما هي نسبة الزيادة مقارنةً بالكمية الأصلية البالغة 1,200 بيضة؟",
+          "answers": [],
+          "correctAnswers": [
+            32
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-04/methodica-ar-math-percent-08-04-001/q5",
+          "questionType": "true-false",
+          "questionText": "جـ. ساعدوا إدارة السلطة وحددوا ما إذا كان كل ادعاء صحيحًا أم لا: «لو أجرينا شحنتَيّ الزيادة بترتيب عكسي (%20 أولًا، ثم %10)، لكانت النتيجة النهائية مختلفة\".»",
+          "answers": [
+            "صحيح",
+            "غير صحيح"
+          ],
+          "correctAnswers": [
+            "غير صحيح"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-04/methodica-ar-math-percent-08-04-001/q6",
+          "questionType": "true-false",
+          "questionText": "جـ. ساعدوا إدارة السلطة وحددوا ما إذا كان كل ادعاء صحيحًا أم لا: «بما أن هناك 1,584 بيضة إضافية تراكمت في المزرعة ب بالإضافة إلى الـ 1,200 بيضة الأصلية، ستكون نسبة الفقس الإجمالية في المزرعة أكبر من %86\".»",
+          "answers": [
+            "صحيح",
+            "غير صحيح"
+          ],
+          "correctAnswers": [
+            "غير صحيح"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-04/methodica-ar-math-percent-08-04-001/q7",
+          "questionType": "true-false",
+          "questionText": "جـ. ساعدوا إدارة السلطة وحددوا ما إذا كان كل ادعاء صحيحًا أم لا: «لو نقلنا الشحنات الثلاث (1,584 بيضة) إلى المزرعة أ بدلًا من المزرعة ب، لفقس عدد أقل من السلاحف مقارنةً بعدد السلاحف التي ستفقس في المزرعة ب\".»",
+          "answers": [
+            "صحيح",
+            "غير صحيح"
+          ],
+          "correctAnswers": [
+            "صحيح"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-04/methodica-ar-math-percent-08-04-001/q8",
+          "questionType": "true-false",
+          "questionText": "جـ. ساعدوا إدارة السلطة وحددوا ما إذا كان كل ادعاء صحيحًا أم لا: «إذا فقدنا بسبب مرض وراثي %32 من كمية البيض الحالية في المزرعة ب (1,584)، سيبقى أقل من 1,200 بيضة\".»",
+          "answers": [
+            "صحيح",
+            "غير صحيح"
+          ],
+          "correctAnswers": [
+            "صحيح"
+          ]
+        }
+      ]
+    }
+  ]
+}

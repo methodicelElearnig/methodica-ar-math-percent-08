@@ -1,4 +1,4 @@
-/* ═══════════════════ behavioural statement-flow oracle — methodica-math-percent-08 ═══════════════════
+/* ═══════════════════ behavioural statement-flow oracle — methodica-ar-math-percent-08 ═══════════════════
    NOT DEPLOYED. Dev tooling only.
 
    verify-report.js asserts STRUCTURE. This asserts BEHAVIOUR: which statements actually leave the
@@ -54,7 +54,7 @@ async function freshLoad() {
   const s1 = since(b, n);
   eq('fresh', 'goTo(1) → exactly one statement: initialized on item 001', s1.map(s => s.verb), ['initialized']);
   ok('fresh', 'it names the item and flags it evaluated',
-     s1[0] && /methodica-math-percent-08-01-001\/$/.test(s1[0].objectId) && s1[0].opts.isEvaluationItem === true, JSON.stringify(s1[0]));
+     s1[0] && /methodica-ar-math-percent-08-01-001\/$/.test(s1[0].objectId) && s1[0].opts.isEvaluationItem === true, JSON.stringify(s1[0]));
 
   n = b.stmts().length;
   b.exec('goTo(2);');
@@ -129,7 +129,7 @@ async function hints() {
   b.exec('quizOpenHint(13); quizCloseHint(); quizOpenHint(13); quizCloseHint();');
   const h = since(b, n);
   eq('hint', 'opening the hint twice → one requested.1', h.map(s => s.verb), ['requested.1']);
-  ok('hint', 'against the screen\'s declared question', h[0] && /methodica-math-percent-08-02-002\/q1$/.test(h[0].opts.questionId), h[0] && h[0].opts.questionId);
+  ok('hint', 'against the screen\'s declared question', h[0] && /methodica-ar-math-percent-08-02-002\/q1$/.test(h[0].opts.questionId), h[0] && h[0].opts.questionId);
   const b2 = await reload(b, { c: '02' });
   b2.exec('goTo(13);');
   n = b2.stmts().length;
@@ -287,7 +287,7 @@ async function componentEnd() {
   n = b.stmts().length;
   b.exec(`goTo(10);`);                                        // the same exit, again (keyboard / a second click)
   eq('end', 'a second exit → zero statements (ledger)', since(b, n).length, 0);
-  ok('end', 'no statement ever names the unit', !b.stmts().some(s => s.objectId === 'methodica-math-percent-08'));
+  ok('end', 'no statement ever names the unit', !b.stmts().some(s => s.objectId === 'methodica-ar-math-percent-08'));
 
   const b2 = await reload(b, { c: '01' });
   eq('end', 'a reload lands back on the finished screen', b2.val('currentScreen'), 9);
@@ -521,9 +521,9 @@ async function report() {
   eq('report', 'exactly one POST to the shared form', f.length, 1);
   const sent = b.json(`(function(){ var f = window.__fetches.filter(function(x){ return /docs\\.google\\.com/.test(x.url); })[0]; var o = {}; f.init.body.forEach(function(v,k){ o[k] = v; }); o.__mode = f.init.mode; o.__isParams = f.init.body instanceof URLSearchParams; return o; })()`);
   ok('report', 'no-cors, URLSearchParams', sent.__mode === 'no-cors' && sent.__isParams === true, JSON.stringify(sent));
-  eq('report', 'unit slug from METADATA', sent['entry.1933069481'], 'methodica-math-percent-08');
-  eq('report', 'component slug from METADATA (never "-xx")', sent['entry.2070680092'], 'methodica-math-percent-08-02');
-  eq('report', 'the item from SCREEN_TO_SUBCONTENT', sent['entry.1555704258'], 'methodica-math-percent-08-02-002');
+  eq('report', 'unit slug from METADATA', sent['entry.1933069481'], 'methodica-ar-math-percent-08');
+  eq('report', 'component slug from METADATA (never "-xx")', sent['entry.2070680092'], 'methodica-ar-math-percent-08-02');
+  eq('report', 'the item from SCREEN_TO_SUBCONTENT', sent['entry.1555704258'], 'methodica-ar-math-percent-08-02-002');
   eq('report', 'the page within the item', sent['entry.1671046914'], '2');
   eq('report', 'the Hebrew problem-type label', sent['entry.1179822443'], 'شيء غير واضح لي');
   eq('report', 'the free text verbatim', sent['entry.806447525'], 'בדיקה QA');

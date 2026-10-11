@@ -21,7 +21,7 @@
     This file never ships: docs-and-tools/ is excluded wholesale, and *.ps1 twice over.
 
 .NOTES
-    methodica-math-percent-08 — copied from methodica-math-ratio-01 (35648a6). Changed:
+    methodica-ar-math-percent-08 — copied from methodica-math-ratio-01 (35648a6). Changed:
     $ComponentGlob (this unit only), the producer's original applet export excluded,
     and unit-css / unit-assets dropped (this unit has neither).
 
@@ -57,7 +57,7 @@ $UnitDirs = @{
 
 # Inside a component folder: these files, plus everything under assets/.
 $ComponentFiles = @('index.html', 'script.js', 'styles.css')
-$ComponentGlob  = 'methodica-math-percent-08-[0-9][0-9]'
+$ComponentGlob  = 'methodica-ar-math-percent-08-[0-9][0-9]'
 
 # ── Hygiene: if any of these turn up INSIDE a package, it is unsafe to upload ──
 $SecretPatterns = @('*key*', '*.ps1', '*.log', 'index_dev.html', 'README.md', '.git*', '_*')

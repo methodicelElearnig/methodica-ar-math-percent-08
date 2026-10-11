@@ -18,7 +18,7 @@ const puppeteer = require('puppeteer-core');
 const ROOT = path.resolve(__dirname, '..');
 const BASE_ARG = process.argv[2];
 const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const P = 'methodica-math-percent-08-';
+const P = 'methodica-ar-math-percent-08-';
 let pass = 0; const failures = [];
 const ok = (scope, name, cond, detail) => { if (cond) pass++; else failures.push('  [' + scope + '] ' + name + (detail ? '\n      -> ' + detail : '')); };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
