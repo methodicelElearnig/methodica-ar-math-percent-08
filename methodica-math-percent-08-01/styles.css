@@ -60,6 +60,10 @@ html, body {
   inset: 0;
   display: grid;
   place-items: center;
+  /* One track the size of the window: with auto tracks a window smaller than the 1280x710 #app slid
+     the canvas off-screen with the bottom-bar buttons (KNOWN-ISSUES §1; ratio-06 2d46837). */
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
 }
 
 #app {
@@ -3080,6 +3084,36 @@ p, li, h1, h2, h3, .scq-opt-text, .teach-q-text, .explain-body, .teach-intro {
 /* dev 37: an amount and its ₪, or a number and its %, never split across
    lines inside an answer. */
 .nowrap { white-space: nowrap; }
+
+/* ── Dropdowns are drawn by us, not by the browser (MOE 05.10, 03-002: "הסימון עולה על התשובה").
+   The ✓/✗ sits inside the select at the reading edge, kept off the value by padding-right — which
+   Safari ignores on a native <select> (appearance:auto), so there the mark covered the answer.
+   appearance:none makes every browser honour the padding; the native arrow is redrawn as a left
+   chevron, kept alongside the mark. Same fix as proportion-01 (f135521). ── */
+:root {
+  --icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23555' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.slot-select, .dd-select, .year-select {
+  -webkit-appearance: none; appearance: none;
+  background-image: var(--icon-chevron);
+  background-repeat: no-repeat;
+  background-size: 12px 8px;
+  background-position: left 12px center;
+  padding-left: 34px;
+}
+.slot-select.mark-ok, .dd-select.correct, .year-select.correct {
+  background-image: var(--icon-correct), var(--icon-chevron);
+}
+.slot-select.mark-bad, .dd-select.wrong, .year-select.wrong {
+  background-image: var(--icon-incorrect), var(--icon-chevron);
+}
+.slot-select.mark-ok, .slot-select.mark-bad, .dd-select.correct, .dd-select.wrong,
+.year-select.correct, .year-select.wrong {
+  background-repeat: no-repeat, no-repeat;
+  background-size: 22px 22px, 12px 8px;
+  background-position: right 8px center, left 12px center;
+  padding-left: 34px; padding-right: 38px;
+}
 
 /* ── גרסה ערבית: פונט Calibri לטקסט הערבי בלבד (פונט מערכת — לא ארוז, לא ניתן להפצה).
    unicode-range מגביל את Calibri לתווים ערביים ולספרות 0-9; אותיות לטיניות נשארות ב-Assistant.

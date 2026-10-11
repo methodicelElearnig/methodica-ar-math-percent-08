@@ -204,7 +204,7 @@ async function splits() {
   const r = since(b, n).filter(s => /^answered/.test(s.verb));
   eq('split', 's47 (four statements) → four answered with distinct questionIds', r.map(s => s.opts.questionId.split('/').pop()), ['q5', 'q6', 'q7', 'q8']);
   eq('split', 'row verdicts: only the first wrong', r.map(s => s.result.success), [false, true, true, true]);
-  ok('split', 'the answer text is the Hebrew label', r[1] && /נכון/.test(r[1].result.extensions.student_answer[0]), r[1] && r[1].result.extensions.student_answer[0]);
+  ok('split', 'the answer text is the Hebrew label', r[1] && /صحيح/.test(r[1].result.extensions.student_answer[0]), r[1] && r[1].result.extensions.student_answer[0]);
   b.close();
 }
 
@@ -260,7 +260,7 @@ async function guided() {
   eq('guided', 'a guided pick → one answered.last', g.map(s => s.verb), ['answered.last']);
   ok('guided', 'with the fictive result success:true / scaled:1, whatever was picked', g[0] && g[0].result.success === true && g[0].result.score.scaled === 1, JSON.stringify(g[0] && g[0].result));
   ok('guided', 'against 002/q1', g[0] && /-01-002\/q1$/.test(g[0].opts.questionId), g[0] && g[0].opts.questionId);
-  ok('guided', "the learner's pick is the answer text", g[0] && g[0].result.extensions.student_answer[0] === 'כן', g[0] && g[0].result.extensions.student_answer[0]);
+  ok('guided', "the learner's pick is the answer text", g[0] && g[0].result.extensions.student_answer[0] === 'نعم', g[0] && g[0].result.extensions.student_answer[0]);
   const res = b.json('partResult()');
   ok('guided', 'the guided item never enters the component score (only s1 counts)', res && res.score && (res.score.scaled === 0 || res.score.scaled === 1), JSON.stringify(res));
   ok('guided', 'item 002 is not an evaluation item', b.val(`_xapiIsEval('002')`) === false);
@@ -368,7 +368,7 @@ async function resume() {
   ok('resume', 'and the Retry gate still holds after the reload', b2.val(`document.getElementById('q15-check').disabled`) === true);
   b2.exec('goTo(13);');
   ok('resume', 'an answered screen visited after the reload is painted done (correct marked, locked)',
-     b2.val(`document.querySelector('#q13 .scq-opt.correct') !== null && document.getElementById('q13-check').textContent === 'שנמשיך?'`) === true);
+     b2.val(`document.querySelector('#q13 .scq-opt.correct') !== null && document.getElementById('q13-check').textContent === 'متابعة'`) === true);
   ok('resume', 'XAPI_Q_RESULTS came back', b2.val(`XAPI_Q_RESULTS['002/q1']`) === true);
   ok('resume', 'no console.error', b2.errors.length === 0, b2.errors.join(' | '));
 
@@ -399,7 +399,7 @@ async function youtube() {
      b.val(`window.__ytPlayers.every(function(p){ return p.el.tagName === 'IFRAME' && !p.cfg.videoId && !p.cfg.playerVars; })`) === true);
   await H.sleep(20);
   ok('yt', 'the Hebrew iframe titles survive the API renaming them (accessible name)',
-     b.val(`Array.prototype.every.call(document.querySelectorAll('iframe[data-yt-item]'), function(f){ return /[\\u0590-\\u05FF]/.test(f.getAttribute('title')); })`) === true,
+     b.val(`Array.prototype.every.call(document.querySelectorAll('iframe[data-yt-item]'), function(f){ return /[\\u0600-\\u06FF]/.test(f.getAttribute('title')); })`) === true,
      b.json(`Array.prototype.map.call(document.querySelectorAll('iframe[data-yt-item]'), function(f){ return f.getAttribute('title'); })`));
   const srcs = b.json(`Array.prototype.map.call(document.querySelectorAll('iframe[data-yt-item]'), function(f){ return f.getAttribute('src'); })`);
   ok('d1', 'no iframe src carries the launch query (canary / registration / slxapi / forigin / widget_referrer)',
@@ -525,7 +525,7 @@ async function report() {
   eq('report', 'component slug from METADATA (never "-xx")', sent['entry.2070680092'], 'methodica-math-percent-08-02');
   eq('report', 'the item from SCREEN_TO_SUBCONTENT', sent['entry.1555704258'], 'methodica-math-percent-08-02-002');
   eq('report', 'the page within the item', sent['entry.1671046914'], '2');
-  eq('report', 'the Hebrew problem-type label', sent['entry.1179822443'], 'משהו לא ברור לי');
+  eq('report', 'the Hebrew problem-type label', sent['entry.1179822443'], 'شيء غير واضح لي');
   eq('report', 'the free text verbatim', sent['entry.806447525'], 'בדיקה QA');
   ok('report', 'the thank-you shows', b.val(`!document.getElementById('report-thanks').hasAttribute('hidden')`) === true);
   b.close();
