@@ -39,7 +39,8 @@ param(
     [switch] $DryRun,
     [string] $ApiKey,
     [string] $BaseUrl,
-    [string] $MetadataDir
+    [string] $MetadataDir,
+    [string] $ParentUnitKey
 )
 
 # ============================================================================
@@ -83,6 +84,19 @@ $LogFile = Join-Path $PSScriptRoot 'send-metadata.log'
 # the next live run of this script would have overwritten a working launch path with a dead
 # one, for every component of this unit.
 #
+# PARENT UNIT — the Arabic components join the EXISTING Hebrew unit; there is no Arabic unit
+# in KATA. KATA binds a learning objective to exactly one unit (a separate Arabic unit got
+# 409 "objective already bound to a unit (strict 1:1)" — methodica-ar-math-ratio-01 on 2026-09-24,
+# this unit on 2026-10-11), and the KATA team's instruction (2026-09-25) is to add the Arabic
+# components to the existing unit, as methodica-ar-math-ratio-01 and
+# methodica-ar-science-mass-measure-01 do.
+#
+# When set, the unit is READ-ONLY: one GET confirms it exists, *_unit.json is not read, and
+# no POST/PATCH ever goes to the unit — a PATCH here would overwrite the Hebrew unit's title,
+# sectors and audience with this repo's values. Components are created under this key.
+# -ParentUnitKey '' restores the original behaviour (upsert this repo's own *_unit.json).
+if (-not $PSBoundParameters.ContainsKey('ParentUnitKey')) { $ParentUnitKey = 'methodica-math-percent-08' }
+
 # Take this from the unit's own DEPLOY.md deploy target. No trailing slash.
 # Arabic hosting path, as methodica-ar-math-ratio-01 (set 11.10.26 with the slug rename; the Hebrew
 # unit's value was confirmed on 28.09.26). Confirm against this unit's DEPLOY.md before the first send. Change it only together
@@ -513,18 +527,28 @@ Write-Log ("Base URL     : {0}" -f $BaseUrl)
 Write-Log ("Metadata dir : {0}" -f $MetadataDir)
 Write-Log ("Mode         : {0}" -f $modeLabel)
 
-# 1) Unit
-$unitFile = Get-ChildItem -Path $MetadataDir -Filter '*_unit.json' | Select-Object -First 1
-if (-not $unitFile) { Write-Log "No *_unit.json found in $MetadataDir" 'ERROR'; exit 1 }
-$unit = Get-Content -Raw -Path $unitFile.FullName -Encoding UTF8 | ConvertFrom-Json
-$unitKey = Get-Slug $unit.id
+# 1) Unit — either an existing parent unit (read-only) or this repo's own unit (upserted)
+if ($ParentUnitKey) {
+    $unitKey = $ParentUnitKey
+    Write-Log ("Parent unit  : {0} (read-only, not modified)" -f $unitKey)
+    $r = Invoke-Kata 'GET' "/api/v1/content-units/$unitKey" $null
+    $unitOk = $DryRun -or ($r.Code -eq '200')
+    if (-not $unitOk) {
+        Write-Log ("Parent unit {0} not found or not readable (HTTP {1}) — nothing sent." -f $unitKey, $r.Code) 'ERROR'
+    }
+} else {
+    $unitFile = Get-ChildItem -Path $MetadataDir -Filter '*_unit.json' | Select-Object -First 1
+    if (-not $unitFile) { Write-Log "No *_unit.json found in $MetadataDir" 'ERROR'; exit 1 }
+    $unit = Get-Content -Raw -Path $unitFile.FullName -Encoding UTF8 | ConvertFrom-Json
+    $unitKey = Get-Slug $unit.id
 
-$unitBody  = New-UnitBody $unit
-$unitPatch = Remove-Key $unitBody 'uniqueKey'
-$unitOk = Send-Entity -Label "unit $unitKey" `
-    -GetPath "/api/v1/content-units/$unitKey" `
-    -CreateMethod 'POST' -CreatePath '/api/v1/content-units' -CreateBody $unitBody `
-    -PatchPath "/api/v1/content-units/$unitKey" -PatchBody $unitPatch
+    $unitBody  = New-UnitBody $unit
+    $unitPatch = Remove-Key $unitBody 'uniqueKey'
+    $unitOk = Send-Entity -Label "unit $unitKey" `
+        -GetPath "/api/v1/content-units/$unitKey" `
+        -CreateMethod 'POST' -CreatePath '/api/v1/content-units' -CreateBody $unitBody `
+        -PatchPath "/api/v1/content-units/$unitKey" -PatchBody $unitPatch
+}
 
 if (-not $unitOk) {
     Write-Log "Unit upsert failed — skipping components (cannot nest under a missing unit)." 'ERROR'

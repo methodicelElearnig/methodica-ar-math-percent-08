@@ -6,6 +6,29 @@
 
 # Sending metadata to the Kata catalog
 
+## This unit: Arabic components inside the existing Hebrew unit
+
+`methodica-ar-math-percent-08` has **no unit of its own in KATA**. KATA binds a learning
+objective to exactly one unit, and `MOE.MATH.G8.NUM.PCT.PERCENT.ABS-CHG` is already bound to the
+Hebrew `methodica-math-percent-08`; a separate Arabic unit was rejected
+(`409 "objective already bound to a unit (strict 1:1)"`, 2026-10-11, as for ratio-01 on
+2026-09-24). The KATA team's instruction is to add the Arabic components to the existing unit.
+
+So the script runs in **parent-unit mode** by default: `$ParentUnitKey =
+'methodica-math-percent-08'` (the Hebrew unit; override with `-ParentUnitKey`).
+
+- The parent unit is **read-only**: one `GET` confirms it exists, then the 4 components
+  and 19 items are created under `/api/v1/content-units/methodica-math-percent-08/components`.
+  No `POST` / `PATCH` ever goes to the unit — a `PATCH` would overwrite the Hebrew unit's
+  title, sectors and audience.
+- `metadata/methodica-ar-math-percent-08_unit.json` is **not read or sent**; it stays in the
+  repo as a record of the unit's own metadata.
+- The Arabic components keep the orders 1-4, the same numbers as the Hebrew ones (KATA accepts
+  repeated orders in one unit, as ratio-01 and mass-measure-01 show).
+- A clean dry run reports `created=23 updated=1 failed=0` (4 components + 19 items, plus the
+  `LINKED` line for `-03`'s `recommendedAfterFail`).
+- `-ParentUnitKey ''` restores the original behaviour (upsert this repo's `*_unit.json`).
+
 `send-metadata.ps1` pushes the repo-root `metadata/` folder (1 unit + 6 components +
 25 items) into the Katalog (Kata) catalog at `https://kata.cet.ac.il/api/v1`.
 It **upserts**: for each entity it does a `GET` by uniqueKey, then `PATCH` if it
