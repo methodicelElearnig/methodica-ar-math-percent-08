@@ -381,7 +381,7 @@ async function liveChecks() {
         locked: s.querySelectorAll('.scq-opt.locked').length,
         disabledInputs: Array.prototype.filter.call(s.querySelectorAll('.vi-input, .slot-select'), function(i){ return i.disabled; }).length,
         disabledPills: s.querySelectorAll('.stmt-pill:disabled').length }; })()`);
-      ok('paint', c + ': s' + n + ' (' + q.type + ') restored as answered: "שנמשיך?" + correct feedback', look.btn === 'שנמשיך?' && /is-correct/.test(look.fb), JSON.stringify(look));
+      ok('paint', c + ': s' + n + ' (' + q.type + ') restored as answered: "שנמשיך?" + correct feedback', look.btn === 'متابعة' && /is-correct/.test(look.fb), JSON.stringify(look));
       ok('paint', c + ': s' + n + ' shows the answer (correct marks on screen)', look.correct > 0, JSON.stringify(look));
       if (q.type === 'single' || q.type === 'multi') ok('paint', c + ': s' + n + ' options locked', look.locked === q.options.length, JSON.stringify(look));
       if (q.type === 'value-input') ok('paint', c + ': s' + n + ' boxes disabled and holding the answer', look.disabledInputs === q.correctInputs.length && p2.val(`quizSlots(${n}).map(function(i){return i.value;}).join('|')`) === q.correctInputs.join('|'), JSON.stringify(look));
