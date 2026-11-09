@@ -135,7 +135,9 @@ function onQuizAnswered(screen, q, st, correct) {
   } else if (split === 'rows') {
     keys.forEach(function (k, i) {
       var v = (st.selectedSet || [])[i];
-      xapiAnswered(item, k, v === String(q.statements[i].correct), isLast, _stmtLabel(v));
+      /* true/false: report the row's pick ('true' / 'false'), not the "صحيح" label — Kata's
+         correctXapiResponsesPattern is the boolean (guide §6.3b) */
+      xapiAnswered(item, k, v === String(q.statements[i].correct), isLast, v == null ? '' : String(v));
     });
   }
 }

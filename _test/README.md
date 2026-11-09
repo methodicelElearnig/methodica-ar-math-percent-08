@@ -15,6 +15,7 @@ and could not run here. It was replaced.)
 | `harness.js` | Shared jsdom boot. Runs the **real** loader (see below). |
 | `verify-report.js` | **Structure**, plus the sweeps across every question. ~1,400 assertions. |
 | `statement-flow.js` | **Behaviour**: which statements leave, in what order, with what result, and which do **not** leave on a reload or a back step. ~110 assertions. |
+| `true-false.js` | Guide §6.3b (10.11.26): 04-001 q5-q8 (s47's four statement rows, the only true-false questions graded in code) answered right, wrong twice and mixed report `true` / `false`, never `صحيح` / `غير صحيح`; the value equals the correct answer exactly when `success`. 39 of its 56 checks fail on the code before. 01-002 q1/q3 (guided, نعم / لا) are not covered: fictive result, and Kata declares no question on that item. |
 | `mutations.js` | **Negative tests.** Breaks one thing at a time in the real source and requires the suites to fail with the expected tag. Restores every file byte for byte. |
 | `xapi-720-k.js` | Local stand-in for the CDN library, backed by `sessionStorage`. Taken from ratio-01; only the unit's keys changed. Loaded in the browser through `?xapiLib=` (localhost only). |
 
