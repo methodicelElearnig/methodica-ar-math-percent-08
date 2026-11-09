@@ -319,19 +319,59 @@ async function componentEnd() {
   c2.close();
 }
 
-/* ══════════════ 8. Report-only pass marks ══════════════ */
+/* ══════════════ 8. Pass marks — the score contract ══════════════
+   MOE QA runbook §4 "ציון ומעבר"; 2026-11-09, 08.11 sheet fixes 1, 2, 6 (pilot body-matter-01 75559c9).
+   For each component with a pass mark: every combination of its sets' questions (all of them right /
+   one wrong / unanswered per set) gives success = passed sets >= need, scaled = passed sets / sets,
+   success <=> scaled >= need / sets. A set with a sub-question wrong contributes 0. Questions outside
+   the sets (03's 006/007) never move the result. */
+const SCORE_CONTRACT = {
+  '02': { need: 4, sets: [['002/q1'], ['003/q1', '003/q2'], ['004/q1'], ['005/q1'], ['006/q1', '006/q2', '006/q3'], ['007/q1', '007/q2', '007/q3']], outside: [] },
+  '03': { need: 4, sets: [['001/q1'], ['002/q1'], ['003/q1'], ['004/q1'], ['005/q1', '005/q2']], outside: ['006/q1', '006/q2', '006/q3', '007/q1'] },
+  '04': { need: 4, sets: [['001/q1'], ['001/q2'], ['001/q3'], ['001/q4'], ['001/q5', '001/q6', '001/q7', '001/q8']], outside: [] }
+};
 async function passMarks() {
+  for (const c of Object.keys(SCORE_CONTRACT)) {
+    const sc = SCORE_CONTRACT[c], N = sc.sets.length;
+    const b = H.boot(c);
+    await b.ready;
+    eq('score', c + ': the test table matches PART_PASS', b.json('PART_PASS'), { need: sc.need, sets: sc.sets });
+    /* each set: 0 = all right, 1 = its last question wrong (a multi-question set: the others right), 2 = unanswered */
+    const bad = []; let partialSeen = 0, cases = 0;
+    const total = Math.pow(3, N);
+    for (let m = 0; m < total; m++) {
+      const states = []; let x = m;
+      for (let i = 0; i < N; i++) { states.push(x % 3); x = Math.floor(x / 3); }
+      for (const outsideOk of (sc.outside.length ? [false, true] : [false])) {
+        const res = {};
+        sc.sets.forEach((set, i) => set.forEach((k, j) => {
+          if (states[i] === 2) return;
+          res[k] = states[i] === 0 ? true : j !== set.length - 1;
+        }));
+        sc.outside.forEach((k) => { res[k] = outsideOk; });
+        b.exec('Object.keys(XAPI_Q_RESULTS).forEach(function(k){ delete XAPI_Q_RESULTS[k]; }); Object.assign(XAPI_Q_RESULTS, ' + JSON.stringify(res) + ');');
+        const r = b.json('partResult()');
+        const passed = states.filter((s) => s === 0).length;
+        if (states.some((s, i) => s === 1 && sc.sets[i].length > 1)) partialSeen++;
+        cases++;
+        if (!r || !r.score || r.success !== (passed >= sc.need) || Math.abs(r.score.scaled - passed / N) > 1e-9 ||
+            r.success !== (r.score.scaled >= sc.need / N - 1e-9)) bad.push(states.join('') + (outsideOk ? '+out' : '') + '→' + JSON.stringify(r));
+      }
+    }
+    ok('score', c + ': all ' + cases + ' combinations: success = passed sets >= ' + sc.need + ', scaled = passed sets / ' + N + ', success <=> scaled >= ' + sc.need + '/' + N,
+       bad.length === 0, bad.length + ' bad, e.g. ' + bad.slice(0, 3).join(' | '));
+    ok('score', c + ': partly-right multi-question sets were exercised', partialSeen > 0 || sc.sets.every((s) => s.length === 1), String(partialSeen));
+    b.close();
+  }
+
+  /* the cases the old tests named, now under the contract */
   const b = H.boot('03');
   await b.ready;
   const set = (m) => b.exec('Object.keys(XAPI_Q_RESULTS).forEach(function(k){ delete XAPI_Q_RESULTS[k]; });' +
     Object.keys(m).map(k => `XAPI_Q_RESULTS['${k}'] = ${m[k]};`).join(''));
-  set({ '001/q1': true, '002/q1': true, '003/q1': true, '004/q1': true, '005/q1': false, '005/q2': true });
-  let r = b.json('partResult()');
-  ok('pass', '03: 4 of 5 basic stations → success:true', r.success === true, JSON.stringify(r));
   set({ '001/q1': true, '002/q1': true, '003/q1': true, '004/q1': false, '005/q1': false, '005/q2': true, '006/q1': true, '006/q2': true, '006/q3': true, '007/q1': true });
-  r = b.json('partResult()');
-  ok('pass', '03: 3 of 5 basic → success:false, whatever 006/007 say', r.success === false, JSON.stringify(r));
-  ok('pass', '03: scaled counts every graded question (8/10)', Math.abs(r.score.scaled - 0.8) < 1e-9, JSON.stringify(r));
+  let r = b.json('partResult()');
+  ok('score', '03: 3 of 5 basic + all of 006/007 → success:false, scaled 3/5 (006/007 never count)', r.success === false && Math.abs(r.score.scaled - 0.6) < 1e-9, JSON.stringify(r));
   b.close();
 
   const c = H.boot('04');
@@ -339,17 +379,17 @@ async function passMarks() {
   c.exec(`XAPI_Q_RESULTS['001/q1']=true; XAPI_Q_RESULTS['001/q2']=true; XAPI_Q_RESULTS['001/q3']=true; XAPI_Q_RESULTS['001/q4']=false;` +
     ['q5', 'q6', 'q7', 'q8'].map(k => `XAPI_Q_RESULTS['001/${k}']=true;`).join(''));
   r = c.json('partResult()');
-  ok('pass', '04: 4 of 5 sections (statement grid all right) → success:true', r.success === true && Math.abs(r.score.scaled - 7 / 8) < 1e-9, JSON.stringify(r));
+  ok('score', '04: 4 of 5 sections (statement grid all right) → success:true, scaled 4/5', r.success === true && Math.abs(r.score.scaled - 0.8) < 1e-9, JSON.stringify(r));
   c.exec(`XAPI_Q_RESULTS['001/q8']=false;`);
   r = c.json('partResult()');
-  ok('pass', '04: one wrong statement fails that section → 3 of 5 → success:false', r.success === false, JSON.stringify(r));
+  ok('score', '04: one wrong statement fails the grid section → 3 of 5 → success:false, scaled 3/5', r.success === false && Math.abs(r.score.scaled - 0.6) < 1e-9, JSON.stringify(r));
   c.close();
 
   const d = H.boot('02');
   await d.ready;
   d.exec(`XAPI_Q_RESULTS['002/q1']=true; XAPI_Q_RESULTS['003/q1']=true; XAPI_Q_RESULTS['003/q2']=true; XAPI_Q_RESULTS['004/q1']=true; XAPI_Q_RESULTS['005/q1']=true; XAPI_Q_RESULTS['006/q1']=false;`);
   r = d.json('partResult()');
-  ok('pass', '02: 4 of 6 zone items → success:true; scaled 5/11', r.success === true && Math.abs(r.score.scaled - 5 / 11) < 1e-9, JSON.stringify(r));
+  ok('score', '02: 4 of 6 zone items → success:true, scaled 4/6 (was 5/11 over sub-questions)', r.success === true && Math.abs(r.score.scaled - 4 / 6) < 1e-9, JSON.stringify(r));
   d.close();
 }
 

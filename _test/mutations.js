@@ -56,7 +56,7 @@ const M = [
   { name: '?v= mismatch between components', file: 'methodica-ar-math-percent-08-02/index.html',
     from: '<script src="../unit-js/20-xapi.js?v=21"></script>', to: '<script src="../unit-js/20-xapi.js?v=99"></script>', expect: /\[v\]/ },
   { name: 'pass mark counted over the wrong set', file: 'methodica-ar-math-percent-08-03/script.js',
-    from: "  ['005/q1', '005/q2']\n] };", to: "  ['005/q1', '005/q2'],\n  ['006/q1']\n] };", expect: /\[pass\]/ },
+    from: "  ['005/q1', '005/q2']\n] };", to: "  ['005/q1', '005/q2'],\n  ['006/q1']\n] };", expect: /\[score\]/ },
 ];
 
 function run(suite) {
