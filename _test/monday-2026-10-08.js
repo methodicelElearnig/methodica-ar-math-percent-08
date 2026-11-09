@@ -99,6 +99,9 @@ const ANSWER = async (n, right) => {
       if (stations < 4) {
         ok(scope, '"שנמשיך?" stays on s34', st.screen === 34, 'screen=' + st.screen);
         ok(scope, 'component completed, success:false', comp.length === 1 && comp[0].r && comp[0].r.success === false, JSON.stringify(comp));
+        /* score contract (2026-11-09, 08.11 sheet fixes 1, 2, 6): scaled = passed stations / 5, the same count */
+        ok(scope, 'score contract: scaled = ' + stations + '/5', comp.length === 1 && comp[0].r && comp[0].r.score &&
+           Math.abs(comp[0].r.score.scaled - stations / 5) < 1e-9, JSON.stringify(comp));
         ok(scope, 'button disabled', st.dis === true);
         await page.keyboard.press('ArrowLeft'); await sleep(200);
         ok(scope, 'the arrow key does not pass it either', await page.evaluate(() => currentScreen) === 34);

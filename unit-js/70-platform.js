@@ -193,26 +193,29 @@ function lastScreenButton() {
 
 /* The component result, from XAPI_Q_RESULTS — the same truth the 'answered' statements carried,
    so the component score cannot disagree with them. Unanswered questions count as not correct.
-     scaled  = correct graded questions / all graded questions of the component (XAPI_EVAL_ITEMS)
-     success = REPORT-ONLY pass mark (decision 28.09.26, docs-and-tools/PASS-MARKS.md): PART_PASS
-               counts the "sets" the screen promised — each set passes when all its questions are
-               correct — against `need`. Nothing ever blocks the learner on it; below the mark the
-               component still ends, reports success:false, and the platform routes on
-               recommendedAfterFail. No PART_PASS (component 01) → success:true.
-   ⚠️ The gate is not the score: two learners can share `scaled` with opposite `success` (§6.4). */
+   With a pass mark (PART_PASS, docs-and-tools/PASS-MARKS.md: the "sets" the screen promised, each
+   set passing when all its questions are correct; 02, 03, 04):
+     success = passed sets >= need,  scaled = passed sets / number of sets — one count
+     (2026-11-09, 08.11 sheet fixes 1, 2, 6: a question with sub-questions counts once, and
+     questions outside the promised sets — 03's 006/007 — keep their own answered but never enter
+     the component result; until now scaled = correct graded questions / all graded questions).
+   Below the mark the component reports success:false and the platform routes on
+   recommendedAfterFail. No PART_PASS (component 01) → success:true, scaled = correct graded
+   questions / all graded questions of the component (XAPI_EVAL_ITEMS). */
+function _setsPassed(sets) {
+  return sets.filter(function (set) {
+    return set.every(function (k) { return XAPI_Q_RESULTS[k] === true; });
+  }).length;
+}
 function partResult() {
+  var pass = (typeof PART_PASS !== 'undefined') ? PART_PASS : null;
+  if (pass && pass.sets) {
+    var passed = _setsPassed(pass.sets);
+    return { success: passed >= pass.need, score: { scaled: passed / pass.sets.length } };
+  }
   var keys = _partQKeys(true);
   var n = keys.filter(function (k) { return !!XAPI_Q_RESULTS[k]; }).length;
-  var scaled = keys.length ? n / keys.length : 0;
-  var pass = (typeof PART_PASS !== 'undefined') ? PART_PASS : null;
-  var success = true;
-  if (pass && pass.sets) {
-    var passed = pass.sets.filter(function (set) {
-      return set.every(function (k) { return !!XAPI_Q_RESULTS[k]; });
-    }).length;
-    success = passed >= pass.need;
-  }
-  return { success: success, score: { scaled: scaled } };
+  return { success: true, score: { scaled: keys.length ? n / keys.length : 0 } };
 }
 
 /* ── A mid-component stop (XAPI_STOP in script.js; only 03 declares one) ──
@@ -230,8 +233,7 @@ function _stopFailed() {
     return set.every(function (k) { return typeof XAPI_Q_RESULTS[k] === 'boolean'; });
   });
   if (!complete) return false;
-  var passed = s.sets.filter(function (set) { return set.every(function (k) { return XAPI_Q_RESULTS[k] === true; }); }).length;
-  return passed < s.need;
+  return _setsPassed(s.sets) < s.need;
 }
 function stopBlocks(n) { var s = _stop(); return !!s && n === s.at && inPart(n) && _stopFailed(); }
 function stopButton() { var s = _stop(); return s ? document.getElementById('q' + s.at + '-check') : null; }

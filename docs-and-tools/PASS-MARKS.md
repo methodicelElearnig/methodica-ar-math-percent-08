@@ -40,8 +40,11 @@ turns that into the component result.
 **What gets counted.**
 - A **set** passes when every question in it was answered correctly.
 - `success` is true when the number of passed sets is at least `need`.
-- `score.scaled` is the number of correct graded questions divided by all graded questions in the
-  component. That means every question of every item in `XAPI_EVAL_ITEMS`.
+- `score.scaled` is the number of passed sets divided by the number of sets — the same count as
+  `success`. **Changed 2026-11-09** (MOE sheet 08.11, fixes 1, 2, 6): until then it was the number of
+  correct graded questions divided by all graded questions in `XAPI_EVAL_ITEMS`, so sub-questions
+  counted one by one and 03's 006/007 entered the score. They still send their own `answered`.
+  The example table below ("the gate is not the score") describes the old rule.
 
 **When it is sent.** At the component's **last click**:
 
