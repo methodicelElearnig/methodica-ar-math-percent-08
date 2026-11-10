@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>النسب المئوية — الوحدة ‎4.8</title>
+<!-- The shared xAPI library is fetched by unit-js/50-loader.js from the end of the body, after the parser
+     has queued every image; preloading it from the head puts it FIRST in the queue (2026-11-03,
+     BOOT-AND-RESUME-HARDENING §2.3). The href must equal what 50-loader.js builds (no ?v=, no
+     crossorigin) or the browser fetches it twice; the letter changes together with LIB720 there. -->
+<link rel="preload" as="script" fetchpriority="high" href="https://lomdot.education.gov.il/metodica/720active/common/xapiwrapper.min.js">
+<link rel="preload" as="script" fetchpriority="high" href="https://lomdot.education.gov.il/metodica/720active/common/xapi-720-l.js">
+<link rel="preconnect" href="https://kata.cet.ac.il">
 <link rel="stylesheet" href="assets/fonts/fonts.css?v=18">
 <link rel="stylesheet" href="styles.css?v=19">
 </head>
@@ -17,6 +24,11 @@
   <div id="boot-cover" style="position:fixed;inset:0;z-index:9999;background:#ffffff"></div>
   <script>
   (function () {
+    /* A Kata launch (registration in the query) may have a document to restore: raise the flag HERE,
+       before any script is fetched. bootXAPI raises it too, but from the last script tag, which on a cold
+       cache arrives after the 800 ms below — the cover dropped before the flag existed (2026-11-03).
+       Without a registration (local, dev) the 800 ms behaviour is unchanged. */
+    if (/[?&]registration=/.test(location.search)) window.__resumeInFlight = true;
     var t0 = Date.now();
     function tick() {
       var c = document.getElementById('boot-cover');
@@ -75,11 +87,11 @@
       <div class="hookclose-row">
         <div class="hookclose-examples" data-reveal="2">
           <figure class="hookclose-card">
-            <img src="assets/img/hook-shirt_AR.jpg" alt="بلوزة في متجر عليها بطاقة خصم بنسبة %25">
+            <img src="assets/img/hook-shirt_AR.jpg" alt="بلوزة في متجر عليها بطاقة خصم بنسبة %25" loading="lazy">
             <figcaption>خصم بعد ارتفاع رفع الأسعار مباشرةً‎.</figcaption>
           </figure>
           <figure class="hookclose-card">
-            <img src="assets/img/hook-steps_AR.jpg" alt="هاتف يعرض عدّادًا أسبوعيًا لـ 10,000 خطوة">
+            <img src="assets/img/hook-steps_AR.jpg" alt="هاتف يعرض عدّادًا أسبوعيًا لـ 10,000 خطوة" loading="lazy">
             <figcaption>ارتفاع عدد الخطوات أسبوعًا تلو الآخر.</figcaption>
           </figure>
         </div>
@@ -87,7 +99,7 @@
     </div>
     <div class="character-widget hookclose-widget" data-reveal="3" data-reveal-fade>
       <div class="speech-bubble">واو، لم يعد العدد إلى ما كان عليه!<br>هيّا نفهم السبب‎.</div>
-      <img src="assets/img/monster.png" alt="الشخصية المرافقة">
+      <img src="assets/img/monster.png" alt="الشخصية المرافقة" loading="lazy">
     </div>
     <button class="btn-continue" id="s2-continue" onclick="goTo(3)">متابعة</button>
     <button class="btn-back" onclick="goTo(1)">عودة</button>
@@ -223,17 +235,17 @@
        (unit-js/README.md): the shared layer first (definition-only), then this component's
        configuration, then the engine, then 70-platform.js, and 90-boot.js LAST in its own tag.
        Every ?v= is identical across the four components — bump them together. -->
-  <script src="../unit-js/10-identity.js?v=18"></script>
+  <script src="../unit-js/10-identity.js?v=19"></script>
   <script src="../unit-js/20-xapi.js?v=21"></script>
-  <script src="../unit-js/40-resume.js?v=18"></script>
-  <script src="../unit-js/50-loader.js?v=18"></script>
+  <script src="../unit-js/40-resume.js?v=19"></script>
+  <script src="../unit-js/50-loader.js?v=19"></script>
   <script src="script.js?v=19"></script>
   <script src="../unit-js/motion.js?v=18"></script>
   <script src="../unit-js/quiz-engine.js?v=18"></script>
   <script src="../unit-js/questions.js?v=18"></script>
   <script src="../unit-js/report-modal.js?v=18"></script>
   <script src="../unit-js/unit.js?v=18"></script>
-  <script src="../unit-js/engine.js?v=20"></script>
+  <script src="../unit-js/engine.js?v=21"></script>
   <script src="../unit-js/70-platform.js?v=22"></script>
   <script src="../unit-js/90-boot.js?v=18"></script>
 </body>

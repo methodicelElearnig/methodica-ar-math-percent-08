@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>النسب المئوية — الوحدة ‎4.8</title>
+<!-- The shared xAPI library is fetched by unit-js/50-loader.js from the end of the body, after the parser
+     has queued every image; preloading it from the head puts it FIRST in the queue (2026-11-03,
+     BOOT-AND-RESUME-HARDENING §2.3). The href must equal what 50-loader.js builds (no ?v=, no
+     crossorigin) or the browser fetches it twice; the letter changes together with LIB720 there. -->
+<link rel="preload" as="script" fetchpriority="high" href="https://lomdot.education.gov.il/metodica/720active/common/xapiwrapper.min.js">
+<link rel="preload" as="script" fetchpriority="high" href="https://lomdot.education.gov.il/metodica/720active/common/xapi-720-l.js">
+<link rel="preconnect" href="https://kata.cet.ac.il">
 <link rel="stylesheet" href="assets/fonts/fonts.css?v=18">
 <link rel="stylesheet" href="styles.css?v=19">
 </head>
@@ -17,6 +24,11 @@
   <div id="boot-cover" style="position:fixed;inset:0;z-index:9999;background:#ffffff"></div>
   <script>
   (function () {
+    /* A Kata launch (registration in the query) may have a document to restore: raise the flag HERE,
+       before any script is fetched. bootXAPI raises it too, but from the last script tag, which on a cold
+       cache arrives after the 800 ms below — the cover dropped before the flag existed (2026-11-03).
+       Without a registration (local, dev) the 800 ms behaviour is unchanged. */
+    if (/[?&]registration=/.test(location.search)) window.__resumeInFlight = true;
     var t0 = Date.now();
     function tick() {
       var c = document.getElementById('boot-cover');
@@ -71,7 +83,7 @@
 <!-- ══ S12 — slide 22: FullImageWithTextOverlay, studio lead-in (Q1) ══ -->
   <section class="screen" data-screen="12" id="s12">
     <div class="story-stage" data-reveal="1">
-      <img class="story-bg" src="assets/img/studio.jpg" alt="" aria-hidden="true">
+      <img class="story-bg" src="assets/img/studio.jpg" alt="" aria-hidden="true" loading="lazy">
       <div class="story-bubble sb-tail-up" style="right: 143px; top: 375px; width: 320px;" data-reveal="2">
         ساعدونا للحظة في حل مسألة صغيرة، وبعدها سننشر فيديو يدعو متابعينا إلى التطوع للبحث عن بيض السلاحف‎.
       </div>
@@ -83,7 +95,7 @@
 <!-- ══ S14 — slide 24: FullImageWithTextOverlay, school lead-in (Q2-Q4) ══ -->
   <section class="screen" data-screen="14" id="s14">
     <div class="story-stage" data-reveal="1">
-      <img class="story-bg" src="assets/img/teachers-room.png" alt="" aria-hidden="true">
+      <img class="story-bg" src="assets/img/teachers-room.png" alt="" aria-hidden="true" loading="lazy">
       <div class="story-bubble story-bubble--dark sb-tail-left" style="right: 152px; top: 82px; width: 320px;" data-reveal="2">
         <p>بالطبع يمكنني مساعدتكم في إيجاد متطوعين في المدرسة‎!</p>
         <p>لكن ماذا عن مهام الرياضيات؟</p>
@@ -97,7 +109,7 @@
 <!-- ══ S19 — slide 29: FullImageWithTextOverlay, parents lead-in (Q5) ══ -->
   <section class="screen" data-screen="19" id="s19">
     <div class="story-stage" data-reveal="1">
-      <img class="story-bg" src="assets/img/kitchen-table_AR.jpg" alt="" aria-hidden="true">
+      <img class="story-bg" src="assets/img/kitchen-table_AR.jpg" alt="" aria-hidden="true" loading="lazy">
       <div class="story-bubble sb-tail-up" style="right: 205px; top: 269px; width: 372px;" data-reveal="2">
         <p>بالطبع سنأتي للمساعدة في العثور على بيض السلاحف‎!</p>
         <p>فقط ساعدونا في تحديد أي قسيمة أوفر، وسننطلق‎!</p>
@@ -110,7 +122,7 @@
 <!-- ══ S21 — slide 33: FullImageWithTextOverlay, band-night lead-in (Q6) ══ -->
   <section class="screen" data-screen="23" id="s23">
     <div class="story-stage" data-reveal="1">
-      <img class="story-bg" src="assets/img/stage-council_AR.jpg" alt="" aria-hidden="true">
+      <img class="story-bg" src="assets/img/stage-council_AR.jpg" alt="" aria-hidden="true" loading="lazy">
       <div class="story-bubble sb-tail-up" style="right: 148px; top: 375px; width: 372px;" data-reveal="2">
         <p>بالطبع سنأتي للمساعدة في العثور على بيض السلاحف‎!</p>
         <p>ساعدونا في إنهاء قائمة الفِرق المشارِكة في العرض، وسنأتي للمساعدة في البحث‎.</p>
@@ -126,7 +138,7 @@
        pulled in here to the 25px page margin. ══ -->
   <section class="screen" data-screen="27" id="s27">
     <div class="story-stage" data-reveal="1">
-      <img class="story-bg" src="assets/img/beach-volunteers.jpg" alt="" aria-hidden="true">
+      <img class="story-bg" src="assets/img/beach-volunteers.jpg" alt="" aria-hidden="true" loading="lazy">
       <div class="story-panel" data-reveal="2">
         <p>بعد إتمام جميع المهام، وصل متطوعون من جميع أنحاء البلاد للمساعدة في البحث عن البيض الذي اختفى في شاطئ دور وشاطئ بلماحيم والعثور عليه‎!</p>
         <p>هذا نجاح رائع‎!</p>
@@ -204,17 +216,17 @@
        (unit-js/README.md): the shared layer first (definition-only), then this component's
        configuration, then the engine, then 70-platform.js, and 90-boot.js LAST in its own tag.
        Every ?v= is identical across the four components — bump them together. -->
-  <script src="../unit-js/10-identity.js?v=18"></script>
+  <script src="../unit-js/10-identity.js?v=19"></script>
   <script src="../unit-js/20-xapi.js?v=21"></script>
-  <script src="../unit-js/40-resume.js?v=18"></script>
-  <script src="../unit-js/50-loader.js?v=18"></script>
+  <script src="../unit-js/40-resume.js?v=19"></script>
+  <script src="../unit-js/50-loader.js?v=19"></script>
   <script src="script.js?v=19"></script>
   <script src="../unit-js/motion.js?v=18"></script>
   <script src="../unit-js/quiz-engine.js?v=18"></script>
   <script src="../unit-js/questions.js?v=18"></script>
   <script src="../unit-js/report-modal.js?v=18"></script>
   <script src="../unit-js/unit.js?v=18"></script>
-  <script src="../unit-js/engine.js?v=20"></script>
+  <script src="../unit-js/engine.js?v=21"></script>
   <script src="../unit-js/70-platform.js?v=22"></script>
   <script src="../unit-js/90-boot.js?v=18"></script>
 </body>

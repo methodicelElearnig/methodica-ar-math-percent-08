@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>النسب المئوية — الوحدة ‎4.8</title>
+<!-- The shared xAPI library is fetched by unit-js/50-loader.js from the end of the body, after the parser
+     has queued every image; preloading it from the head puts it FIRST in the queue (2026-11-03,
+     BOOT-AND-RESUME-HARDENING §2.3). The href must equal what 50-loader.js builds (no ?v=, no
+     crossorigin) or the browser fetches it twice; the letter changes together with LIB720 there. -->
+<link rel="preload" as="script" fetchpriority="high" href="https://lomdot.education.gov.il/metodica/720active/common/xapiwrapper.min.js">
+<link rel="preload" as="script" fetchpriority="high" href="https://lomdot.education.gov.il/metodica/720active/common/xapi-720-l.js">
+<link rel="preconnect" href="https://kata.cet.ac.il">
 <link rel="stylesheet" href="assets/fonts/fonts.css?v=18">
 <link rel="stylesheet" href="styles.css?v=19">
 </head>
@@ -17,6 +24,11 @@
   <div id="boot-cover" style="position:fixed;inset:0;z-index:9999;background:#ffffff"></div>
   <script>
   (function () {
+    /* A Kata launch (registration in the query) may have a document to restore: raise the flag HERE,
+       before any script is fetched. bootXAPI raises it too, but from the last script tag, which on a cold
+       cache arrives after the 800 ms below — the cover dropped before the flag existed (2026-11-03).
+       Without a registration (local, dev) the 800 ms behaviour is unchanged. */
+    if (/[?&]registration=/.test(location.search)) window.__resumeInFlight = true;
     var t0 = Date.now();
     function tick() {
       var c = document.getElementById('boot-cover');
@@ -78,7 +90,7 @@
   <section class="screen" data-screen="41" id="s41">
     <div class="story-stage" data-reveal="1">
       <img class="story-bg bg-crop-t1136" src="assets/img/final-hatchery.jpg"
-           alt="صورة أفقية لمزرعة تفريخ للسلاحف البحرية في شاطئ بلماحيم في يوم صافٍ: مزرعة محاطة بسياج خشبي وشبكة معدنية، وفي داخلها نحو اثني عشر قفصًا شبكيًا أخضر لحماية أعشاش السلاحف البحرية. إلى اليسار شريط رملي واسع يمتد حتى خط المياه، وإلى اليمين كثبان رملية طبيعية تغطيها نباتات ساحلية منخفضة‎.">
+           alt="صورة أفقية لمزرعة تفريخ للسلاحف البحرية في شاطئ بلماحيم في يوم صافٍ: مزرعة محاطة بسياج خشبي وشبكة معدنية، وفي داخلها نحو اثني عشر قفصًا شبكيًا أخضر لحماية أعشاش السلاحف البحرية. إلى اليسار شريط رملي واسع يمتد حتى خط المياه، وإلى اليمين كثبان رملية طبيعية تغطيها نباتات ساحلية منخفضة‎." loading="lazy">
       <div class="story-panel sp-53" data-reveal="2">
         <p>السلاحف البحرية التي تفرّخ في إسرائيل معرضة لخطر الانقراض‎.</p>
         <p>كل مجهود يساعد السلاحف الصغيرة على الفقس والوصول إلى البحر، سيساهم في زيادة أعدادها في الطبيعة‎.</p>
@@ -99,7 +111,7 @@
   <section class="screen" data-screen="43" id="s43">
     <div class="story-stage" data-reveal="1">
       <img class="story-bg bg-crop-t1136" src="assets/img/final-rangers_AR.jpg"
-           alt="مراقبان للطبيعة يرتديان زيًا ميدانيًا بلون كاكي وعليه شعار سلطة الطبيعة والحدائق، يقفان على شاطئ رملي ويتحدثان. في الخلفية سياج خشبي وشبكة تحيط بمنطقة رملية توجد فيها أقفاص حماية لبيض السلاحف، وخلف السياج بحر أزرق وتلال رملية مغطاة بنباتات منخفضة‎.">
+           alt="مراقبان للطبيعة يرتديان زيًا ميدانيًا بلون كاكي وعليه شعار سلطة الطبيعة والحدائق، يقفان على شاطئ رملي ويتحدثان. في الخلفية سياج خشبي وشبكة تحيط بمنطقة رملية توجد فيها أقفاص حماية لبيض السلاحف، وخلف السياج بحر أزرق وتلال رملية مغطاة بنباتات منخفضة‎." loading="lazy">
       <div class="story-bubble sb-tail-left-low sb-55" data-reveal="2">
         <p>أعتقد أنه من المفضل هذه السنة نقل البيض إلى المزرعة الأكثر نجاحًا‎.</p>
         <p>إلى أين يُفضّل نقل كمية إضافية من البيض؟</p>
@@ -118,7 +130,7 @@
   <section class="screen" data-screen="46" id="s46">
     <div class="story-stage" data-reveal="1">
       <img class="story-bg bg-crop-58" src="assets/img/final-hatchlings.jpg"
-           alt="صورة من زاوية منخفضة من داخل مزرعة لتفريخ السلاحف البحرية: فتحة في السياج الخشبي والشبكة، تزحف من خلالها صغار السلاحف البحرية خارج المنطقة المحمية في طريقها إلى البحر، وتظهر آثار زحفها على الرمال. على الجانبين أقفاص شبكية خضراء، وفي الخلفية شاطئ رملي واسع وأمواج البحر‎.">
+           alt="صورة من زاوية منخفضة من داخل مزرعة لتفريخ السلاحف البحرية: فتحة في السياج الخشبي والشبكة، تزحف من خلالها صغار السلاحف البحرية خارج المنطقة المحمية في طريقها إلى البحر، وتظهر آثار زحفها على الرمال. على الجانبين أقفاص شبكية خضراء، وفي الخلفية شاطئ رملي واسع وأمواج البحر‎." loading="lazy">
       <div class="story-panel sp-58" data-reveal="2">
         <p>استخدام المعطيات مهم ليس فقط لإنقاذ السلاحف هذه المرة، بل أيضًا لوضع خطط عمل للسنوات المقبلة‎.</p>
         <p>تعالوا نساعد طاقم الإدارة على تحديد الطريقة الصحيحة للعمل‎.</p>
@@ -137,7 +149,7 @@
   <section class="screen" data-screen="48" id="s48">
     <div class="story-stage" data-reveal="1">
       <img class="story-bg bg-crop-b2521" src="assets/img/final-sunset.jpg"
-           alt="صورة لشاطئ عند الغروب: عشرات من صغار السلاحف البحرية تزحف فوق الرمال الرطبة وتترك وراءها آثارًا في طريقها إلى المياه. بعض السلاحف قد وصلوا إلى خط الأمواج، وتنعكس أشعة الشمس المنخفضة على المياه والرمال الرطبة‎.">
+           alt="صورة لشاطئ عند الغروب: عشرات من صغار السلاحف البحرية تزحف فوق الرمال الرطبة وتترك وراءها آثارًا في طريقها إلى المياه. بعض السلاحف قد وصلوا إلى خط الأمواج، وتنعكس أشعة الشمس المنخفضة على المياه والرمال الرطبة‎." loading="lazy">
         <div class="story-panel sp-60" data-reveal="2">
         <p>نهاية سعيدة حقًا!</p>
         <p>بفضل مساعدتكم - وصلت السلاحف إلى البحر</p>
@@ -213,17 +225,17 @@
        (unit-js/README.md): the shared layer first (definition-only), then this component's
        configuration, then the engine, then 70-platform.js, and 90-boot.js LAST in its own tag.
        Every ?v= is identical across the four components — bump them together. -->
-  <script src="../unit-js/10-identity.js?v=18"></script>
+  <script src="../unit-js/10-identity.js?v=19"></script>
   <script src="../unit-js/20-xapi.js?v=21"></script>
-  <script src="../unit-js/40-resume.js?v=18"></script>
-  <script src="../unit-js/50-loader.js?v=18"></script>
+  <script src="../unit-js/40-resume.js?v=19"></script>
+  <script src="../unit-js/50-loader.js?v=19"></script>
   <script src="script.js?v=19"></script>
   <script src="../unit-js/motion.js?v=18"></script>
   <script src="../unit-js/quiz-engine.js?v=18"></script>
   <script src="../unit-js/questions.js?v=18"></script>
   <script src="../unit-js/report-modal.js?v=18"></script>
   <script src="../unit-js/unit.js?v=18"></script>
-  <script src="../unit-js/engine.js?v=20"></script>
+  <script src="../unit-js/engine.js?v=21"></script>
   <script src="../unit-js/70-platform.js?v=22"></script>
   <script src="../unit-js/90-boot.js?v=18"></script>
 </body>
