@@ -49,45 +49,7 @@
       "informationToBot": "מטרת הפריט: תרגול מונחה (הלומד פותר יחד עם ליווי צמוד בכרטיס הנחיה) של תרחיש שלם - סופה שהתפזרו בה ביצי צבים בשתי סופות רצופות (12% ואז עוד 10% מ-15,000 ביצים), ובחינת טענת דן שהתפזרו 22%. מה התלמיד אמור להבין/לתרגל: (1) חישוב הכמות שנותרה אחרי שתי הפחתות רצופות (15,000·0.88·0.9=11,880) ובחינה שזה לא מספיק כדי לתמוך בטענת דן. (2) בניית טבלת פרופורציה כדי למצוא איזה אחוז מהוות 11,880 מתוך 15,000 (79.2%). (3) מסקנה שדן טועה - התפזרו 20.8% ולא 22%, כי אי אפשר לחבר אחוזים של הפחתות עוקבות. טעויות נפוצות: חיבור ישיר של האחוזים (12%+10%=22%) במקום הכפלת המקדמים העשרוניים; טעות בכיוון ההשוואה (100-79.2 במקום 79.2 עצמו). מידע נוסף: פריט זה בנוי כרצף של 4 מסכים רצופים (כרטיס הנחיה משותף), עם 3 שאלות ביניים (כן/לא, בחירת האחוז הנכון מתוך 3 אפשרויות, כן/לא) שמובילות את הלומד שלב אחר שלב לפתרון המלא.",
       "contentType": "solved-exercise",
       "mediaFormat": "text",
-      "questions": [
-        {
-          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/methodica-ar-math-percent-08-01-002/q1",
-          "questionType": "true-false",
-          "questionText": "نحسب كمية البيض التي بقيت بعد العاصفتين (15,000 · 0.88 · 0.9 = 11,880). هل يكفي ذلك لتأييد ادعاء وائل بأن %22 من البيض قد تفرّق؟",
-          "answers": [
-            "نعم",
-            "لا"
-          ],
-          "correctAnswers": [
-            "لا"
-          ]
-        },
-        {
-          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/methodica-ar-math-percent-08-01-002/q2",
-          "questionType": "choice",
-          "questionText": "نحسب نسبة التغيّر في كمية البيض بعد العاصفتين بواسطة جدول التناسب (11,880 من 15,000). أي نسبة مئوية بقيت من البيض؟",
-          "answers": [
-            "79.5%",
-            "79.2%",
-            "78.5%"
-          ],
-          "correctAnswers": [
-            "79.2%"
-          ]
-        },
-        {
-          "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/methodica-ar-math-percent-08-01-002/q3",
-          "questionType": "true-false",
-          "questionText": "إذا بقي %79.2 من البيض، فهذا يعني أن %20.8 منه قد تفرّق. هل كان وائل على صواب في ادعائه أن %22 من البيض قد تفرّق؟",
-          "answers": [
-            "نعم",
-            "لا"
-          ],
-          "correctAnswers": [
-            "لا"
-          ]
-        }
-      ]
+      "questions": []
     },
     {
       "id": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-01/methodica-ar-math-percent-08-01-003/",
