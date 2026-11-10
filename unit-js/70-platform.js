@@ -329,11 +329,17 @@ function capturePartPayload() {
       if (g) gs[k] = { done: !!g.done, selected: g.selected == null ? null : g.selected };
     });
   }
+  /* the video gate (unit.js videoWatched, component 01 s3/s8): only this part's screens */
+  var vs = {};
+  if (typeof videoWatched !== 'undefined') {
+    Object.keys(videoWatched).forEach(function (k) { if (inPart(Number(k))) vs[k] = !!videoWatched[k]; });
+  }
   return {
     currentScreen: currentScreen,
     qResults: JSON.parse(JSON.stringify(XAPI_Q_RESULTS)),
     q: qs,
-    g: gs
+    g: gs,
+    v: vs
   };
 }
 
@@ -363,6 +369,12 @@ function applyResumeVars(st) {
       guidedState[key].selected = gs[key].selected == null ? null : Number(gs[key].selected);
     });
   }
+  var vs = st.v || {};
+  if (typeof videoWatched !== 'undefined') {
+    Object.keys(vs).forEach(function (key) {
+      if (key in videoWatched && inPart(Number(key))) videoWatched[key] = !!vs[key];
+    });
+  }
 }
 
 /* Nothing here lives only in the DOM: typed values are mirrored into quizState[n].selectedSet on
@@ -380,6 +392,7 @@ function applyResumeDom(st) { /* intentionally empty — see restoreScreenUI */ 
 function restoreScreenUI(n) {
   if (!inPart(n)) return;
   if (n === 11 && typeof mapRefresh === 'function') { mapRefresh(); return; }   // hub gate (rule 11)
+  if (typeof videoWatched !== 'undefined' && n in videoWatched) { watchGate(n); return; }   // video gate (s3 / s8)
   if (_guidedCfg(n)) { paintGuided(n); return; }
   var q = _pq(n);
   if (!q) return;
@@ -642,7 +655,12 @@ function ytWirePlayers() {
           onReady: function () { try { if (title) f.setAttribute('title', title); } catch (_) {} },
           onStateChange: function (e) {
             try { xapiYouTubeState(e, item); } catch (_) {}
+            /* the video gate (unit.js watchGate): ENDED opens המשך — percent-05's seam, 2026-11-10 */
+            try { if (typeof onYouTubeState === 'function') onYouTubeState(e, f); } catch (err) { console.error('[youtube] state seam', err); }
             try { if (title && f.getAttribute('title') !== title) f.setAttribute('title', title); } catch (_) {}
+          },
+          onError: function (e) {
+            try { if (typeof onYouTubeError === 'function') onYouTubeError(e, f); } catch (err) { console.error('[youtube] error seam', err); }
           } } });
       } catch (e) { console.error('[youtube] attach', e); }
     });
@@ -656,7 +674,11 @@ function ytWirePlayers() {
   if (!document.querySelector('script[src="' + YT_API_SRC + '"]')) {
     var s = document.createElement('script');
     s.src = YT_API_SRC;
-    s.onerror = function () { console.warn('[youtube] iframe API unavailable — videos play, not reported'); };
+    s.onerror = function () {
+      console.warn('[youtube] iframe API unavailable — videos play, not reported');
+      /* no player will ever report ENDED: the gate must not strand the learner */
+      try { if (typeof onYouTubeError === 'function') onYouTubeError({ data: 'api-unavailable' }, null); } catch (e) {}
+    };
     document.head.appendChild(s);
   }
 }

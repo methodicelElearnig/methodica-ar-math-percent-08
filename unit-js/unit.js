@@ -9,7 +9,41 @@ const TOTAL_SCREENS = 49;
 
 function resetScreenState(n) {
   if (n === 11 && typeof mapRefresh === 'function') mapRefresh();
+  if (n in videoWatched) watchGate(n);
   if (typeof quizStepperUpdate === 'function') quizStepperUpdate(n);
+}
+
+/* ── S3 / S8 — the two video screens of component 01: המשך opens when the clip ENDS ──
+   2026-11-10 (MOE runbook check, REPORT.md: "percent-08-01 has no video gate"). The deck draws both
+   buttons disabled; until now they were live from the first frame. Ported from percent-05 (s6,
+   unit.js watchGate / watchDone): the player's ENDED opens המשך (onYouTubeState, fed by
+   ytWirePlayers in 70-platform.js), and so does any player error or a blocked IFrame API
+   (onYouTubeError, incl. 'api-unavailable'), so a school network that blocks YouTube never strands
+   the learner. The flag is saved with the part (capturePartPayload 'v'): a resume or a later visit
+   leaves המשך open, no forced re-watch. ── */
+const videoWatched = { 3: false, 8: false };
+function watchGate(n) {
+  const btn = document.getElementById(`s${n}-continue`);
+  if (btn) btn.disabled = !videoWatched[n];
+}
+function watchDone(n) {
+  if (!(n in videoWatched) || videoWatched[n]) return;
+  videoWatched[n] = true;
+  watchGate(n);
+  if (typeof scheduleResumeSave === 'function') scheduleResumeSave();
+}
+function _videoScreenOf(f) {
+  const sec = f && f.closest ? f.closest('.screen') : null;
+  return sec ? Number(sec.dataset.screen) : null;
+}
+
+/* seams fed by ytWirePlayers (70-platform.js). No frame = the API itself failed: open both. */
+function onYouTubeState(e, f) {
+  if (window.YT && YT.PlayerState && e && e.data === YT.PlayerState.ENDED) watchDone(_videoScreenOf(f));
+}
+function onYouTubeError(e, f) {
+  if (f) { watchDone(_videoScreenOf(f)); return; }
+  Object.keys(videoWatched).forEach((k) => watchDone(Number(k)));
 }
 
 /* The DEV harness bridge (DEV_GOTO / DEV_READY / DEV_SCREEN) lives in engine.js alone. A second
