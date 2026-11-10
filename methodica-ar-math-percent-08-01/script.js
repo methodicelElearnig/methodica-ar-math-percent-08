@@ -35,15 +35,15 @@ var SCREEN_TO_SUBCONTENT = {
 
 /* Which declared question each answering screen reports (metadata questions[]). */
 var XAPI_QMAP = {
-  1: ['001', 'q1'],
-  5: ['002', 'q1'],     // guided — provisional fictive result, see XAPI_GUIDED_ITEMS
-  6: ['002', 'q2'],
-  7: ['002', 'q3']
+  1: ['001', 'q1']
 };
 
 /* Graded in code: only the s1 question. 002 is the guided walk-through (one-click reveal, no
-   grading — PROVISIONAL, decision 28.09.26: reported answered.last with a fictive success:true /
-   scaled:1, never scored). 003 (video + think table) asks nothing. */
+   grading, never scored). Its three picks (s5-s7) are saved for the resume but report nothing
+   since 2026-11-10: Kata declares no question on item 002, and the 'answered' to q1-q3 that the
+   PROVISIONAL decision of 28.09.26 sent were the MOE runbook's unknown-id finding (class H; as
+   ratio-05 01-004, QA/2026-11-10-guided-items/GUIDED-ITEMS-REPORT.md §5). 003 (video + think
+   table) asks nothing. */
 var XAPI_EVAL_ITEMS   = { '001': 1 };
 var XAPI_GUIDED_ITEMS = { '002': 1 };
 

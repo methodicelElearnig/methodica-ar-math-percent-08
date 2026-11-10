@@ -21,7 +21,7 @@
                             a screen answers; split 'slots' / 'rows' = one question per value box /
                             per statement row, each with its own verdict
      XAPI_EVAL_ITEMS        items graded in code (the score denominator)
-     XAPI_GUIDED_ITEMS      items answered on the guided screens — provisional fictive result
+     XAPI_GUIDED_ITEMS      items answered on the guided screens — saved for the resume, never reported
      PART_PASS              report-only pass mark: {need, sets: [[key, …], …]} | null
      XAPI_HUB_SCREENS       read by 20-xapi.js (the hub exception to O-1)
 
@@ -80,27 +80,33 @@ function _partQKeys(evalOnly) {
 
 /* ═══════════════════ Reporting call sites (quiz-engine.js / unit.js) ═══════════════════ */
 
-/* What the learner answered, as they see it. Choice: the option's own text (zoom buttons stripped
-   by xapiAnswerText), else an image's alt, else the option id. Value input: the boxes in data-slot
-   order. Statements: one נכון / לא נכון per row. */
-function quizAnswerText(screen, q, st) {
-  try {
-    if (q.type === 'single' || q.type === 'multi') {
-      var ids = q.type === 'multi' ? (st.selectedSet || []) : [st.selected];
-      return ids.map(function (id) {
-        var o = document.querySelector('#q' + screen + ' .scq-opt[data-id="' + id + '"]');
-        if (!o) return String(id);
-        var t = xapiAnswerText(o.querySelector('.scq-opt-text') || o);
-        var img = t ? null : o.querySelector('img');
-        return t || (img && img.getAttribute('alt')) || String(id);
-      }).join(', ');
-    }
-    if (q.type === 'value-input') return (st.selectedSet || []).join(' | ');
-    if (q.type === 'statement') return (st.selectedSet || []).map(_stmtLabel).join(' | ');
-    return JSON.stringify(st.selectedSet || st.selected || '');
-  } catch (e) { return ''; }
+/* The option's visible label — the catalogue's choice text (zoom buttons stripped by
+   xapiAnswerText), else an image's alt, else the option id. */
+function _optLabel(screen, id) {
+  var o = document.querySelector('#q' + screen + ' .scq-opt[data-id="' + id + '"]');
+  if (!o) return String(id);
+  var t = xapiAnswerText(o.querySelector('.scq-opt-text') || o);
+  var img = t ? null : o.querySelector('img');
+  return t || (img && img.getAttribute('alt')) || String(id);
 }
-function _stmtLabel(v) { return v === 'true' ? 'صحيح' : (v === 'false' ? 'غير صحيح' : '—'); }
+
+/* The spec xapiResponse() takes for a whole-screen answer — the UI value(s), which the builders in
+   20-xapi.js resolve to the metadata strings (percent-05's quizAnswerSpec, 2026-11-10). Choice: the
+   option labels (emitted in the catalogue's order, joined '[,]'). Value input: one box → {value};
+   several boxes → {steps} in data-slot order, the performance steps of the catalogue (class E/L1).
+   `text` rides along for a metadata type that takes free text (fill-in / other). The split screens
+   (slots / rows) are reported per box / per row by onQuizAnswered below. */
+function quizAnswerSpec(screen, q, st) {
+  try {
+    if (q.type === 'single') return { choices: st.selected != null ? [_optLabel(screen, st.selected)] : [] };
+    if (q.type === 'multi')  return { choices: (st.selectedSet || []).map(function (id) { return _optLabel(screen, id); }) };
+    if (q.type === 'value-input') {
+      var ins = (st.selectedSet || []).map(function (v) { return v == null ? '' : String(v); });
+      return (q.correctInputs || []).length === 1 ? { value: ins[0], text: ins[0] } : { steps: ins, text: ins.join(' | ') };
+    }
+    return { text: JSON.stringify(st.selectedSet || st.selected || '') };
+  } catch (e) { console.error('[xAPI] answer spec', screen, e); return { text: '' }; }
+}
 
 /* Per-slot verdicts for a value-input screen, exactly as the engine's own per-slot marking judges
    them: against the accepted answer set (correctInputs or one of altInputs) that matches best. */
@@ -124,20 +130,22 @@ function onQuizAnswered(screen, q, st, correct) {
   var isLast = correct || st.attempts >= q.maxAttempts;
   if (keys.length === 1 || !split) {
     /* One verdict covers every key (none today): all reported with it, none left silent (D-9). */
-    keys.forEach(function (k) { xapiAnswered(item, k, correct, isLast, quizAnswerText(screen, q, st)); });
+    keys.forEach(function (k) { xapiAnswered(item, k, correct, isLast, quizAnswerSpec(screen, q, st)); });
     return;
   }
   if (split === 'slots') {
     var ok = _slotVerdicts(q, st);
     keys.forEach(function (k, i) {
-      xapiAnswered(item, k, !!ok[i], isLast, String((st.selectedSet || [])[i] == null ? '' : st.selectedSet[i]));
+      /* one box per question: {value} — a numeric question sends the number ('1,584' → '1584') */
+      var v = (st.selectedSet || [])[i] == null ? '' : String(st.selectedSet[i]);
+      xapiAnswered(item, k, !!ok[i], isLast, { value: v, text: v });
     });
   } else if (split === 'rows') {
     keys.forEach(function (k, i) {
       var v = (st.selectedSet || [])[i];
       /* true/false: report the row's pick ('true' / 'false'), not the "صحيح" label — Kata's
          correctXapiResponsesPattern is the boolean (guide §6.3b) */
-      xapiAnswered(item, k, v === String(q.statements[i].correct), isLast, v == null ? '' : String(v));
+      xapiAnswered(item, k, v === String(q.statements[i].correct), isLast, { value: v == null ? '' : String(v) });
     });
   }
 }
@@ -155,19 +163,12 @@ function onQuizHint(screen) {
   if (item && keys.length) xapiRequestedHint(item, keys[0]);
 }
 
-/* The guided screens 5-7 (item 01-002, declared q1-q3). One click reveals the answer — no
-   attempts, no grading — so the UI decides nothing. ⚠️ PROVISIONAL (decision 28.09.26, may
-   change): the pick is reported as answered.last with a FICTIVE result success:true /
-   scaled:1, so no declared question stays silent. The item is not in XAPI_EVAL_ITEMS, so it
-   never enters the component score. Called by guidedAnswer (unit.js) after its state write;
-   flushes synchronously (the commitment). */
+/* The guided screens 5-7 (item 01-002). One click reveals the answer — no attempts, no grading.
+   Since 2026-11-10 the pick reports nothing: Kata declares no question on item 002 (the q1-q3 that
+   the provisional decision of 28.09.26 reported with a fictive success:true went to ids Kata does
+   not have — MOE runbook, class H; as ratio-05 01-004). The pick is still saved for the resume.
+   Called by guidedAnswer (unit.js) after its state write; flushes synchronously (the commitment). */
 function onGuidedAnswered(screen, el) {
-  var m = (typeof XAPI_QMAP !== 'undefined') ? XAPI_QMAP[screen] : null;
-  if (m) {
-    var text = '';
-    try { text = xapiAnswerText(el); } catch (e) {}
-    _qKeysFor(screen).forEach(function (k) { xapiAnswered(m[0], k, true, true, text); });
-  }
   flushResumeSave();
 }
 
@@ -329,11 +330,17 @@ function capturePartPayload() {
       if (g) gs[k] = { done: !!g.done, selected: g.selected == null ? null : g.selected };
     });
   }
+  /* the video gate (unit.js videoWatched, component 01 s3/s8): only this part's screens */
+  var vs = {};
+  if (typeof videoWatched !== 'undefined') {
+    Object.keys(videoWatched).forEach(function (k) { if (inPart(Number(k))) vs[k] = !!videoWatched[k]; });
+  }
   return {
     currentScreen: currentScreen,
     qResults: JSON.parse(JSON.stringify(XAPI_Q_RESULTS)),
     q: qs,
-    g: gs
+    g: gs,
+    v: vs
   };
 }
 
@@ -363,6 +370,12 @@ function applyResumeVars(st) {
       guidedState[key].selected = gs[key].selected == null ? null : Number(gs[key].selected);
     });
   }
+  var vs = st.v || {};
+  if (typeof videoWatched !== 'undefined') {
+    Object.keys(vs).forEach(function (key) {
+      if (key in videoWatched && inPart(Number(key))) videoWatched[key] = !!vs[key];
+    });
+  }
 }
 
 /* Nothing here lives only in the DOM: typed values are mirrored into quizState[n].selectedSet on
@@ -380,6 +393,7 @@ function applyResumeDom(st) { /* intentionally empty — see restoreScreenUI */ 
 function restoreScreenUI(n) {
   if (!inPart(n)) return;
   if (n === 11 && typeof mapRefresh === 'function') { mapRefresh(); return; }   // hub gate (rule 11)
+  if (typeof videoWatched !== 'undefined' && n in videoWatched) { watchGate(n); return; }   // video gate (s3 / s8)
   if (_guidedCfg(n)) { paintGuided(n); return; }
   var q = _pq(n);
   if (!q) return;
@@ -642,7 +656,12 @@ function ytWirePlayers() {
           onReady: function () { try { if (title) f.setAttribute('title', title); } catch (_) {} },
           onStateChange: function (e) {
             try { xapiYouTubeState(e, item); } catch (_) {}
+            /* the video gate (unit.js watchGate): ENDED opens המשך — percent-05's seam, 2026-11-10 */
+            try { if (typeof onYouTubeState === 'function') onYouTubeState(e, f); } catch (err) { console.error('[youtube] state seam', err); }
             try { if (title && f.getAttribute('title') !== title) f.setAttribute('title', title); } catch (_) {}
+          },
+          onError: function (e) {
+            try { if (typeof onYouTubeError === 'function') onYouTubeError(e, f); } catch (err) { console.error('[youtube] error seam', err); }
           } } });
       } catch (e) { console.error('[youtube] attach', e); }
     });
@@ -656,7 +675,11 @@ function ytWirePlayers() {
   if (!document.querySelector('script[src="' + YT_API_SRC + '"]')) {
     var s = document.createElement('script');
     s.src = YT_API_SRC;
-    s.onerror = function () { console.warn('[youtube] iframe API unavailable — videos play, not reported'); };
+    s.onerror = function () {
+      console.warn('[youtube] iframe API unavailable — videos play, not reported');
+      /* no player will ever report ENDED: the gate must not strand the learner */
+      try { if (typeof onYouTubeError === 'function') onYouTubeError({ data: 'api-unavailable' }, null); } catch (e) {}
+    };
     document.head.appendChild(s);
   }
 }
