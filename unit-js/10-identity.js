@@ -16,8 +16,9 @@ window.XAPI_UNIT_ID = 'methodica-ar-math-percent-08';
 function shortId(u){ return String(u || '').replace(/\/+$/, '').split('/').pop(); }
 
 /* Resume (KATA State API) — ACTIVE.
-   True also switches the loader to xapi-720-k.js, which carries the State transport that -i lacks
-   plus diagnostics on the state layer (stateLastResult720). So this flag changes reporting too,
+   True also switches the loader to xapi-720-l.js, which carries the State transport that -i lacks
+   plus diagnostics on the state layer (stateLastResult720) and the leave save (saveState720OnLeave,
+   2026-11-10; every part's <head> preloads that exact URL). So this flag changes reporting too,
    not only restore — see 50-loader.js. Full design: Documentation/reporting-and-resume/ADDING-REPORTING-AND-RESUME.md.
 
    What is implemented: one state document PER COMPONENT (unit-js/40-resume.js, v6), addressed by

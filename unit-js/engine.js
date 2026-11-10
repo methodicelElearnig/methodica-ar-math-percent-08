@@ -117,6 +117,14 @@ function goTo(n) {
   });
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   target.classList.add('active');
+  /* 2026-11-10 (BOOT-AND-RESUME-HARDENING §2.3 C4): a hidden <video autoplay> with an inline src is
+     downloaded in full at page load, ahead of the restore. Such clips carry data-src instead and get
+     their src here, the first time their screen opens — before they are played and before
+     resetScreenState (an enter hook may call load()). Only <video>: iframes park on data-src too. */
+  target.querySelectorAll('video[data-src]').forEach(v => {
+    v.setAttribute('src', v.getAttribute('data-src'));
+    v.removeAttribute('data-src');
+  });
   target.querySelectorAll('video[autoplay]').forEach(v => {
     const play = v.play();
     if (play && play.catch) play.catch(() => {});

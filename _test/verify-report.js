@@ -98,8 +98,9 @@ function staticChecks() {
   Object.keys(vs).forEach(k => ok('v', '?v= identical across components: ' + k, vs[k].size === 1, [...vs[k]].join(',')));
 
   const loader = read('unit-js/50-loader.js');
-  ok('letter', 'the loader names xapi-720-k.js with resume on', /RESUME_ENABLED \? 'xapi-720-k\.js' : 'xapi-720-i\.js'/.test(loader));
-  ok('letter', 'the XAPI_USING_G regex accepts k (and the stub filename)', /\/xapi-720-\[ghijk\]\\\.js\//.test(loader) && /xapi-720-[ghijk]\.js/.test('_test/xapi-720-k.js'));
+  ok('letter', 'the loader names xapi-720-l.js with resume on (the leave save, 2026-11-10)', /RESUME_ENABLED \? 'xapi-720-l\.js' : 'xapi-720-i\.js'/.test(loader));
+  ok('letter', 'the XAPI_USING_G regex accepts l (and the stub filenames)', /\/xapi-720-\[ghijkl\]\\\.js\//.test(loader) &&
+     /xapi-720-[ghijkl]\.js/.test('_test/xapi-720-l.js') && /xapi-720-[ghijkl]\.js/.test('_test/xapi-720-k.js'));
   ok('letter', 'the ?xapiLib= override is localhost-only and same-origin', /localhost\|127\\\.0\\\.0\\\.1/.test(loader) && /\^\(\\\.\\\.\?\\\/\|\\\/\)\[\^:\]\*\$/.test(loader));
   ok('letter', 'no library copy is shipped outside _test/', !fs.readdirSync(path.join(BASE, 'unit-js')).some(f => /^xapi-720/.test(f)));
 

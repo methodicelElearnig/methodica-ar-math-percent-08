@@ -423,7 +423,7 @@ async function resume() {
   b3.close();
 
   /* ?resetState empties the document and strips itself from the URL. */
-  const b4 = H.boot('02', { session: s, search: '?slxapi=1&registration=REG-02&xapiLib=../_test/xapi-720-k.js&resetState' });
+  const b4 = H.boot('02', { session: s, search: '?slxapi=1&registration=REG-02&xapiLib=../_test/xapi-720-l.js&resetState' });
   await b4.ready;
   ok('reset', '?resetState lands on the first screen with nothing restored', b4.val('currentScreen') === 10 && b4.val(`quizState[13].done`) === false);
   ok('reset', 'and strips itself from the URL', !/resetState/.test(b4.val('location.search')));
@@ -432,7 +432,7 @@ async function resume() {
 
 /* ══════════════ 10. YouTube (01 s3/s8): played / paused, D-1 ══════════════ */
 async function youtube() {
-  const b = H.boot('01', { search: '?slxapi=1&registration=DEADBEEF-QA&xapiLib=../_test/xapi-720-k.js&canary=CANARY123' });
+  const b = H.boot('01', { search: '?slxapi=1&registration=DEADBEEF-QA&xapiLib=../_test/xapi-720-l.js&canary=CANARY123' });
   await b.ready;
   await H.waitFor(() => b.val('(window.__ytPlayers||[]).length') === 2, 2000);
   eq('yt', 'both YouTube iframes got a player', b.val('window.__ytPlayers.length'), 2);
@@ -527,11 +527,11 @@ async function routing() {
   b.exec('goTo(9);');
   eq('route', 'goTo(9) (before the component) goes nowhere', b.val('currentScreen'), 10);
   b.close();
-  const d = H.boot('02', { search: '?dev=1&xapiLib=../_test/xapi-720-k.js' });
+  const d = H.boot('02', { search: '?dev=1&xapiLib=../_test/xapi-720-l.js' });
   await d.ready;
   ok('route', '?dev=1 without registration: DEV_NAV true, back shown', d.val('DEV_NAV') === true && d.val(`${back}.hidden`) === false);
   d.close();
-  const e = H.boot('02', { search: '?dev=1&registration=R&xapiLib=../_test/xapi-720-k.js' });
+  const e = H.boot('02', { search: '?dev=1&registration=R&xapiLib=../_test/xapi-720-l.js' });
   await e.ready;
   ok('route', '?dev=1 WITH registration stays production', e.val('DEV_NAV') === false);
   e.close();

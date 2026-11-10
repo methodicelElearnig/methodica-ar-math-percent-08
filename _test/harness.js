@@ -112,7 +112,7 @@ function boot(c, opts) {
   opts = opts || {};
   const dir = PART_DIR(c);
   const search = opts.search != null ? opts.search
-    : '?slxapi=1&registration=REG-' + c + '&xapiLib=../_test/xapi-720-k.js';
+    : '?slxapi=1&registration=REG-' + c + '&xapiLib=../_test/xapi-720-l.js';
   const url = ORIGIN + '/' + dir + '/index.html' + search + (opts.hash || '');
   const errors = [], warns = [], logs = [];
   const loader = { requested: [] };
