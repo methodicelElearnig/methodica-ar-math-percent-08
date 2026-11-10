@@ -204,7 +204,8 @@ async function splits() {
   const r = since(b, n).filter(s => /^answered/.test(s.verb));
   eq('split', 's47 (four statements) → four answered with distinct questionIds', r.map(s => s.opts.questionId.split('/').pop()), ['q5', 'q6', 'q7', 'q8']);
   eq('split', 'row verdicts: only the first wrong', r.map(s => s.result.success), [false, true, true, true]);
-  ok('split', 'the answer text is the Hebrew label', r[1] && /صحيح/.test(r[1].result.extensions.student_answer[0]), r[1] && r[1].result.extensions.student_answer[0]);
+  /* true/false: the pick itself, which the library sends as result.response (guide §6.3b, 10.11.26) */
+  eq('split', "the answer is the row's pick ('true' / 'false'), not the label", r.map(s => s.result.extensions.student_answer[0]), vals);
   b.close();
 }
 
