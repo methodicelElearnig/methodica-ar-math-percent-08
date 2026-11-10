@@ -249,7 +249,9 @@ async function backToNull() {
   c.close();
 }
 
-/* ══════════════ 6. Guided screens: provisional fictive result, never scored ══════════════ */
+/* ══════════════ 6. Guided screens: saved, never reported, never scored ══════════════
+   Since 2026-11-10 (MOE runbook, class H): Kata declares no question on item 01-002, so the three
+   picks send no 'answered' at all; they are still saved for the resume. */
 async function guided() {
   const b = H.boot('01');
   await b.ready;
@@ -257,11 +259,11 @@ async function guided() {
   b.exec('goTo(3); goTo(4); goTo(5);');
   let n = b.stmts().length;
   b.exec(answer.guided(5, 0));                               // the WRONG pill (key is index 1)
+  b.exec('goTo(6);' + answer.guided(6, 1) + 'goTo(7);' + answer.guided(7, 1));
   const g = since(b, n);
-  eq('guided', 'a guided pick → one answered.last', g.map(s => s.verb), ['answered.last']);
-  ok('guided', 'with the fictive result success:true / scaled:1, whatever was picked', g[0] && g[0].result.success === true && g[0].result.score.scaled === 1, JSON.stringify(g[0] && g[0].result));
-  ok('guided', 'against 002/q1', g[0] && /-01-002\/q1$/.test(g[0].opts.questionId), g[0] && g[0].opts.questionId);
-  ok('guided', "the learner's pick is the answer text", g[0] && g[0].result.extensions.student_answer[0] === 'نعم', g[0] && g[0].result.extensions.student_answer[0]);
+  eq('guided', 'the three guided picks send no answered', g.filter(s => /^answered/.test(s.verb)).length, 0);
+  ok('guided', 'no statement names an 01-002 question', b.stmts().every(s => !/-01-002\/q\d/.test((s.opts && s.opts.questionId) || '')), g.map(s => s.verb).join(','));
+  ok('guided', 'the picks are saved for the resume', b.val('guidedState[5].done && guidedState[6].done && guidedState[7].done') === true);
   const res = b.json('partResult()');
   ok('guided', 'the guided item never enters the component score (only s1 counts)', res && res.score && (res.score.scaled === 0 || res.score.scaled === 1), JSON.stringify(res));
   ok('guided', 'item 002 is not an evaluation item', b.val(`_xapiIsEval('002')`) === false);

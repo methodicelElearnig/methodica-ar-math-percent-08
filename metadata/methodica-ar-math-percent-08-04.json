@@ -30,11 +30,33 @@
       "questions": [
         {
           "questionId": "https://lomdot.education.gov.il/metodica/720/ar/math/percent/08/methodica-ar-math-percent-08-04/methodica-ar-math-percent-08-04-001/q1",
-          "questionType": "fill-in",
+          "questionType": "performance",
           "questionText": "في السنة الماضية أيضًا، نُقل بيض إلى مزارع تفريخ، وجُمعت المعطيات التالية حول نسب الفقس الناجح لبيض السلاحف البحرية: نُقلت إلى مزرعة التفريخ أ 300 بيضة بالمجمل، وسُجّلت منها نسبة فقس ناجح %82 . في مزرعة التفريخ ب، نُقلت بالمجمل 250 بيضة، وسُجّلت منها نسبة فقس ناجح %86. أ. أكملوا الجدول: عدد حالات الفقس الناجح في كل مزرعة: المزرعة أ ___، المزرعة ب ___.",
-          "answers": [],
+          "answers": null,
           "correctAnswers": [
-            "المزرعة أ: 246، المزرعة ب: 215"
+            {
+              "stepId": "المزرعة أ",
+              "response": "246"
+            },
+            {
+              "stepId": "المزرعة ب",
+              "response": "215"
+            }
+          ],
+          "xapiInteractionComponents": {
+            "steps": [
+              {
+                "id": "المزرعة أ",
+                "description": null
+              },
+              {
+                "id": "المزرعة ب",
+                "description": null
+              }
+            ]
+          },
+          "correctXapiResponsesPattern": [
+            "المزرعة أ[.]246[,]المزرعة ب[.]215"
           ]
         },
         {
@@ -49,6 +71,29 @@
           ],
           "correctAnswers": [
             "في المزرعة ب - نسبة النجاح أعلى، وكلما زادت كمية البيض الذي يتم تفريخه، سيفقس عدد أكبر من السلاحف."
+          ],
+          "xapiInteractionComponents": {
+            "choices": [
+              {
+                "id": "في المزرعة ب - نسبة النجاح أعلى، وكلما زادت كمية البيض الذي يتم تفريخه، سيفقس عدد أكبر من السلاحف.",
+                "description": "في المزرعة ب - نسبة النجاح أعلى، وكلما زادت كمية البيض الذي يتم تفريخه، سيفقس عدد أكبر من السلاحف."
+              },
+              {
+                "id": "في المزرعة أ - كان فيها عدد حالات فقس ناجح أكبر في السنة الماضية. فقست 31 سلحفاة أكثر!",
+                "description": "في المزرعة أ - كان فيها عدد حالات فقس ناجح أكبر في السنة الماضية. فقست 31 سلحفاة أكثر!"
+              },
+              {
+                "id": "لا يمكن تحديد ذلك بسبب نقص المعطيات مثل حالة الطقس ومدى خطر الحيوانات المفترسة في المحمية التي أُقيمت فيها المزرعتان.",
+                "description": "لا يمكن تحديد ذلك بسبب نقص المعطيات مثل حالة الطقس ومدى خطر الحيوانات المفترسة في المحمية التي أُقيمت فيها المزرعتان."
+              },
+              {
+                "id": "عدد السلاحف البحرية التي فقست في كل واحدة من المزرعتين متساوٍ، لأن نسبة الفقس في كلتيهما كانت أعلى من %80.",
+                "description": "عدد السلاحف البحرية التي فقست في كل واحدة من المزرعتين متساوٍ، لأن نسبة الفقس في كلتيهما كانت أعلى من %80."
+              }
+            ]
+          },
+          "correctXapiResponsesPattern": [
+            "في المزرعة ب - نسبة النجاح أعلى، وكلما زادت كمية البيض الذي يتم تفريخه، سيفقس عدد أكبر من السلاحف."
           ]
         },
         {
@@ -58,6 +103,10 @@
           "answers": [],
           "correctAnswers": [
             1584
+          ],
+          "xapiInteractionComponents": null,
+          "correctXapiResponsesPattern": [
+            "1584"
           ]
         },
         {
@@ -67,6 +116,10 @@
           "answers": [],
           "correctAnswers": [
             32
+          ],
+          "xapiInteractionComponents": null,
+          "correctXapiResponsesPattern": [
+            "32"
           ]
         },
         {
@@ -78,6 +131,10 @@
             "false"
           ],
           "correctAnswers": [
+            "false"
+          ],
+          "xapiInteractionComponents": null,
+          "correctXapiResponsesPattern": [
             "false"
           ]
         },
@@ -91,6 +148,10 @@
           ],
           "correctAnswers": [
             "false"
+          ],
+          "xapiInteractionComponents": null,
+          "correctXapiResponsesPattern": [
+            "false"
           ]
         },
         {
@@ -103,6 +164,10 @@
           ],
           "correctAnswers": [
             "true"
+          ],
+          "xapiInteractionComponents": null,
+          "correctXapiResponsesPattern": [
+            "true"
           ]
         },
         {
@@ -114,6 +179,10 @@
             "false"
           ],
           "correctAnswers": [
+            "true"
+          ],
+          "xapiInteractionComponents": null,
+          "correctXapiResponsesPattern": [
             "true"
           ]
         }

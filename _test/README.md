@@ -16,6 +16,7 @@ and could not run here. It was replaced.)
 | `verify-report.js` | **Structure**, plus the sweeps across every question. ~1,400 assertions. |
 | `statement-flow.js` | **Behaviour**: which statements leave, in what order, with what result, and which do **not** leave on a reload or a back step. ~110 assertions. |
 | `true-false.js` | Guide §6.3b (10.11.26): 04-001 q5-q8 (s47's four statement rows, the only true-false questions graded in code) answered right, wrong twice and mixed report `true` / `false`, never `صحيح` / `غير صحيح`; the value equals the correct answer exactly when `success`. 39 of its 56 checks fail on the code before. 01-002 q1/q3 (guided, نعم / لا) are not covered: fictive result, and Kata declares no question on that item. |
+| `video-gate.js` | MOE runbook 10.11.26: component 01 s3 / s8 «המשך» stays disabled until the clip ENDS; a player error opens its own screen, an IFrame API that never loads opens both; the flags survive a reload. 18 checks, 8 fail on the code before. |
 | `write-guard.js` | No write before the restore + the leave save (BOOT-AND-RESUME-HARDENING-2026-11-03.md §2.6, §2.10; 10.11.26): the drain writes the document as read, `markSent` before stage B marks in memory only, a failed read (not a 404) closes every write; the source shape of `40-resume.js` / `50-loader.js`; every part's inline `__resumeInFlight`, preloads (letter = the loader's), preconnect, lazy images; 03's s35 clip deferred (`data-src`, src given on entry); `flushResumeSaveOnLeave` through `saveState720OnLeave` on `-l`, through `saveState720` on `-k`. 41 of its 62 checks fail on the code before. |
 | `xapi-720-l.js` | The `-k` stub plus `saveState720OnLeave` (`__leaveWrites()`); every suite loads it since 10.11.26. `xapi-720-k.js` stays for the `-k` rollback check. |
 | `mutations.js` | **Negative tests.** Breaks one thing at a time in the real source and requires the suites to fail with the expected tag. Restores every file byte for byte. |
@@ -86,6 +87,7 @@ NODE_PATH=/tmp/lomda-test-p08/node_modules node _test/mutations.js
 | `verdict`, `keys` | Verdicts go only through `setUnitResult` (D-12). Per-unit character / nav / result keys, matched by the stub's `__reset`. |
 | `report` | The shared form and its eleven keys. `no-cors` + `URLSearchParams` + thank-you. Delegation. `[hidden]` CSS. The dialogs ship hidden. |
 | `d1`, `video` | Static nocookie `enablejsapi` embeds, no `forigin`, no `videoId`. No decorative `<video>` opted in. The state machine replaces the latch. |
+| `resp` | MOE runbook 10.11.26: a correct round sends **Kata's `correctXapiResponsesPattern` byte for byte** for every question (the `KATA` table — copied from Kata, or the proposed performance pattern for the class E/L1 multi-field questions); the shipped metadata carries the same strings; wrong answers keep the form; typed variants (`3555`, `1584`) still match; no invisible characters; the old builders and `quizAnswerText` are gone; no direct `answered` outside `onQuizAnswered`; the guided 01-002 picks report nothing. With the old `20-xapi.js` 64 of these checks fail. |
 | `meta`, `map`, `qmap`, `eval`, `pass` | Ids byte for byte against `metadata/`. The map holds exactly each component's screens. Items match both ways. Every declared question is reported by exactly one screen (D-9). Split screens match their boxes / rows. Pass-mark keys are graded, reported questions. |
 | `surface`, `dom`, `boot` | Every shared function exists in every component. The DOM holds exactly the component's screens. A `goTo` sweep. No `console.error`. |
 | `paint`, `dispatch` | Every question answered, then a reload, then every screen walked: no painter error, and **every answered screen shows its answer** (rules 7 and 8). Guided screens and the hub come back painted. `restoreScreenUI` has a branch for every type in use (rule 11). |
@@ -99,7 +101,7 @@ NODE_PATH=/tmp/lomda-test-p08/node_modules node _test/mutations.js
 - hints: once per question, across a reload;
 - **the map hub**: zone items close on the return, and B-1 on backing out of an unanswered zone;
 - split screens (s45 slots, s47 rows);
-- guided screens (the provisional fictive result, never scored);
+- guided screens (saved for the resume, never reported, never scored — since 10.11.26);
 - **the component end**: one `completed`, the button disabled, no navigation, the verdict
   recorded, a second exit silent, the D-8 ended button across a reload, and the "answered but not
   clicked" control;

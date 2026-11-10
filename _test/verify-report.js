@@ -450,9 +450,149 @@ async function liveChecks() {
   }
 }
 
+/* ══════════════ 4. result.response = Kata's correctXapiResponsesPattern (MOE runbook 10.11.26) ══════════════
+   Kata compares result.response with the question's correctXapiResponsesPattern character by
+   character (QA/2026-11-10_moe-runbook-checks/REPORT.md). KATA below is that string for every
+   question this unit reports, copied from Kata (read 10.11.26) — or, for the multi-field questions
+   Kata has no pattern for (class E/L1), the performance pattern proposed in metadata/ and DEPLOY.md
+   (label[.]value[,]…, the on-screen labels). A correct round must send exactly these strings; the
+   shipped metadata must carry them; and the old answer-text builders must not come back. */
+const KATA = {
+  '01-001/q1': "يوجد أقل من 10,000",
+  '02-002/q1': "لا",
+  '02-003/q1': "المبلغ[.]750[,]النسبة[.]150",   // proposed (class E/L1)
+  '02-003/q2': "المبلغ[.]605[,]النسبة[.]121",   // proposed (class E/L1)
+  '02-004/q1': "144 ₪",
+  '02-005/q1': "ارتفاع النبتة ب ازداد أكثر، لأن الـ %15 الثانية تُحسب من ارتفاع محدَّث وأكبر، ولذلك تكون الزيادة في المرحلتين معًا أكبر من %30.",
+  '02-006/q1': "أولًا القسيمة ب ثم القسيمة أ.",
+  '02-006/q2': "المسار 1[.]3,555[,]المسار 2[.]3,550",   // proposed (class E/L1)
+  '02-006/q3': "لأن نسبة الـ %10 تُحسب أولًا من المبلغ الأكبر.",
+  '02-007/q1': "الجولة 1 - استُبعدت[.]20[,]الجولة 2 - الفِرق في بداية الجولة[.]80[,]الجولة 2 - استُبعدت[.]20[,]بقيت في النهاية[.]60",   // proposed (class E/L1)
+  '02-007/q2': "حنان على صواب: استُبعِدت أقل من %45، لأن الجولة الثانية حُسبت من كمية أصغر.",
+  '02-007/q3': "لا، ستبقى النتيجة كما هي، ويمكن تبديل ترتيب عمليات الضرب.",
+  '03-001/q1': "أ[.]60[,]ب[.]60.5",   // proposed (class E/L1)
+  '03-002/q1': "القيمة الجديدة[.]240[,]العودة إلى الأصل[.]لا",   // proposed (class E/L1)
+  '03-003/q1': "لا، لأن نسبة الـ %5 الثانية تُحسب من مبلغ أكبر، وليس من المبلغ الأصلي.",
+  '03-004/q1': "أمجد مخطئ - فاز علاء في 40 مباراة، وهذا أكثر من عدد المباريات التي فاز فيها أمجد.",
+  '03-005/q1': "المرحلة 1 - الكمية بعد الإخراج[.]270[,]المرحلة 1 - النسبة المتبقية من الكمية الأصلية[.]90[,]المرحلة 2 - الكمية قبل الإخراج[.]270[,]المرحلة 2 - الكمية بعد الإخراج[.]243[,]المرحلة 2 - النسبة المتبقية من الكمية الأصلية[.]81",   // proposed (class E/L1)
+  '03-005/q2': "أبدًا، لأن نسبة الـ %10 الثانية تُحسب من الكمية المتبقية وليس من الكمية الأصلية، ولذلك تكون الكمية الإجمالية التي تم إخراجها أقل من %20 دائمًا.",
+  '03-006/q1': "القسيمة أ أولًا (تامر)[.]297.5[,]القسيمة ب أولًا (نسرين)[.]290",   // proposed (class E/L1)
+  '03-006/q2': "نسرين على صواب: لأن نسبة الـ %15 تُحسب من المبلغ الكامل (400 شيكل) قبل خصم مبلغ الـ 50 شيكل الثابت.",
+  '03-006/q3': "اقتراح نسرين",
+  '03-007/q1': "الادّعاء صحيح، الارتفاع في السنة الثانية يُحسَب من الارتفاع الذي طرأ في السنة الأولى.[,]الادّعاء صحيح، لأنه عند ضرب الكسر العشري %20 مرتَين، سنحصل على 44%.",
+  '04-001/q1': "المزرعة أ[.]246[,]المزرعة ب[.]215",   // proposed (class E/L1)
+  '04-001/q2': "في المزرعة ب - نسبة النجاح أعلى، وكلما زادت كمية البيض الذي يتم تفريخه، سيفقس عدد أكبر من السلاحف.",
+  '04-001/q3': "1584",
+  '04-001/q4': "32",
+  '04-001/q5': "false",
+  '04-001/q6': "false",
+  '04-001/q7': "true",
+  '04-001/q8': "true",
+};
+const qk = (qid) => { const p = String(qid).replace(/\/+$/, '').split('/'); return p[p.length - 2].slice(-6) + '/' + p[p.length - 1]; };
+const INVISIBLE = /[\u200B-\u200F\u202A-\u202E\u2066-\u2069\u061C]/;
+
+function responseStatic() {
+  const x = read('unit-js/20-xapi.js'), p = read('unit-js/70-platform.js');
+  ['xapiZoneAnswer', 'xapiFieldsAnswer', 'xapiMultiAnswer'].forEach(f => ok('resp', '20-xapi.js: the old builder ' + f + ' is gone', !new RegExp('function ' + f + '\\b').test(x)));
+  ok('resp', '70-platform.js: quizAnswerText (", " / " | " joins) is gone', !/function quizAnswerText\b/.test(p));
+  ['xapiResponse', 'xapiChoiceResponse', 'xapiPerformanceResponse', 'xapiNumericResponse', 'xapiTrueFalseResponse'].forEach(f => ok('resp', '20-xapi.js defines ' + f, new RegExp('function ' + f + '\\b').test(x)));
+  ok('resp', 'xapiAnswered sends result.response from xapiResponse', /response: r\.response/.test(fnBody(x, 'xapiAnswered')));
+  ok('resp', 'the bidi strip covers LRM, RLM, ALM, ZWSP and the embeddings / isolates', /_XAPI_BIDI = \/\[\\u200B\\u200E\\u200F\\u202A-\\u202E\\u2066-\\u2069\\u061C\]\/g/.test(x));
+  /* every answered goes through the platform's two engine call sites */
+  ['unit-js/unit.js', 'unit-js/quiz-engine.js', 'unit-js/questions.js', 'unit-js/engine.js'].concat(COMPONENTS.map(c => PART_DIR(c) + '/script.js')).forEach(f => {
+    ok('resp', f + ': no direct xapiAnswered / sendStatement720 answered', !/xapiAnswered\s*\(|sendStatement720\(\s*['"]answered/.test(read(f)));
+  });
+  ok('resp', 'onGuidedAnswered reports nothing (Kata declares no question on 01-002)', !/xapiAnswered/.test(fnBody(p, 'onGuidedAnswered')));
+  /* the shipped metadata carries exactly Kata's / the proposed strings */
+  const inMeta = {};
+  COMPONENTS.forEach(c => H.metadata(c).subContent.forEach(it => (it.questions || []).forEach(q => { inMeta[qk(q.questionId)] = q; })));
+  eq('resp', 'KATA lists exactly the metadata questions', Object.keys(KATA).sort(), Object.keys(inMeta).sort());
+  Object.keys(KATA).forEach(k => {
+    const q = inMeta[k];
+    eq('resp', k + ': metadata correctXapiResponsesPattern = Kata', q && q.correctXapiResponsesPattern, [KATA[k]]);
+    if (q && q.questionType === 'performance') {
+      eq('resp', k + ': performance steps = the pattern', (q.correctAnswers || []).map(s => s.stepId + '[.]' + s.response).join('[,]'), KATA[k]);
+      eq('resp', k + ': xapiInteractionComponents.steps = the step names', ((q.xapiInteractionComponents || {}).steps || []).map(s => s.id), (q.correctAnswers || []).map(s => s.stepId));
+    }
+  });
+}
+
+/* sent responses for a walk: { 'CC-NNN/qK': [response, …] }. Without result.response the live
+   library sends student_answer as the response, so that is what Kata would compare. */
+function responsesOf(b, from) {
+  const out = {};
+  b.stmts().slice(from || 0).filter(s => /^answered/.test(s.verb)).forEach(s => {
+    const r = s.result.response != null ? s.result.response : ((s.result.extensions || {}).student_answer || []).join(', ');
+    (out[qk(s.opts.questionId)] = out[qk(s.opts.questionId)] || []).push(String(r));
+  });
+  return out;
+}
+
+async function responseLive() {
+  const seen = {};
+  for (const c of COMPONENTS) {
+    const [a, z] = RANGE[c];
+    const qs = QS.filter(q => q.screen >= a && q.screen <= z);
+    /* 1. a correct round sends Kata's string, byte for byte */
+    const b = H.boot(c);
+    await b.ready;
+    qs.forEach(q => b.exec(`goTo(${q.screen});` + correctAnswer(q)));
+    if (c === '01') [5, 6, 7].forEach(n => b.exec(`goTo(${n}); guidedAnswer(${n}, document.querySelector('#g${n} .gc-opt[data-idx="1"]'));`));
+    const got = responsesOf(b);
+    Object.keys(got).forEach(k => {
+      seen[k] = true;
+      ok('resp', c + ': ' + k + ' is a Kata question', k in KATA);
+      eq('resp', c + ': ' + k + ' correct answer → Kata\'s pattern', got[k], [KATA[k]]);
+    });
+    ok('resp', c + ': no response carries an invisible character', Object.keys(got).every(k => got[k].every(r => !INVISIBLE.test(r))));
+    ok('resp', c + ': no layer warning on a correct round', !b.warns.some(w => /\[xAPI\] (response|performance)/.test(w)), b.warns.filter(w => /\[xAPI\]/.test(w)).join(' | '));
+    ok('resp', c + ': no console.error', b.errors.length === 0, b.errors.join(' | '));
+    b.close();
+
+    /* 2. a wrong first attempt: still a metadata string (choice) / the step form with the learner's values */
+    const w = H.boot(c);
+    await w.ready;
+    for (const q of qs.filter(x => x.maxAttempts >= 2 && (x.type === 'single' || x.type === 'value-input'))) {
+      const n = w.stmts().length;
+      w.exec(`goTo(${q.screen});` + wrongAnswer(q, false).pick + `quizCheck(${q.screen});`);
+      const r = responsesOf(w, n);
+      Object.keys(r).forEach(k => {
+        const pat = KATA[k];
+        if (q.type === 'single') {
+          const md = H.metadata(c).subContent.flatMap(it => it.questions || []).find(x => qk(x.questionId) === k);
+          ok('resp', c + ': ' + k + ' wrong pick → one of the metadata answers', md && (md.answers || []).includes(r[k][0]), r[k][0]);
+          ok('resp', c + ': ' + k + ' wrong pick ≠ the pattern', r[k][0] !== pat);
+        } else if (/\[\.\]/.test(pat)) {
+          const names = pat.split('[,]').map(s => s.split('[.]')[0]);
+          eq('resp', c + ': ' + k + ' wrong values → the same step names, in order', r[k][0].split('[,]').map(s => s.split('[.]')[0]), names);
+          ok('resp', c + ': ' + k + ' wrong values ≠ the pattern', r[k][0] !== pat, r[k][0]);
+        }
+      });
+    }
+    w.close();
+  }
+  Object.keys(KATA).forEach(k => ok('resp', k + ': answered in a correct round', !!seen[k]));
+
+  /* 3. typed variants the engine accepts: thousands comma left out, number boxes */
+  const t = H.boot('02');
+  await t.ready;
+  t.exec(`goTo(21); (function(){ var s = quizSlots(21); s[0].value = '3555'; s[1].value = ' 3,550 '; quizInputChange(21); })(); quizCheck(21);`);
+  eq('resp', '02-006/q2 typed "3555" / " 3,550 " (graded correct) → the pattern', responsesOf(t)['02-006/q2'], [KATA['02-006/q2']]);
+  t.close();
+  const f = H.boot('04');
+  await f.ready;
+  f.exec(`goTo(45); (function(){ var s = quizSlots(45); s[0].value = '1584'; s[1].value = '32'; quizInputChange(45); })(); quizCheck(45);`);
+  eq('resp', '04-001/q3 typed without the comma → "1584"', responsesOf(f)['04-001/q3'], [KATA['04-001/q3']]);
+  f.close();
+}
+
+
 (async function main() {
   try { staticChecks(); } catch (e) { R.failures.push('[static] threw: ' + e.stack); }
   try { mapsAndMetadata(); } catch (e) { R.failures.push('[maps] threw: ' + e.stack); }
   try { await liveChecks(); } catch (e) { R.failures.push('[live] threw: ' + e.stack); }
+  try { responseStatic(); } catch (e) { R.failures.push('[resp] static threw: ' + e.stack); }
+  try { await responseLive(); } catch (e) { R.failures.push('[resp] live threw: ' + e.stack); }
   R.done();
 })();
