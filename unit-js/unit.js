@@ -283,7 +283,7 @@ function buildMapScreen() {
       <p><strong>اضغطوا على الأرقام للتنقل بين جميع المواقع. ساعدوا الأشخاص في حل المشكلة ليتمكنوا من التطوع معنا لإنقاذ بيض السلاحف‎!</strong></p>
     </div>
     <div class="map-wrap" data-reveal="2">
-      <img class="map-img" src="assets/img/map-main_AR.jpg"
+      <img loading="lazy" class="map-img" src="assets/img/map-main_AR.jpg"
            alt="خريطة مدينة مرسومة من لقطة جوية، تظهر فيها أربعة مواقع مرقمة من 1 إلى 4: صانعو المحتوى، المدرسة، الوالدان وأمسية فِرق شبيبة‎.">
       ${MAP_ZONES.map(z => `
         <button class="map-pin map-pin--${z.side}" type="button" id="map-pin-${z.id}"

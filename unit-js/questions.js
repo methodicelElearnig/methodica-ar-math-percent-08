@@ -234,7 +234,7 @@ QUESTIONS.push(
     slotLines: ['ازداد المبلغ إلى {} شيكل‎.', 'المبلغ الجديد يشكّل {%} ‎من الـ 500 ‎شيكل‎.'],
     slotLabel: 'الإجابة',
     correctInputs: ['750', '150'],
-    content: `<img class="q-character" data-no-zoom src="assets/img/teacher.png" alt="">`,
+    content: `<img loading="lazy" class="q-character" data-no-zoom src="assets/img/teacher.png" alt="">`,
     maxAttempts: 2,
     hint: 'ماذا يحدث عندما نجمع زيادتين ثابتتين بالشيكل؟',
     fb: {
@@ -252,7 +252,7 @@ QUESTIONS.push(
     slotLines: ['ازداد المبلغ إلى {} شيكل‎.', 'المبلغ الجديد يشكّل {%} ‎من الـ 500 ‎شيكل‎.'],
     slotLabel: 'الإجابة',
     correctInputs: ['605', '121'],
-    content: `<img class="q-character" data-no-zoom src="assets/img/teacher.png" alt="">`,
+    content: `<img loading="lazy" class="q-character" data-no-zoom src="assets/img/teacher.png" alt="">`,
     maxAttempts: 2,
     hint: 'كيف نعبّر عن الزيادة بنسبة %10 بواسطة عملية ضرب؟',
     fb: {
@@ -269,7 +269,7 @@ QUESTIONS.push(
     stem: `يعرض متجر معيّن قسيمتَيّ خصم يمكن استخدامهما واحدةً تلو الأخرى عند شراء منتج سعره 200 شيكل.<br> القسيمة أ - خصم بنسبة %10.<br> القسيمة ب - خصم إضافي بنسبة %20 من المبلغ المتبقي بعد استخدام القسيمة أ. <span class="q-ask">ما هو السعر النهائي للمنتج؟</span>`,
     content: `<div class="character-widget cw-side">
         <div class="speech-bubble side-bubble side-bubble--right">هل الترتيب يؤثّر في هذه الحالة؟</div>
-        <img src="assets/img/woman-shrug.png" alt="">
+        <img loading="lazy" src="assets/img/woman-shrug.png" alt="">
       </div>`,
     options: [
       { id: 'a', html: '162 ₪' },
@@ -292,7 +292,7 @@ QUESTIONS.push(
     type: 'single',
     label: '',
     stem: `تم قياس تأثير سماد جديد على وتيرة نمو نبتتين بدأتا بالنمو من نفس الارتفاع: 40 سم.<br> <strong>النبتة أ</strong> ارتفعت بنسبة %30 دفعة واحدة.<br> <strong>النبتة ب</strong> ارتفعت بنسبة %15، ثم بنسبة %15 إضافية.<br> تمّ ريّ النبتتين بنفس السماد، وبعد أسبوعين تم قياس التغيّر في ارتفاعهما: <span class="q-ask">أيّ نبتة ازداد ارتفاعها أكثر (بالسنتيمترات)؟</span>`,
-    content: `<img class="q-character" data-no-zoom src="assets/img/woman-ivy.png" alt="">`,
+    content: `<img loading="lazy" class="q-character" data-no-zoom src="assets/img/woman-ivy.png" alt="">`,
     options: [
       { id: 'a', html: `ارتفاع النبتة أ ازداد أكثر، لأن %30 دفعة واحدة أكبر من %15% ثم %15 إضافية، حيث تنقسم الزيادة إلى مرحلتين أصغر‎.` },
       { id: 'b', html: `ارتفاع النبتة ب ازداد أكثر، لأن الـ %15 الثانية تُحسب من ارتفاع محدَّث وأكبر، ولذلك تكون الزيادة في المرحلتين معًا أكبر من %30.` },
@@ -379,7 +379,7 @@ QUESTIONS.push(
     stem: `يوجد للمتجر قسيمتا خصم يمكن استخدامهما واحدةً تلو الأخرى، بحيث تؤثران على مبلغ الشروة النهائي.<br> القسيمة أ - خصم ثابت بقيمة 50 شيكل.<br> القسيمة ب - خصم بنسبة %10.
       <p>يُعِدّ الوالدان قائمة مشتريات بمبلغ 300 شيكل بالمجمل.</p>
       <span class="q-ask">أ. بأي ترتيب من الأوفر لهما استخدام القسيمتين، وكم سيدفعان؟</span>`,
-    content: `<img class="q-photo" src="assets/img/coupons-overhead_AR.png" alt="">`,
+    content: `<img loading="lazy" class="q-photo" src="assets/img/coupons-overhead_AR.png" alt="">`,
     options: [
       { id: 'a', html: `أولًا القسيمة أ ثم القسيمة ب‎.` },
       { id: 'b', html: `أولًا القسيمة ب ثم القسيمة أ‎.` },
@@ -401,7 +401,7 @@ QUESTIONS.push(
     slotLabel: 'السعر النهائي',
     correctInputs: ['3,555', '3,550'],
     altInputs: [['3,555', '3,550']],
-    content: `<img class="q-photo" data-no-zoom src="assets/img/fridge-door_AR.jpg" alt="">`,
+    content: `<img loading="lazy" class="q-photo" data-no-zoom src="assets/img/fridge-door_AR.jpg" alt="">`,
     maxAttempts: 2, next: 22, prev: 20,
     hint: 'احسبوا: أي قسيمة ستكون قيمتها أكبر بالشيكل عندما يكون السعر مرتفعًا؟',
     fb: { correct: { title: 'صحيح!', body: S21_BODY }, wrong: { title: FB_WRONG_TITLE, body: S21_BODY }, retry: 'الإجابة غير دقيقة، هل نحاول مرة أخرى؟' },
@@ -415,7 +415,7 @@ QUESTIONS.push(
       <span class="q-ask">ت. لماذا يكون من الأوفر في الحالتين (300 شيكل و-4,000 شيكل) استخدام القسيمة ب أولًا (%10) ثم القسيمة أ (50 شيكل)؟</span>`,
     /* zoom ON for this one (producer 10.09.26) — the coupons' small print is
        the point of the question. Screens 20/21 stay opted out. */
-    content: `<img class="q-photo" src="assets/img/coupons-overhead_AR.png" alt="">`,
+    content: `<img loading="lazy" class="q-photo" src="assets/img/coupons-overhead_AR.png" alt="">`,
     options: [
       { id: 'a', html: 'لأن الخصم بالنسبة المئوية يكون دائمًا أوفر من الخصم بمبلغ ثابت، بغض النظر عن الترتيب‎.' },
       { id: 'b', html: 'لأن الفرق بين الترتيبين يزداد كلما ارتفع السعر‎.' },
@@ -685,7 +685,7 @@ QUESTIONS.push(
     step: { group: 'basic', index: 3, total: 5 },
     screen: 31, type: 'single', label: '',
     stem: `يتلقى ساهر 60 شيكل مصروفًا شهريًا.<br> زادَ له والداه المصروف بنسبة %20 في بداية الصف السابع، ثم بنسبة %5 إضافية في بداية الصف الثامن.<br> ما قيمة المصروف الشهري الذي يتلقاه ساهر في الصف الثامن؟ <span class="q-ask">هل حصل بالمجمل على زيادة بنسبة %25؟</span>`,
-    content: `<img class="q-photo" src="assets/img/siblings-savings_AR.jpg" alt="">`,
+    content: `<img loading="lazy" class="q-photo" src="assets/img/siblings-savings_AR.jpg" alt="">`,
     options: [
       { id: 'a', html: 'نعم، %25 بالضبط (%20+%5).' },
       { id: 'b', html: 'يتعلّق ذلك بالمدة التي مرّت بين الزيادتين‎.' },
