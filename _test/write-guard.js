@@ -177,6 +177,14 @@ const screenOf = d => (d && d.payload ? d.payload.currentScreen : null);
     }
     ok(c, 'p: every raster image off the landing screen is lazy; none on it, no SVG icon', bad.length === 0, bad.slice(0, 2).join(' | '));
   }
+  /* p, script-built screens (10.11.26): the quiz screens (questions.js) and the map hub (unit.js) are
+     built by script into hidden screens, so their images need loading="lazy" in the templates too */
+  for (const f of ['unit-js/questions.js', 'unit-js/unit.js']) {
+    const src = fs.readFileSync(path.join(H.BASE, f), 'utf8');
+    const eager = (src.match(/<img\b[^>]*src="assets\/[^"]*"[^>]*/g) || []).filter(t => !/loading="lazy"/.test(t));
+    ok('p', f + ': every assets/ image in a template is lazy', eager.length === 0, eager.slice(0, 2).join(' | '));
+  }
+
   /* C4: 03's s35 clip (character-jump-rope, hidden at load) is deferred and gets its src on entry */
   {
     const html = fs.readFileSync(path.join(H.BASE, H.PART_DIR('03'), 'index.html'), 'utf8');
